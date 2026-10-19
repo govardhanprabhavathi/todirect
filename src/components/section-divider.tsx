@@ -4,14 +4,14 @@ interface Props {
 }
 
 const colors = {
-  dark: "#0a0a0a",
-  cream: "#f8f6f1",
+  dark: "#090D16",
+  cream: "#F8F6F1",
 };
 
 export function SectionDivider({ from, to }: Props) {
   return (
     <div
-      className="relative h-24 md:h-32 -mt-1 -mb-1"
+      className="relative h-20 md:h-28 -mt-1 -mb-1 w-full overflow-hidden pointer-events-none"
       style={{ background: colors[from] }}
     >
       <svg
@@ -37,7 +37,7 @@ export function GradientLine({ variant = "accent" }: { variant?: "accent" | "sub
       style={{
         background:
           variant === "accent"
-            ? "linear-gradient(90deg, transparent, rgba(255,98,7,0.3) 30%, rgba(255,98,7,0.3) 70%, transparent)"
+            ? "linear-gradient(90deg, transparent, rgba(37,99,255,0.4) 30%, rgba(37,99,255,0.4) 70%, transparent)"
             : "linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent)",
       }}
     />

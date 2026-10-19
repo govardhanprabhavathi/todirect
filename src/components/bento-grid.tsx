@@ -2,264 +2,214 @@
 
 import { ScrollReveal } from "./scroll-reveal";
 import {
-  BarChart3,
   Brain,
-  Clock,
-  Lock,
-  MessageSquare,
-  TrendingUp,
+  ShieldCheck,
+  Award,
+  BookOpenCheck,
+  LineChart,
+  HelpCircle,
+  AlertTriangle,
+  Lightbulb,
 } from "lucide-react";
 
 export function BentoGrid() {
   return (
-    <section className="py-24 md:py-32">
+    <section id="platform" className="py-24 md:py-32 bg-neutral-950 text-white">
       <div className="section-container">
         <div className="text-center mb-16 md:mb-20">
           <ScrollReveal>
-            <div className="section-label mx-auto w-fit">Platform</div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-blue/15 text-brand-blue-light border border-brand-blue/30 text-xs font-bold uppercase tracking-wider mb-4">
+              <Brain className="w-3.5 h-3.5" />
+              INTELLIGENT LEARNING COMPANIONS & SAFEGUARDS
+            </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="section-title text-white mb-5">
-              Powerful tools,{" "}
-              <span className="text-gradient-accent">beautifully crafted</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-5 font-display tracking-tight">
+              Evidence, AI Coaching &{" "}
+              <span className="text-gradient-accent">Virtual Practice</span>
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={200}>
-            <p className="section-description mx-auto">
-              Every feature is designed with intention. Powerful under the hood,
-              effortless on the surface.
+            <p className="text-base md:text-lg text-neutral-300 max-w-2xl mx-auto leading-relaxed">
+              Every feature exists to deepen your financial discernment. No speculative trading, 
+              no fake wealth illusions—just verified competency.
             </p>
           </ScrollReveal>
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-auto">
-          {/* Card 1 — Large (spans 2 cols) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Card 1: AI Coach Finn Showcase (2 cols wide) */}
           <ScrollReveal delay={0} className="lg:col-span-2">
-            <div className="card-dark p-8 md:p-10 h-full relative overflow-hidden group">
+            <div className="card-dark p-8 md:p-10 h-full relative overflow-hidden group bg-gradient-to-br from-neutral-900 via-neutral-900 to-neutral-850 border-neutral-800">
               <div className="relative z-10">
-                <div className="w-12 h-12 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mb-6">
-                  <BarChart3 className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
-                  Real-time Analytics Dashboard
-                </h3>
-                <p className="text-neutral-400 leading-relaxed max-w-md mb-8">
-                  Track every metric that matters. Custom dashboards with
-                  drag-and-drop widgets, live data streams, and exportable reports.
-                </p>
-              </div>
-
-              {/* Mini chart visualization */}
-              <div className="relative z-10 bg-neutral-800/50 rounded-xl p-5 border border-neutral-700/50">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                    <span className="text-xs text-neutral-400 font-medium">Revenue Stream</span>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-blue text-white flex items-center justify-center font-bold text-lg shadow-glow-sm">
+                    F
                   </div>
-                  <span className="text-xs text-accent font-semibold">+24.5%</span>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-xl md:text-2xl font-bold text-white font-display">
+                        Finn · The AI Learning Guide
+                      </h3>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                        Strict Guardrails
+                      </span>
+                    </div>
+                    <p className="text-xs text-neutral-400">
+                      Trained solely on approved curriculum content. Strictly prohibits stock tips or advisory.
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-end gap-[3px] h-20">
-                  {Array.from({ length: 32 }).map((_, i) => {
-                    const base = 20 + Math.sin(i * 0.3 + 1) * 30;
-                    const growth = i * 1.5;
-                    const noise = Math.sin(i * 2.1) * 8;
-                    const h = Math.min(95, base + growth + noise);
-                    return (
-                      <div
-                        key={i}
-                        className="flex-1 rounded-[2px] transition-all duration-300"
-                        style={{
-                          height: `${h}%`,
-                          background:
-                            i > 26
-                              ? "linear-gradient(to top, #ff6207, #ff852f)"
-                              : "linear-gradient(to top, rgba(255,98,7,0.3), rgba(255,98,7,0.1))",
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
 
-              {/* Background decoration */}
-              <div className="absolute top-0 right-0 w-64 h-64 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div
-                  className="w-full h-full"
-                  style={{
-                    background: "radial-gradient(circle at top right, rgba(255,98,7,0.08), transparent 60%)",
-                  }}
-                />
+                <p className="text-sm text-neutral-300 leading-relaxed mb-6 max-w-xl">
+                  Ask Finn to explain compound interest with college pocket money examples, clarify why an assessment answer was marked incorrect, or break down the nuances of index mutual funds.
+                </p>
+
+                {/* Simulated Conversation UI */}
+                <div className="bg-neutral-950/80 rounded-2xl p-5 border border-neutral-800 space-y-3 font-sans">
+                  <div className="flex items-start gap-2.5">
+                    <span className="px-2 py-1 rounded bg-neutral-800 text-[10px] font-bold text-neutral-400">
+                      YOU
+                    </span>
+                    <p className="text-xs text-neutral-200 bg-neutral-800/60 p-2.5 rounded-xl border border-neutral-700/60">
+                      &ldquo;Why is investing all my money in one high-dividend stock considered risky if it pays 8%?&rdquo;
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <span className="px-2 py-1 rounded bg-brand-blue text-[10px] font-bold text-white">
+                      FINN
+                    </span>
+                    <p className="text-xs text-neutral-300 bg-brand-blue/10 p-2.5 rounded-xl border border-brand-blue/20 leading-relaxed">
+                      &ldquo;Great question! An 8% dividend looks attractive, but it exposes you to <strong>single-company concentration risk</strong>. If that company faces industry disruptions or cuts its dividend, both your income and capital can drop significantly. That&apos;s why Module 5 emphasizes broad diversification across 30–50 companies.&rdquo;
+                    </p>
+                  </div>
+                </div>
+
+                {/* Interactive Prompt Chips */}
+                <div className="mt-4 flex flex-wrap gap-2 text-xs">
+                  {["Explain this simply", "Give a student example", "Why was my answer wrong?", "Review Module 4"].map(
+                    (chip) => (
+                      <span
+                        key={chip}
+                        className="px-3 py-1 rounded-full bg-neutral-800/80 border border-neutral-700 text-neutral-300 text-[11px] font-medium"
+                      >
+                        {chip}
+                      </span>
+                    )
+                  )}
+                </div>
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Card 2 — Tall */}
+          {/* Card 2: Deterministic Mastery Engine */}
           <ScrollReveal delay={100}>
-            <div className="card-dark p-8 h-full relative overflow-hidden group">
-              <div className="w-12 h-12 rounded-2xl bg-purple-wash text-purple flex items-center justify-center mb-6">
-                <Brain className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-3">
-                AI-Powered Insights
-              </h3>
-              <p className="text-neutral-400 text-sm leading-relaxed mb-6">
-                Machine learning models analyze your data patterns and surface
-                actionable recommendations before you even ask.
-              </p>
-
-              {/* AI insight cards */}
-              <div className="space-y-3">
-                {[
-                  { label: "Churn Risk", value: "3 accounts", severity: "warning" },
-                  { label: "Upsell Signal", value: "12 accounts", severity: "success" },
-                  { label: "Anomaly", value: "API latency spike", severity: "error" },
-                ].map((insight) => (
-                  <div
-                    key={insight.label}
-                    className="bg-neutral-800/50 rounded-lg p-3 border border-neutral-700/50 flex items-center justify-between"
-                  >
-                    <div>
-                      <span className="text-xs text-neutral-500">{insight.label}</span>
-                      <p className="text-sm text-white font-medium">{insight.value}</p>
-                    </div>
-                    <div
-                      className={`w-2 h-2 rounded-full ${
-                        insight.severity === "warning"
-                          ? "bg-yellow-400"
-                          : insight.severity === "success"
-                          ? "bg-green-400"
-                          : "bg-red-400"
-                      }`}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-
-          {/* Card 3 */}
-          <ScrollReveal delay={150}>
-            <div className="card-dark p-8 h-full group">
-              <div className="w-12 h-12 rounded-2xl bg-success-wash text-success flex items-center justify-center mb-6">
-                <Clock className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-3">
-                Workflow Automation
-              </h3>
-              <p className="text-neutral-400 text-sm leading-relaxed mb-4">
-                Set up triggers, conditions, and actions. Automate onboarding
-                emails, slack alerts, and lifecycle campaigns without code.
-              </p>
-              <div className="flex items-center gap-2 flex-wrap">
-                {["Triggers", "Actions", "Conditions", "Webhooks"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-1 bg-neutral-800 text-neutral-400 text-xs font-medium rounded-md border border-neutral-700/50"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-
-          {/* Card 4 */}
-          <ScrollReveal delay={200}>
-            <div className="card-dark p-8 h-full group">
-              <div className="w-12 h-12 rounded-2xl bg-pink-wash text-pink flex items-center justify-center mb-6">
-                <MessageSquare className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-3">
-                Team Collaboration
-              </h3>
-              <p className="text-neutral-400 text-sm leading-relaxed mb-4">
-                Shared dashboards, annotations, and comments. Keep everyone
-                aligned on the metrics that matter most.
-              </p>
-              {/* Avatars */}
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  {[0, 1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="w-8 h-8 rounded-full border-2 border-neutral-750"
-                      style={{
-                        background: `linear-gradient(135deg, hsl(${i * 80 + 200}, 50%, 50%), hsl(${i * 80 + 220}, 50%, 35%))`,
-                      }}
-                    />
-                  ))}
+            <div className="card-dark p-8 h-full bg-neutral-900 border-neutral-800 flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-6">
+                  <BookOpenCheck className="w-6 h-6" />
                 </div>
-                <span className="text-xs text-neutral-500">+8 more</span>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          {/* Card 5 — Wide */}
-          <ScrollReveal delay={250} className="lg:col-span-2">
-            <div className="card-dark p-8 md:p-10 h-full group flex flex-col md:flex-row items-start gap-8">
-              <div className="flex-1">
-                <div className="w-12 h-12 rounded-2xl bg-warning-wash text-warning flex items-center justify-center mb-6">
-                  <Lock className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Enterprise-Grade Security
+                <h3 className="text-lg font-bold text-white mb-2 font-display">
+                  Deterministic Evidence Mastery
                 </h3>
-                <p className="text-neutral-400 leading-relaxed">
-                  SOC 2 Type II certified. GDPR compliant. End-to-end encryption
-                  with AES-256. Role-based access control with SSO and SAML support.
+                <p className="text-xs text-neutral-400 leading-relaxed mb-6">
+                  Mastery isn&apos;t a random score. We evaluate four evidence dimensions to determine if you&apos;re genuinely ready:
                 </p>
-              </div>
-              <div className="flex-1 w-full">
-                <div className="grid grid-cols-2 gap-3">
+
+                <div className="space-y-3">
                   {[
-                    { label: "Encryption", status: "AES-256" },
-                    { label: "Auth", status: "SSO + SAML" },
-                    { label: "Compliance", status: "SOC 2" },
-                    { label: "Privacy", status: "GDPR" },
-                  ].map((item) => (
-                    <div
-                      key={item.label}
-                      className="bg-neutral-800/50 rounded-xl p-4 border border-neutral-700/50 text-center"
-                    >
-                      <p className="text-xs text-neutral-500 mb-1">{item.label}</p>
-                      <p className="text-sm font-semibold text-white">{item.status}</p>
+                    { label: "Concept Retention", pct: "92%", color: "bg-emerald-400" },
+                    { label: "Reasoning Accuracy", pct: "84%", color: "bg-brand-blue" },
+                    { label: "Misconception Clearance", pct: "78%", color: "bg-indigo-400" },
+                    { label: "Practice Consistency", pct: "88%", color: "bg-amber-400" },
+                  ].map((dim) => (
+                    <div key={dim.label}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-neutral-400">{dim.label}</span>
+                        <span className="text-white font-mono font-bold">{dim.pct}</span>
+                      </div>
+                      <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
+                        <div className={`${dim.color} h-full`} style={{ width: dim.pct }} />
+                      </div>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-neutral-800 text-[11px] text-neutral-500">
+                Transparent rules ensure progress reflects true skill.
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {/* Card 3: ₹10,000 Virtual Portfolio */}
+          <ScrollReveal delay={150}>
+            <div className="card-dark p-8 h-full bg-neutral-900 border-neutral-800">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-6">
+                <LineChart className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2 font-display">
+                ₹10,000 Practice Sandbox
+              </h3>
+              <p className="text-xs text-neutral-400 leading-relaxed mb-5">
+                Every trade requires an educational reflection. You cannot execute buy/sell orders without writing your rationale.
+              </p>
+
+              <div className="bg-neutral-950 p-4 rounded-xl border border-neutral-800 space-y-2">
+                <div className="flex justify-between text-xs">
+                  <span className="text-neutral-400">Cash Available</span>
+                  <span className="font-mono text-white font-bold">₹4,200.00</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-neutral-400">Fictional Index ETF</span>
+                  <span className="font-mono text-emerald-400 font-bold">₹5,800.00</span>
+                </div>
+                <div className="pt-2 border-t border-neutral-800 flex items-center gap-1.5 text-[10px] text-amber-400">
+                  <AlertTriangle className="w-3 h-3 shrink-0" />
+                  <span>Diversification ratio: 82% healthy</span>
                 </div>
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Card 6 */}
-          <ScrollReveal delay={300}>
-            <div className="card-dark p-8 h-full group relative overflow-hidden">
-              <div className="w-12 h-12 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mb-6">
-                <TrendingUp className="w-6 h-6" />
+          {/* Card 4: Misconception Detection */}
+          <ScrollReveal delay={200}>
+            <div className="card-dark p-8 h-full bg-neutral-900 border-neutral-800">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-6">
+                <Lightbulb className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-3">
-                Growth Forecasting
+              <h3 className="text-lg font-bold text-white mb-2 font-display">
+                Misconception Detection
               </h3>
-              <p className="text-neutral-400 text-sm leading-relaxed mb-4">
-                Predictive models project your MRR, ARR, and growth trajectory.
-                Plan with confidence using AI-driven forecasts.
+              <p className="text-xs text-neutral-400 leading-relaxed mb-5">
+                Identifies recurring fallacies like &ldquo;timing the market&rdquo; or &ldquo;penny stocks are cheap bargains&rdquo; and assigns targeted micro-remedies.
               </p>
-              {/* Mini forecast */}
-              <div className="flex items-end gap-1 h-16">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="flex-1 flex flex-col gap-0.5">
-                    <div
-                      className="rounded-sm bg-accent/20"
-                      style={{ height: `${30 + i * 8}%` }}
-                    />
-                    {i >= 5 && (
-                      <div
-                        className="rounded-sm bg-accent/40 border border-accent/30 border-dashed"
-                        style={{ height: `${(i - 4) * 12}%` }}
-                      />
-                    )}
-                  </div>
-                ))}
+              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300">
+                <strong>Remedy assigned:</strong> 2 scenario drills on Dollar-Cost Averaging (SIP).
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {/* Card 5: Safe Gamification (Lanyard Badges & Streaks) */}
+          <ScrollReveal delay={250}>
+            <div className="card-dark p-8 h-full bg-neutral-900 border-neutral-800">
+              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center mb-6">
+                <Award className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2 font-display">
+                Thoughtful Gamification
+              </h3>
+              <p className="text-xs text-neutral-400 leading-relaxed mb-5">
+                Earn verified milestone badges for disciplined research and consistency—never for reckless risk or simulated short-term trading profits.
+              </p>
+              <div className="flex gap-2">
+                <span className="px-3 py-1.5 rounded-xl bg-neutral-800 text-[11px] font-bold text-neutral-300 border border-neutral-700">
+                  🛡️ Risk-Aware
+                </span>
+                <span className="px-3 py-1.5 rounded-xl bg-neutral-800 text-[11px] font-bold text-neutral-300 border border-neutral-700">
+                  📚 7-Day Learner
+                </span>
               </div>
             </div>
           </ScrollReveal>

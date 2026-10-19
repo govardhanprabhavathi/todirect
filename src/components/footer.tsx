@@ -1,85 +1,94 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ShieldCheck, HeartHandshake } from "lucide-react";
 
 const footerLinks = {
-  Product: [
-    { label: "Features", href: "#features" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Integrations", href: "#" },
-    { label: "Changelog", href: "#" },
-    { label: "Roadmap", href: "#" },
+  Curriculum: [
+    { label: "1. Money Fundamentals", href: "#curriculum" },
+    { label: "2. Inflation & Compounding", href: "#curriculum" },
+    { label: "3. Asset Classes", href: "#curriculum" },
+    { label: "4. Risk & Volatility", href: "#curriculum" },
+    { label: "5. Diversification", href: "#curriculum" },
+    { label: "6. Scams & Pitfalls", href: "#curriculum" },
+    { label: "7. ₹10K Sandbox", href: "#curriculum" },
   ],
-  Company: [
-    { label: "About", href: "#" },
-    { label: "Blog", href: "#" },
-    { label: "Careers", href: "#" },
-    { label: "Press Kit", href: "#" },
-    { label: "Contact", href: "#" },
+  Platform: [
+    { label: "The Learning Journey", href: "#how-it-works" },
+    { label: "Finn AI Learning Coach", href: "#platform" },
+    { label: "Deterministic Mastery", href: "#evidence" },
+    { label: "Milestone Badges", href: "#platform" },
+    { label: "Campus Partnerships", href: "#pricing" },
   ],
-  Resources: [
-    { label: "Documentation", href: "#" },
-    { label: "API Reference", href: "#" },
-    { label: "Guides", href: "#" },
-    { label: "Community", href: "#" },
-    { label: "Status", href: "#" },
+  Integrity: [
+    { label: "Pedagogical Philosophy", href: "#safety" },
+    { label: "AI Safety Guardrails", href: "#safety" },
+    { label: "Zero-Brokerage Pledge", href: "#safety" },
+    { label: "Anti-Speculation Policy", href: "#safety" },
+    { label: "SEBI Compliance Stance", href: "#safety" },
   ],
-  Legal: [
-    { label: "Privacy", href: "#" },
-    { label: "Terms", href: "#" },
-    { label: "Cookies", href: "#" },
-    { label: "GDPR", href: "#" },
+  Privacy: [
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms of Education", href: "#" },
+    { label: "Data Retention & DPDP", href: "#" },
+    { label: "Account Deletion Request", href: "#" },
+    { label: "Contact Grievance Officer", href: "#" },
   ],
 };
 
 export function Footer() {
   return (
-    <footer className="border-t border-neutral-800/50">
+    <footer className="border-t border-neutral-800 bg-neutral-950 text-white">
       <div className="section-container py-16 md:py-20">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-10 md:gap-8">
-          {/* Brand */}
+          {/* Brand info */}
           <div className="col-span-2">
-            <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-6 h-6 text-white">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-full h-full"
-                >
-                  <path
-                    d="M20.089 0.58C21.152-0.295 22.989-0.334 22.164 1.542C21.119 3.92 19.299 5.953 18.177 8.407C18 8.809 17.971 9.261 18.093 9.682L21.021 20.232C21.081 20.449 20.947 20.626 20.722 20.626H18.702C18.031 20.626 17.347 20.102 17.172 19.454L17.055 19.015C17.007 18.832 17.032 18.636 17.124 18.47C17.657 17.498 18.019 16.442 18.194 15.347C18.214 15.225 18.031 15.19 17.988 15.306C16.884 18.292 14.172 20.562 10.664 20.754C10.19 20.78 8.008 20.773 8.079 20.092C8.855 19.152 9.462 18.354 9.665 18.292C12.288 17.484 14.756 16.892 15.639 13.828C16.102 12.218 15.716 11.03 15.362 9.488C15.317 9.292 15.35 9.086 15.454 8.913C16.773 6.731 18.349 5.171 19.747 3.193C19.882 3.001 19.667 2.823 19.502 2.99C13.836 8.677 10.344 15.865 4.37 21.329C3.71 21.932 2.95 22.649 2.229 23.16C-2.072 26.225 1.078 20.035 1.619 18.404C1.781 17.917 2.404 16.116 2.4 15.769C2.392 15.112 2.037 14.736 1.897 14.137C0.561 8.384 4.68 3.01 10.565 3.463C11.912 3.568 14.083 4.636 15.28 4.305C16.606 3.942 18.874 1.581 20.089 0.58Z"
-                    fill="currentColor"
-                    transform="translate(1 0)"
-                  />
+            <Link href="/" className="flex items-center gap-2.5 mb-4 group">
+              <div className="w-7 h-7 rounded-lg bg-brand-blue flex items-center justify-center text-white">
+                <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" stroke="currentColor">
+                  <path d="M5 12h14M13 6l6 6-6 6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <span className="text-white font-display font-bold text-base">
-                Accretion
+              <span className="text-white font-display font-extrabold text-base tracking-tight">
+                TO DIRECT
               </span>
             </Link>
-            <p className="text-sm text-neutral-500 leading-relaxed max-w-xs mb-6">
-              The all-in-one platform for SaaS growth. Analytics, automation, and
-              intelligence — designed for modern teams.
+
+            <p className="text-xs text-neutral-400 leading-relaxed max-w-sm mb-4">
+              A premium, full-stack financial learning platform for college students, 
+              beginners, and young professionals. Educational only. Not a brokerage or financial advisory service.
             </p>
-            {/* Newsletter */}
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-neutral-500 focus:outline-none focus:border-accent transition-colors"
-              />
-              <button className="px-4 py-2 bg-accent text-white text-sm font-semibold rounded-lg hover:bg-accent-hover transition-colors shrink-0">
-                Subscribe
-              </button>
+
+            <div className="p-3.5 rounded-2xl bg-neutral-900 border border-neutral-800 text-[11px] text-neutral-400 space-y-1 mb-6">
+              <div className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Learn Before You Invest</span>
+              </div>
+              <p>Rewards demonstrated understanding and risk awareness—never simulated short-term trading profits.</p>
+            </div>
+
+            {/* Newsletter / Study digest */}
+            <div>
+              <span className="text-[11px] text-neutral-300 font-bold block mb-2 uppercase tracking-wider">
+                Weekly Student Finance Digest
+              </span>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="name@college.edu"
+                  className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder:text-neutral-500 focus:outline-none focus:border-brand-blue transition-colors"
+                />
+                <button className="px-4 py-2 bg-brand-blue text-white text-xs font-bold rounded-xl hover:bg-brand-blue-deep transition-colors shrink-0">
+                  Subscribe
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Link Columns */}
+          {/* Footer links */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="text-sm font-semibold text-neutral-300 mb-4">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-neutral-300 mb-4 font-display">
                 {title}
               </h4>
               <ul className="space-y-2.5">
@@ -87,7 +96,7 @@ export function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-neutral-500 hover:text-white transition-colors"
+                      className="text-xs text-neutral-400 hover:text-brand-blue-light transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -98,22 +107,17 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-14 pt-8 border-t border-neutral-800/50 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-neutral-600">
-            © {new Date().getFullYear()} Accretion. All rights reserved.
+        {/* Legal Disclaimer & Bottom bar */}
+        <div className="mt-14 pt-8 border-t border-neutral-800/80 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-neutral-500">
+          <p>
+            © {new Date().getFullYear()} TO DIRECT Financial Education Initiative. All rights reserved. Strictly educational.
           </p>
-          <div className="flex items-center gap-4">
-            {["Twitter", "GitHub", "LinkedIn", "Discord"].map((social) => (
-              <a
-                key={social}
-                href="#"
-                className="text-xs text-neutral-500 hover:text-white transition-colors flex items-center gap-1"
-              >
-                {social}
-                <ArrowUpRight className="w-3 h-3" />
-              </a>
-            ))}
+          <div className="flex items-center gap-4 text-neutral-400">
+            <span className="hover:text-white transition-colors cursor-pointer">SEBI Pedagogy Disclosures</span>
+            <span>·</span>
+            <span className="hover:text-white transition-colors cursor-pointer">DPDP Act Compliance</span>
+            <span>·</span>
+            <span className="hover:text-white transition-colors cursor-pointer">Terms of Service</span>
           </div>
         </div>
       </div>

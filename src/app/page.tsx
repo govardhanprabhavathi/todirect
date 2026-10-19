@@ -2,8 +2,8 @@ import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { LogoCloud } from "@/components/logo-cloud";
 import { Features } from "@/components/features";
-import { BentoGrid } from "@/components/bento-grid";
 import { HowItWorks } from "@/components/how-it-works";
+import { BentoGrid } from "@/components/bento-grid";
 import { Metrics } from "@/components/metrics";
 import { Testimonials } from "@/components/testimonials";
 import { Integrations } from "@/components/integrations";
@@ -15,16 +15,16 @@ import { SectionDivider } from "@/components/section-divider";
 
 export default function Home() {
   return (
-    <main className="relative overflow-x-hidden">
+    <main className="relative overflow-x-hidden bg-neutral-950">
       <Navbar />
 
-      {/* ─── Dark Hero + Logo Cloud ─── */}
+      {/* ─── Stage 1: Hero & Adoption Marquee (Dark) ─── */}
       <div className="bg-neutral-950">
         <Hero />
         <LogoCloud />
       </div>
 
-      {/* ─── Features Grid — Dark ─── */}
+      {/* ─── Stage 2: The 7 Foundation Modules (Dark) ─── */}
       <div className="bg-neutral-950">
         <Features />
       </div>
@@ -32,7 +32,7 @@ export default function Home() {
       {/* ─── Transition: Dark → Cream ─── */}
       <SectionDivider from="dark" to="cream" />
 
-      {/* ─── How it Works — Cream ─── */}
+      {/* ─── Stage 3: The 6-Stage Learning Journey (Cream) ─── */}
       <div className="bg-cream">
         <HowItWorks />
       </div>
@@ -40,12 +40,12 @@ export default function Home() {
       {/* ─── Transition: Cream → Dark ─── */}
       <SectionDivider from="cream" to="dark" />
 
-      {/* ─── Bento Grid — Dark ─── */}
+      {/* ─── Stage 4: Bento Grid — AI Coach Finn & Sandbox (Dark) ─── */}
       <div className="bg-neutral-950">
         <BentoGrid />
       </div>
 
-      {/* ─── Metrics — Dark (continuous) ─── */}
+      {/* ─── Stage 5: Evidence Mastery Metrics (Dark) ─── */}
       <div className="bg-neutral-950">
         <Metrics />
       </div>
@@ -53,7 +53,7 @@ export default function Home() {
       {/* ─── Transition: Dark → Cream ─── */}
       <SectionDivider from="dark" to="cream" />
 
-      {/* ─── Testimonials — Cream ─── */}
+      {/* ─── Stage 6: Learner Reflections & Testimonials (Cream) ─── */}
       <div className="bg-cream">
         <Testimonials />
       </div>
@@ -61,7 +61,7 @@ export default function Home() {
       {/* ─── Transition: Cream → Dark ─── */}
       <SectionDivider from="cream" to="dark" />
 
-      {/* ─── Integrations — Dark ─── */}
+      {/* ─── Stage 7: Safety, Ethics & Safeguards (Dark) ─── */}
       <div className="bg-neutral-950">
         <Integrations />
       </div>
@@ -69,12 +69,12 @@ export default function Home() {
       {/* ─── Transition: Dark → Cream ─── */}
       <SectionDivider from="dark" to="cream" />
 
-      {/* ─── Pricing — Cream ─── */}
+      {/* ─── Stage 8: Learning Tracks (Cream) ─── */}
       <div className="bg-cream">
         <Pricing />
       </div>
 
-      {/* ─── FAQ — Cream (continuous) ─── */}
+      {/* ─── Stage 9: Frequently Asked Questions (Cream) ─── */}
       <div className="bg-cream">
         <Faq />
       </div>
@@ -82,12 +82,12 @@ export default function Home() {
       {/* ─── Transition: Cream → Dark ─── */}
       <SectionDivider from="cream" to="dark" />
 
-      {/* ─── CTA — Dark ─── */}
+      {/* ─── Stage 10: Final Call To Action (Dark) ─── */}
       <div className="bg-neutral-950">
         <Cta />
       </div>
 
-      {/* ─── Footer — Dark (continuous) ─── */}
+      {/* ─── Stage 11: Comprehensive Footer (Dark) ─── */}
       <div className="bg-neutral-950">
         <Footer />
       </div>

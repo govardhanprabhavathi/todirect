@@ -1,81 +1,68 @@
-# Accretion — SaaS Landing Page
+# TO DIRECT — Full-Stack Financial Education Web Application
+> **"LEARN BEFORE YOU INVEST"**
 
-A premium, fully responsive SaaS landing page rebuilt from [accretion.framer.ai](https://accretion.framer.ai), built with **Next.js 15**, **React 19**, **Tailwind CSS**, and **TypeScript**.
+A financial education web application for college students, complete beginners, and young professionals. Designed with a luxury dark + warm cream editorial aesthetic inspired by the Accretion framework, built with **Next.js 15**, **React 19**, **TypeScript**, and **Tailwind CSS**.
 
-## ✨ Features
+---
 
-- **Dark + Cream dual-theme** — alternating sections with smooth curved SVG dividers
-- **Scroll-triggered animations** — fade-up, stagger, and parallax reveal effects
-- **Animated counters** — metrics animate on scroll intersection
-- **Bento grid showcase** — asymmetric feature cards with data visualizations
-- **Glass-morphism navbar** — transparent → frosted glass on scroll
-- **Premium typography** — Switzer + Inter font system
-- **Interactive dashboard mockup** — realistic chart and stats preview
-- **Masonry testimonials** — star ratings and gradient avatars
-- **Accordion FAQ** — smooth expand/collapse with hover accents
-- **Responsive design** — desktop, tablet, and mobile breakpoints
-- **Orange accent system** — vibrant `#ff6207` with warm cream `#f8f6f1`
+## 🎯 Product Philosophy & Learning Flow
 
-## 🏗️ Tech Stack
+Unlike trading terminals or brokerages, **TO DIRECT** is purely pedagogical. It rewards demonstrated conceptual understanding, sound reasoning, consistency, and thoughtful decision-making—not lesson completion alone or simulated investment profits.
 
-| Layer       | Technology                      |
-|-------------|--------------------------------|
-| Framework   | Next.js 15 (App Router)        |
-| UI          | React 19 + TypeScript          |
-| Styling     | Tailwind CSS 3.4               |
-| Icons       | Lucide React                   |
-| Fonts       | Switzer (FontShare) + Inter    |
-| Animation   | CSS + IntersectionObserver     |
+$$\text{START} \longrightarrow \text{LEARN} \longrightarrow \text{TEST} \longrightarrow \text{TRACK} \longrightarrow \text{IMPROVE} \longrightarrow \text{PRACTISE}$$
 
-## 🚀 Getting Started
+1. **START**: 5-minute diagnostic baseline assessment.
+2. **LEARN**: 7 foundation curriculum modules built for the Indian financial landscape.
+3. **TEST**: Concept-first scenario quizzes and misconception puzzles.
+4. **TRACK**: Deterministic evidence mastery engine measuring retention and accuracy.
+5. **IMPROVE**: AI Learning Coach **Finn** with strict pedagogical guardrails.
+6. **PRACTISE**: Risk-free ₹10,000 virtual sandbox with mandatory trade rationale journals.
+
+---
+
+## 🎨 Visual Identity & Design System
+
+- **Primary Signature**: Electric Blue (`#2563FF`) & Deep Electric Blue (`#1748D8`)
+- **Editorial Contrast Surfaces**: Warm Cream (`#F8F6F1`, `#FFFDF7`) and Midnight Charcoal (`#090D16`, `#172033`)
+- **Typography**: Switzer (Display headings) + Inter (Readable editorial body)
+- **Fluid Curved SVG Dividers**: Smooth sinusoidal transitions between high-contrast sections
+- **Live Canvas Particle Constellation**: Responsive starfield behind the Hero
+- **Micro-Interactions**: Eased IntersectionObserver scroll reveals, animated number counters, and scroll progress tracking
+
+---
+
+## 🏛️ The 7 Core Curriculum Modules
+
+1. **Module 1**: Money Fundamentals & Cash Flow
+2. **Module 2**: Inflation & The Time Value of Money
+3. **Module 3**: Asset Classes Demystified (Equities, Debt, Gold, FDs)
+4. **Module 4**: Risk, Volatility & Capital Preservation
+5. **Module 5**: Diversification & Asset Allocation
+6. **Module 6**: Beginner Pitfalls, Speculative Traps & Scams
+7. **Module 7**: The ₹10,000 Virtual Portfolio Sandbox
+
+---
+
+## 🚀 Running the Project
 
 ```bash
+# 1. Install dependencies
 npm install
+
+# 2. Run the development server
 npm run dev
+
+# 3. Create a production build
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## 📁 Project Structure
+---
 
-```
-src/
-├── app/
-│   ├── globals.css          # Design tokens, utilities, components
-│   ├── layout.tsx           # Root layout with metadata
-│   └── page.tsx             # Homepage section composition
-├── components/
-│   ├── animated-counter.tsx # Scroll-triggered number animation
-│   ├── bento-grid.tsx       # Asymmetric feature showcase
-│   ├── cta.tsx              # Bottom call-to-action
-│   ├── faq.tsx              # Accordion FAQ
-│   ├── features.tsx         # 6-card feature grid
-│   ├── footer.tsx           # Full footer with newsletter
-│   ├── hero.tsx             # Hero with dashboard preview
-│   ├── how-it-works.tsx     # 3-step process section
-│   ├── integrations.tsx     # Integration logos grid
-│   ├── logo-cloud.tsx       # Marquee trusted-by carousel
-│   ├── metrics.tsx          # Animated performance stats
-│   ├── navbar.tsx           # Glass-morphism sticky nav
-│   ├── pricing.tsx          # 3-tier pricing cards
-│   ├── scroll-reveal.tsx    # Reusable scroll animation
-│   ├── section-divider.tsx  # Curved SVG transitions
-│   └── testimonials.tsx     # Masonry quote grid
-```
+## 🛡️ Ethics & Regulatory Boundaries
 
-## 🎨 Design System
-
-### Colors
-- **Accent**: `#ff6207` (vibrant orange)
-- **Background Dark**: `#0a0a0a`
-- **Background Cream**: `#f8f6f1`
-- **Text Primary**: `#171717`
-- **Text Muted**: `#737373`
-
-### Typography
-- **Display**: Switzer (600-900 weight)
-- **Body**: Inter (400-700 weight)
-
-## 📄 License
-
-Private project. All rights reserved.
+- **Zero Fiat Deposits**: Real money cannot be deposited or risked.
+- **SEBI Compliant Demarcation**: Operates strictly as educational courseware; zero financial advisory.
+- **AI Safety Guardrails**: Finn is programmatically prohibited from generating stock tips or price forecasts.
+- **Privacy & Account Rights**: Complies with GDPR and the Indian DPDP Act.

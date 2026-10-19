@@ -1,173 +1,147 @@
 "use client";
 
 import { ScrollReveal } from "./scroll-reveal";
-import { UserPlus, Settings, Rocket } from "lucide-react";
+import {
+  Compass,
+  BookOpen,
+  CheckCircle,
+  BarChart2,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
 
-const steps = [
+const stages = [
   {
-    number: "01",
-    icon: UserPlus,
-    title: "Create your account",
+    step: "01",
+    tag: "START",
+    title: "Baseline Assessment & Goal Setting",
     description:
-      "Sign up in under 60 seconds. No credit card required. Connect your existing tools and import your data with a single click.",
-    visual: "onboarding",
+      "A 5-minute diagnostic quiz assesses your current baseline literacy. Zero judgment—just clear visibility into where your financial foundations stand.",
+    icon: Compass,
+    accent: "bg-blue-500/10 text-brand-blue",
+    details: ["Personal finance diagnostic", "Misconception scan", "Customized curriculum starting point"],
   },
   {
-    number: "02",
-    icon: Settings,
-    title: "Configure your workspace",
+    step: "02",
+    tag: "LEARN",
+    title: "Concept-First Bite-Sized Lessons",
     description:
-      "Set up dashboards, define KPIs, and customize workflows to match how your team operates. Our AI suggests optimal configurations.",
-    visual: "configure",
+      "Engage with editorial, jargon-free lessons built around real Indian scenarios. Visual infographics, calculators, and no Wall Street noise.",
+    icon: BookOpen,
+    accent: "bg-indigo-500/10 text-indigo-600",
+    details: ["7 Foundation topics", "Real-life relatable cases", "Active reading check-points"],
   },
   {
-    number: "03",
-    icon: Rocket,
-    title: "Launch & grow",
+    step: "03",
+    tag: "TEST",
+    title: "Scenario Quizzes & Concept Puzzles",
     description:
-      "Go live with confidence. Monitor real-time metrics, automate repetitive tasks, and let Accretion's intelligence guide your growth.",
-    visual: "launch",
+      "Forget rote memorization. Our scenario-based assessments test decision-making under simulated market events and economic changes.",
+    icon: CheckCircle,
+    accent: "bg-emerald-500/10 text-emerald-600",
+    details: ["Multiple choice & ranking puzzles", "Reasoning verification", "Instant explanation on error"],
+  },
+  {
+    step: "04",
+    tag: "TRACK",
+    title: "Deterministic Evidence-Based Mastery",
+    description:
+      "We track what you actually comprehend—not just checkmarks. Your mastery index measures retention, consistency, and reasoning accuracy.",
+    icon: BarChart2,
+    accent: "bg-purple-500/10 text-purple-600",
+    details: ["Transparent mastery rules", "Topic confidence map", "Clear retention indicators"],
+  },
+  {
+    step: "05",
+    tag: "IMPROVE",
+    title: "Contextual AI Learning Coach & Targeted Review",
+    description:
+      "Meet Finn—your strictly curriculum-grounded learning coach. Detects repeated misconceptions and delivers tailored micro-practice.",
+    icon: Sparkles,
+    accent: "bg-amber-500/10 text-amber-600",
+    details: ["Strict AI safety guardrails", "Misconception remediation", "No investment advice permitted"],
+  },
+  {
+    step: "06",
+    tag: "PRACTISE",
+    title: "₹10,000 Safe Virtual Portfolio Sandbox",
+    description:
+      "Put your knowledge to work with zero real-money risk. Allocate across fictional diversified instruments and write reflective trade journals.",
+    icon: TrendingUp,
+    accent: "bg-brand-blue/10 text-brand-blue",
+    details: ["₹10,000 virtual balance", "Mandatory trade rationales", "Rewards thoughtful diversification"],
   },
 ];
 
-function StepVisual({ type }: { type: string }) {
-  if (type === "onboarding") {
-    return (
-      <div className="bg-white rounded-2xl p-6 border border-neutral-200 shadow-card">
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
-            <UserPlus className="w-5 h-5 text-accent" />
-          </div>
-          <div>
-            <div className="h-3 w-24 bg-neutral-200 rounded" />
-            <div className="h-2 w-16 bg-neutral-100 rounded mt-1.5" />
-          </div>
-        </div>
-        <div className="space-y-3">
-          <div className="h-10 bg-neutral-100 rounded-lg border border-neutral-200" />
-          <div className="h-10 bg-neutral-100 rounded-lg border border-neutral-200" />
-          <div className="h-10 bg-accent rounded-lg flex items-center justify-center">
-            <span className="text-white text-sm font-semibold">Continue →</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  if (type === "configure") {
-    return (
-      <div className="bg-white rounded-2xl p-6 border border-neutral-200 shadow-card">
-        <div className="flex gap-3 mb-5">
-          {["Overview", "Metrics", "Alerts"].map((tab, i) => (
-            <div
-              key={tab}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
-                i === 0
-                  ? "bg-accent text-white"
-                  : "bg-neutral-100 text-neutral-500"
-              }`}
-            >
-              {tab}
-            </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          {["MRR", "Churn", "LTV", "CAC"].map((kpi) => (
-            <div key={kpi} className="bg-neutral-50 rounded-xl p-3 border border-neutral-100">
-              <span className="text-[10px] text-neutral-400 uppercase tracking-wider">
-                {kpi}
-              </span>
-              <div className="h-3 w-16 bg-neutral-200 rounded mt-1" />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-  return (
-    <div className="bg-white rounded-2xl p-6 border border-neutral-200 shadow-card">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-xs font-medium text-green-600">Live</span>
-        </div>
-        <span className="text-xs text-neutral-400">Just now</span>
-      </div>
-      <div className="flex items-end gap-1 h-24">
-        {Array.from({ length: 12 }).map((_, i) => (
-          <div
-            key={i}
-            className="flex-1 rounded-sm bg-accent/70"
-            style={{
-              height: `${30 + Math.sin(i * 0.7) * 30 + i * 4}%`,
-            }}
-          />
-        ))}
-      </div>
-      <div className="mt-4 flex items-center gap-2 text-sm">
-        <span className="font-semibold text-neutral-800">+24.5%</span>
-        <span className="text-neutral-400">growth this week</span>
-      </div>
-    </div>
-  );
-}
-
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 md:py-32">
+    <section id="how-it-works" className="py-24 md:py-32 bg-cream">
       <div className="section-container">
         {/* Header */}
         <div className="text-center mb-16 md:mb-20">
           <ScrollReveal>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold tracking-wide uppercase mb-4">
-              How it Works
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-wider mb-4 border border-brand-blue/20">
+              THE 6-STAGE LEARNING JOURNEY
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="section-title text-neutral-900 mb-5">
-              Up and running in{" "}
-              <span className="text-accent">three steps</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-brand-navy mb-5 font-display tracking-tight">
+              Start → Learn → Test →{" "}
+              <span className="text-brand-blue">Track → Improve → Practise</span>
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={200}>
-            <p className="text-base md:text-lg text-neutral-500 leading-relaxed max-w-2xl mx-auto">
-              Getting started with Accretion takes minutes, not months. 
-              Our guided setup ensures you&apos;re productive from day one.
+            <p className="text-base md:text-lg text-brand-slate max-w-2xl mx-auto leading-relaxed">
+              Every stage is inextricably connected. The application remembers what you understand, 
+              flags what needs strengthening, and guides your next meaningful action.
             </p>
           </ScrollReveal>
         </div>
 
-        {/* Steps */}
-        <div className="space-y-16 md:space-y-24">
-          {steps.map((step, i) => (
-            <ScrollReveal key={step.number} delay={i * 100}>
-              <div
-                className={`flex flex-col ${
-                  i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                } items-center gap-12 md:gap-16`}
-              >
-                {/* Text */}
-                <div className="flex-1 max-w-lg">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-4xl font-bold text-accent/20 font-display">
-                      {step.number}
-                    </span>
-                    <div className="h-px flex-1 bg-neutral-200" />
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-4">
-                    {step.title}
-                  </h3>
-                  <p className="text-neutral-500 leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
+        {/* 6 Step Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {stages.map((stage, i) => {
+            const Icon = stage.icon;
+            return (
+              <ScrollReveal key={stage.step} delay={i * 80}>
+                <div className="card-cream p-7 md:p-8 h-full flex flex-col justify-between relative group hover:border-brand-blue/40">
+                  <div>
+                    <div className="flex items-center justify-between mb-5">
+                      <span className="text-3xl font-extrabold font-mono text-neutral-300 group-hover:text-brand-blue transition-colors">
+                        {stage.step}
+                      </span>
+                      <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase bg-brand-blue-pale text-brand-blue border border-brand-blue-soft">
+                        {stage.tag}
+                      </span>
+                    </div>
 
-                {/* Visual */}
-                <div className="flex-1 w-full max-w-md">
-                  <StepVisual type={step.visual} />
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 ${stage.accent}`}>
+                      <Icon className="w-6 h-6" />
+                    </div>
+
+                    <h3 className="text-lg font-bold text-brand-navy mb-3 font-display">
+                      {stage.title}
+                    </h3>
+
+                    <p className="text-xs md:text-sm text-brand-slate leading-relaxed mb-6">
+                      {stage.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 border-t border-brand-divider">
+                    <ul className="space-y-1.5">
+                      {stage.details.map((detail, idx) => (
+                        <li key={idx} className="text-[11px] font-medium text-brand-muted flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-brand-blue/60" />
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
       </div>
     </section>

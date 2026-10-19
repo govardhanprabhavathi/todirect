@@ -9,56 +9,81 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary Accent — Vibrant Orange
+        // TO DIRECT Electric Blue Signature
+        brand: {
+          blue: "#2563FF",
+          "blue-deep": "#1748D8",
+          "blue-soft": "#EAF0FF",
+          "blue-pale": "#F4F7FF",
+          cream: "#FFFDF7",
+          "cream-warm": "#F8F5EC",
+          pure: "#FFFFFF",
+          navy: "#172033",
+          slate: "#596579",
+          muted: "#7A8496",
+          border: "#E6E8EF",
+          divider: "#ECEEF3",
+          lime: "#D9F99D",
+          "lime-text": "#1A380A",
+        },
+        // Accretion Accent (Mapped to Electric Blue for TO DIRECT identity)
         accent: {
-          DEFAULT: "#ff6207",
-          hover: "#f94500",
-          dark: "#ce3000",
-          light: "#ff852f",
-          lighter: "#ffb16b",
-          muted: "#ffd2a4",
-          wash: "#ffead2",
-          "wash-subtle": "rgba(226, 107, 8, 0.1)",
+          DEFAULT: "#2563FF",
+          hover: "#1748D8",
+          dark: "#0F36B3",
+          light: "#5285FF",
+          lighter: "#94B4FF",
+          muted: "#D4E2FF",
+          wash: "#EAF0FF",
+          "wash-subtle": "rgba(37, 99, 255, 0.1)",
         },
-        // Warm Cream Background
+        // Warm Cream Background & surfaces
         cream: {
-          DEFAULT: "#f8f6f1",
-          light: "#faeacd",
-          gold: "#faaf01",
+          DEFAULT: "#F8F6F1",
+          light: "#FFFDF7",
+          gold: "#F59E0B",
+          card: "#FFFFFF",
         },
-        // Neutrals — Rich near-black to pure white
+        // Deep Editorial Dark for High-Contrast Accretion-style cards & sections
         neutral: {
-          950: "#0a0a0a",
-          900: "#0d0d0d",
-          850: "#0f0f0f",
-          800: "#171717",
-          750: "#1e1e1e",
-          700: "#212121",
-          650: "#262626",
-          600: "#404040",
-          500: "#525252",
-          400: "#737373",
-          300: "#a1a1a1",
-          200: "#d4d4d4",
-          150: "#e5e5e5",
-          100: "#f5f5f5",
-          50: "#fafafa",
+          950: "#090D16",
+          900: "#0D1322",
+          850: "#111A2E",
+          800: "#172033",
+          750: "#1C273E",
+          700: "#24324F",
+          650: "#2E3F63",
+          600: "#41537A",
+          500: "#596579",
+          400: "#7A8496",
+          300: "#A2ABC0",
+          200: "#D3D9E6",
+          150: "#E6E8EF",
+          100: "#F1F3F9",
+          50: "#F8F9FD",
         },
-        // Semantic
-        success: "#22c55e",
-        "success-dark": "#16a34a",
-        "success-wash": "rgba(34, 197, 94, 0.1)",
-        error: "#ef4444",
-        warning: "#ca8a04",
-        "warning-wash": "rgba(234, 179, 8, 0.1)",
-        purple: "#9333ea",
-        "purple-wash": "rgba(168, 85, 247, 0.1)",
-        pink: "#db2777",
-        "pink-wash": "rgba(236, 72, 153, 0.1)",
-        // Deep tones
-        maroon: "#330014",
-        "brown-deep": "#442512",
-        "brown-warm": "#2e1f16",
+        // Semantics
+        success: {
+          DEFAULT: "#16856B",
+          dark: "#116753",
+          wash: "rgba(22, 133, 107, 0.12)",
+        },
+        warning: {
+          DEFAULT: "#B7791F",
+          wash: "rgba(183, 121, 31, 0.12)",
+        },
+        error: {
+          DEFAULT: "#C43C4E",
+          wash: "rgba(196, 60, 78, 0.12)",
+        },
+        purple: {
+          DEFAULT: "#7C3AED",
+          wash: "rgba(124, 58, 237, 0.12)",
+        },
+        pink: {
+          DEFAULT: "#DB2777",
+          wash: "rgba(219, 39, 119, 0.12)",
+        },
       },
       fontFamily: {
         sans: [
@@ -76,13 +101,6 @@ const config: Config = {
           "BlinkMacSystemFont",
           "sans-serif",
         ],
-        body: [
-          "Inter",
-          "Switzer",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "sans-serif",
-        ],
       },
       borderRadius: {
         "2xl": "16px",
@@ -91,11 +109,11 @@ const config: Config = {
         "5xl": "32px",
       },
       boxShadow: {
-        subtle: "0 1px 3px 0 rgba(0, 0, 0, 0.08)",
-        card: "0 4px 24px -4px rgba(0, 0, 0, 0.12)",
-        float: "0 12px 40px -8px rgba(0, 0, 0, 0.16)",
-        glow: "0 0 60px -12px rgba(255, 98, 7, 0.3)",
-        "glow-sm": "0 0 30px -8px rgba(255, 98, 7, 0.2)",
+        subtle: "0 1px 3px 0 rgba(17, 26, 46, 0.05)",
+        card: "0 4px 24px -4px rgba(17, 26, 46, 0.08)",
+        float: "0 12px 40px -8px rgba(17, 26, 46, 0.12)",
+        glow: "0 0 50px -10px rgba(37, 99, 255, 0.35)",
+        "glow-sm": "0 0 25px -6px rgba(37, 99, 255, 0.25)",
         dark: "0 4px 24px -4px rgba(0, 0, 0, 0.4)",
       },
       keyframes: {
@@ -107,14 +125,6 @@ const config: Config = {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
-        "slide-in-right": {
-          "0%": { opacity: "0", transform: "translateX(24px)" },
-          "100%": { opacity: "1", transform: "translateX(0)" },
-        },
-        "scale-in": {
-          "0%": { opacity: "0", transform: "scale(0.95)" },
-          "100%": { opacity: "1", transform: "scale(1)" },
-        },
         float: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-8px)" },
@@ -123,35 +133,17 @@ const config: Config = {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
-        },
-        "pulse-ring": {
-          "0%": { transform: "scale(1)", opacity: "0.6" },
-          "100%": { transform: "scale(1.4)", opacity: "0" },
+        pulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
         },
       },
       animation: {
         "fade-up": "fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         "fade-in": "fade-in 0.5s ease forwards",
-        "slide-in-right": "slide-in-right 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards",
-        "scale-in": "scale-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         float: "float 6s ease-in-out infinite",
-        "marquee-left": "marquee-left 40s linear infinite",
-        shimmer: "shimmer 2s linear infinite",
-        "pulse-ring": "pulse-ring 1.5s ease-out infinite",
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-accent":
-          "linear-gradient(135deg, #ff6207 0%, #f94500 50%, #ce3000 100%)",
-        "gradient-dark":
-          "linear-gradient(180deg, #0a0a0a 0%, #171717 100%)",
-        "gradient-card":
-          "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
-        "gradient-glow":
-          "radial-gradient(ellipse at center, rgba(255, 98, 7, 0.15) 0%, transparent 70%)",
+        "marquee-left": "marquee-left 35s linear infinite",
+        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
       maxWidth: {
         container: "1280px",

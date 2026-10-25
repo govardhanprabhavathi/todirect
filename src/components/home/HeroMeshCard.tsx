@@ -72,51 +72,72 @@ export function HeroMeshCard() {
   const doublingYears = (72 / compoundRate).toFixed(1);
 
   return (
-    <section className="relative overflow-hidden pt-12 sm:pt-20 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* ─── CONTINUOUS FLOWING LIGHT BLUE BLURRY ORBS (HERO SECTION BOTTOM) ─── */}
+    <section className="relative w-full pt-12 sm:pt-20 pb-24 sm:pb-36 overflow-hidden">
+      {/* ─── CONTINUOUS FLOWING WIDE LIGHT BLUE BLURRY ORBS (HERO SECTION BOTTOM & SIDES) ─── */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none"
+        className="absolute inset-0 -bottom-20 pointer-events-none overflow-hidden z-0 select-none"
       >
-        {/* Orb 1: Flowing Light Blue - Bottom Left / Center */}
+        {/* Orb 1: Far Left Wing Glow - Extends beyond left screen edge */}
         <div
-          className="animate-orb-float-1 absolute top-[35%] left-[5%] sm:left-[12%] w-[380px] sm:w-[520px] md:w-[620px] h-[380px] sm:h-[520px] md:h-[620px] rounded-full opacity-70 dark:opacity-35"
+          className="animate-orb-float-4 absolute top-[28%] -left-[20%] sm:-left-[12%] md:-left-[6%] w-[580px] sm:w-[800px] md:w-[1050px] lg:w-[1200px] h-[450px] sm:h-[600px] md:h-[750px] rounded-full opacity-85 dark:opacity-45"
           style={{
             background:
-              "radial-gradient(circle at 45% 45%, rgba(147, 197, 253, 0.75) 0%, rgba(96, 165, 250, 0.45) 45%, rgba(59, 130, 246, 0.18) 70%, transparent 85%)",
-            filter: "blur(90px)",
+              "radial-gradient(ellipse at 40% 50%, rgba(147, 197, 253, 0.95) 0%, rgba(96, 165, 250, 0.65) 38%, rgba(59, 130, 246, 0.28) 65%, transparent 80%)",
+            filter: "blur(110px)",
           }}
         />
 
-        {/* Orb 2: Flowing Sky/Cyan Blue - Bottom Right / Center */}
+        {/* Orb 2: Flowing Light Blue - Left-Center Core */}
         <div
-          className="animate-orb-float-2 absolute top-[40%] right-[3%] sm:right-[10%] w-[420px] sm:w-[560px] md:w-[660px] h-[420px] sm:h-[560px] md:h-[660px] rounded-full opacity-75 dark:opacity-40"
+          className="animate-orb-float-1 absolute top-[36%] left-[8%] sm:left-[15%] w-[480px] sm:w-[680px] md:w-[850px] lg:w-[1000px] h-[440px] sm:h-[600px] md:h-[700px] rounded-full opacity-90 dark:opacity-50"
           style={{
             background:
-              "radial-gradient(circle at 55% 55%, rgba(186, 230, 253, 0.8) 0%, rgba(56, 189, 248, 0.5) 45%, rgba(37, 99, 235, 0.2) 72%, transparent 85%)",
-            filter: "blur(95px)",
+              "radial-gradient(circle at 45% 45%, rgba(125, 211, 252, 0.95) 0%, rgba(56, 189, 248, 0.7) 40%, rgba(37, 99, 235, 0.25) 68%, transparent 82%)",
+            filter: "blur(115px)",
           }}
         />
 
-        {/* Orb 3: Central Soft Radiant Core - Directly behind Auth Pills & Capsule */}
+        {/* Orb 3: Massive Central Bottom Anchor Glow - Spans wide beneath switcher & card */}
         <div
-          className="animate-orb-float-3 absolute top-[28%] left-1/2 -translate-x-1/2 w-[340px] sm:w-[500px] md:w-[620px] h-[300px] sm:h-[420px] md:h-[500px] rounded-full opacity-80 dark:opacity-35"
+          className="animate-orb-float-3 absolute top-[44%] left-1/2 -translate-x-1/2 w-[700px] sm:w-[1050px] md:w-[1350px] lg:w-[1550px] h-[400px] sm:h-[550px] md:h-[680px] rounded-full opacity-95 dark:opacity-55"
           style={{
             background:
-              "radial-gradient(ellipse at center, rgba(191, 219, 254, 0.85) 0%, rgba(147, 197, 253, 0.5) 42%, rgba(96, 165, 250, 0.18) 72%, transparent 85%)",
-            filter: "blur(100px)",
+              "radial-gradient(ellipse at center, rgba(186, 230, 253, 1) 0%, rgba(147, 197, 253, 0.75) 38%, rgba(96, 165, 250, 0.35) 68%, transparent 85%)",
+            filter: "blur(120px)",
           }}
         />
 
-        {/* Subtle Ambient Shimmer Wave Base */}
+        {/* Orb 4: Flowing Sky/Cyan Blue - Right-Center Core */}
         <div
-          className="animate-pulse absolute bottom-0 left-0 right-0 h-80 bg-gradient-to-t from-blue-200/25 via-sky-100/10 dark:from-blue-500/10 dark:via-cyan-500/5 to-transparent blur-3xl pointer-events-none"
-          style={{ animationDuration: "8s" }}
+          className="animate-orb-float-2 absolute top-[35%] right-[8%] sm:right-[15%] w-[480px] sm:w-[680px] md:w-[850px] lg:w-[1000px] h-[440px] sm:h-[600px] md:h-[700px] rounded-full opacity-90 dark:opacity-50"
+          style={{
+            background:
+              "radial-gradient(circle at 55% 55%, rgba(186, 230, 253, 0.95) 0%, rgba(56, 189, 248, 0.7) 42%, rgba(37, 99, 235, 0.25) 70%, transparent 82%)",
+            filter: "blur(115px)",
+          }}
+        />
+
+        {/* Orb 5: Far Right Wing Glow - Extends beyond right screen edge */}
+        <div
+          className="animate-orb-float-5 absolute top-[26%] -right-[20%] sm:-right-[12%] md:-right-[6%] w-[580px] sm:w-[800px] md:w-[1050px] lg:w-[1200px] h-[450px] sm:h-[600px] md:h-[750px] rounded-full opacity-85 dark:opacity-45"
+          style={{
+            background:
+              "radial-gradient(ellipse at 60% 50%, rgba(147, 197, 253, 0.95) 0%, rgba(96, 165, 250, 0.65) 38%, rgba(59, 130, 246, 0.28) 65%, transparent 80%)",
+            filter: "blur(110px)",
+          }}
+        />
+
+        {/* Continuous Soft Ambient Shimmer Base that dissolves smoothly into next section */}
+        <div
+          className="animate-pulse absolute -bottom-16 left-0 right-0 h-96 bg-gradient-to-t from-transparent via-[#93C5FD]/30 dark:via-blue-600/15 to-transparent blur-3xl pointer-events-none"
+          style={{ animationDuration: "7s" }}
         />
       </div>
 
-      {/* ─── HERO TYPOGRAPHY ─── */}
-      <div className="relative z-10 text-center max-w-4xl mx-auto mb-12 sm:mb-16">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* ─── HERO TYPOGRAPHY ─── */}
+        <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.035em] leading-[1.08] mb-6">
           All the fundamentals of investing, handled.
         </h1>
@@ -530,6 +551,7 @@ export function HeroMeshCard() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   );
 }

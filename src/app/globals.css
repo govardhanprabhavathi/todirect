@@ -221,14 +221,44 @@
   }
 }
 
+@keyframes orbFloatD {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  35% {
+    transform: translate3d(70px, -40px, 0) scale(1.15) rotate(12deg);
+  }
+  70% {
+    transform: translate3d(20px, 45px, 0) scale(0.95) rotate(-6deg);
+  }
+  100% {
+    transform: translate3d(-50px, -20px, 0) scale(1.08) rotate(5deg);
+  }
+}
+
+@keyframes orbFloatE {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  30% {
+    transform: translate3d(-60px, 50px, 0) scale(0.92) rotate(-10deg);
+  }
+  65% {
+    transform: translate3d(-30px, -45px, 0) scale(1.14) rotate(7deg);
+  }
+  100% {
+    transform: translate3d(55px, 25px, 0) scale(1.05) rotate(-4deg);
+  }
+}
+
 @keyframes orbPulseGlow {
   0%, 100% {
-    opacity: 0.65;
-    filter: blur(90px);
+    opacity: 0.78;
+    filter: blur(95px);
   }
   50% {
-    opacity: 0.95;
-    filter: blur(120px);
+    opacity: 1;
+    filter: blur(130px);
   }
 }
 
@@ -246,5 +276,17 @@
 .animate-orb-float-3 {
   animation: orbFloatC 19s infinite alternate ease-in-out, orbPulseGlow 12s infinite alternate ease-in-out;
   animation-delay: -9s, -6s;
+  will-change: transform, opacity, filter;
+}
+
+.animate-orb-float-4 {
+  animation: orbFloatD 28s infinite alternate ease-in-out, orbPulseGlow 16s infinite alternate ease-in-out;
+  animation-delay: -7s, -4s;
+  will-change: transform, opacity, filter;
+}
+
+.animate-orb-float-5 {
+  animation: orbFloatE 24s infinite alternate ease-in-out, orbPulseGlow 15s infinite alternate ease-in-out;
+  animation-delay: -11s, -8s;
   will-change: transform, opacity, filter;
 }

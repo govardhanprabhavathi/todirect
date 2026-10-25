@@ -47,7 +47,7 @@ export function Hero() {
 
           {/* Headline */}
           <ScrollReveal delay={80}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight mb-6 font-display">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white leading-[1.08] tracking-tight mb-6 font-display">
               Learn Before You{" "}
               <span className="text-gradient-accent">Invest.</span>
             </h1>

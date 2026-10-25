@@ -82,7 +82,7 @@ export function Features() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-5 font-display tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-semibold text-white mb-5 font-display tracking-tight">
               Structured knowledge.{" "}
               <span className="text-gradient-accent">Zero fluff.</span>
             </h2>

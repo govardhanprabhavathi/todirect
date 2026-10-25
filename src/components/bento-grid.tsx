@@ -24,7 +24,7 @@ export function BentoGrid() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-5 font-display tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-semibold text-white mb-5 font-display tracking-tight">
               Evidence, AI Coaching &{" "}
               <span className="text-gradient-accent">Virtual Practice</span>
             </h2>

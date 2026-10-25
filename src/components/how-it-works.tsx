@@ -85,7 +85,7 @@ export function HowItWorks() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-brand-navy mb-5 font-display tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-semibold text-brand-navy mb-5 font-display tracking-tight">
               Start → Learn → Test →{" "}
               <span className="text-brand-blue">Track → Improve → Practise</span>
             </h2>
@@ -107,7 +107,7 @@ export function HowItWorks() {
                 <div className="card-cream p-7 md:p-8 h-full flex flex-col justify-between relative group hover:border-brand-blue/40">
                   <div>
                     <div className="flex items-center justify-between mb-5">
-                      <span className="text-3xl font-extrabold font-mono text-neutral-300 group-hover:text-brand-blue transition-colors">
+                      <span className="text-3xl font-semibold font-mono text-neutral-300 group-hover:text-brand-blue transition-colors">
                         {stage.step}
                       </span>
                       <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase bg-brand-blue-pale text-brand-blue border border-brand-blue-soft">

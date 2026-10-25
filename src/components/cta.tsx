@@ -27,7 +27,7 @@ export function Cta() {
         </ScrollReveal>
 
         <ScrollReveal delay={100}>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight mb-6 max-w-3xl mx-auto font-display">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight tracking-tight mb-6 max-w-3xl mx-auto font-display">
             Start with understanding.{" "}
             <span className="text-gradient-accent">Invest with confidence.</span>
           </h2>

@@ -69,7 +69,7 @@ export function Pricing() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-brand-navy mb-5 font-display tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-semibold text-brand-navy mb-5 font-display tracking-tight">
               Accessible to all.{" "}
               <span className="text-brand-blue">Always pedagogical.</span>
             </h2>
@@ -94,7 +94,7 @@ export function Pricing() {
               >
                 {track.popular && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="px-4 py-1 bg-brand-blue text-white text-xs font-extrabold rounded-full shadow-sm uppercase tracking-wider">
+                    <span className="px-4 py-1 bg-brand-blue text-white text-xs font-semibold rounded-full shadow-sm uppercase tracking-wider">
                       Most Popular Track
                     </span>
                   </div>
@@ -124,7 +124,7 @@ export function Pricing() {
 
                 <div className="mb-6 pb-6 border-b border-neutral-750">
                   <span
-                    className={`text-4xl font-extrabold font-display ${
+                    className={`text-4xl font-semibold font-display ${
                       track.popular ? "text-white" : "text-brand-navy"
                     }`}
                   >

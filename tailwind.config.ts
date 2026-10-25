@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,145 +10,90 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // TO DIRECT Electric Blue Signature
+        // Exact warm ivory/cream background from reference screenshots
+        canvas: {
+          DEFAULT: "#FAF8F5",
+          cream: "#FAF8F5",
+          subtle: "#F4F1EA",
+          border: "#E7E5DF",
+          divider: "#ECE8E1",
+          dark: "#070A11",
+          "dark-surface": "#0B0F19",
+          "dark-card": "#111625",
+          "dark-border": "#1E293B",
+        },
+        // TO DIRECT Electric Blue & Slate Signature
         brand: {
           blue: "#2563FF",
           "blue-deep": "#1748D8",
           "blue-soft": "#EAF0FF",
           "blue-pale": "#F4F7FF",
-          cream: "#FFFDF7",
-          "cream-warm": "#F8F5EC",
+          cyan: "#0284C7",
+          cream: "#FAF8F5",
           pure: "#FFFFFF",
-          navy: "#172033",
-          slate: "#596579",
-          muted: "#7A8496",
-          border: "#E6E8EF",
-          divider: "#ECEEF3",
-          lime: "#D9F99D",
-          "lime-text": "#1A380A",
+          navy: "#0A1629",
+          slate: "#475569",
+          muted: "#64748B",
+          border: "#E2E8F0",
         },
-        // Accretion Accent (Mapped to Electric Blue for TO DIRECT identity)
+        slate: {
+          950: "#070D1E",
+          900: "#0A1629", // Exact dark midnight headline color
+          850: "#141E33",
+          800: "#1E293B",
+          700: "#334155",
+          600: "#475569", // Exact subtitle and body color
+          500: "#64748B", // Muted metadata
+          400: "#94A3B8",
+          300: "#CBD5E1",
+          200: "#E2E8F0",
+          100: "#F1F5F9",
+          50: "#F8FAFC",
+        },
         accent: {
-          DEFAULT: "#2563FF",
-          hover: "#1748D8",
-          dark: "#0F36B3",
-          light: "#5285FF",
-          lighter: "#94B4FF",
-          muted: "#D4E2FF",
-          wash: "#EAF0FF",
-          "wash-subtle": "rgba(37, 99, 255, 0.1)",
+          purple: "#8B5CF6",
+          amber: "#F59E0B",
+          emerald: "#10B981",
+          sky: "#38BDF8",
+          rose: "#F43F5E",
         },
-        // Warm Cream Background & surfaces
-        cream: {
-          DEFAULT: "#F8F6F1",
-          light: "#FFFDF7",
-          gold: "#F59E0B",
-          card: "#FFFFFF",
-        },
-        // Deep Editorial Dark for High-Contrast Accretion-style cards & sections
-        neutral: {
-          950: "#090D16",
-          900: "#0D1322",
-          850: "#111A2E",
-          800: "#172033",
-          750: "#1C273E",
-          700: "#24324F",
-          650: "#2E3F63",
-          600: "#41537A",
-          500: "#596579",
-          400: "#7A8496",
-          300: "#A2ABC0",
-          200: "#D3D9E6",
-          150: "#E6E8EF",
-          100: "#F1F3F9",
-          50: "#F8F9FD",
-        },
-        // Semantics
-        success: {
-          DEFAULT: "#16856B",
-          dark: "#116753",
-          wash: "rgba(22, 133, 107, 0.12)",
-        },
-        warning: {
-          DEFAULT: "#B7791F",
-          wash: "rgba(183, 121, 31, 0.12)",
-        },
-        error: {
-          DEFAULT: "#C43C4E",
-          wash: "rgba(196, 60, 78, 0.12)",
-        },
-        purple: {
-          DEFAULT: "#7C3AED",
-          wash: "rgba(124, 58, 237, 0.12)",
-        },
-        pink: {
-          DEFAULT: "#DB2777",
-          wash: "rgba(219, 39, 119, 0.12)",
-        },
+      },
+      backgroundImage: {
+        "mesh-sky": "linear-gradient(135deg, #74B9FF 0%, #A0C4FF 50%, #CADEFC 100%)",
+        "mesh-aurora": "linear-gradient(135deg, #70C5E8 0%, #7ED8B6 60%, #E9E493 100%)",
+        "mesh-lavender": "linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%)",
+        "mesh-twilight": "linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #818CF8 100%)",
+        "mesh-ocean": "linear-gradient(135deg, #0284C7 0%, #38BDF8 60%, #BAE6FD 100%)",
       },
       fontFamily: {
         sans: [
-          "Switzer",
-          "Inter",
+          "Geist",
+          "Plus Jakarta Sans",
           "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
+          "Roboto",
           "sans-serif",
         ],
         display: [
-          "Switzer",
-          "Inter",
+          "Geist",
+          "Plus Jakarta Sans",
           "-apple-system",
           "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
           "sans-serif",
         ],
       },
-      borderRadius: {
-        "2xl": "16px",
-        "3xl": "20px",
-        "4xl": "24px",
-        "5xl": "32px",
-      },
       boxShadow: {
-        subtle: "0 1px 3px 0 rgba(17, 26, 46, 0.05)",
-        card: "0 4px 24px -4px rgba(17, 26, 46, 0.08)",
-        float: "0 12px 40px -8px rgba(17, 26, 46, 0.12)",
-        glow: "0 0 50px -10px rgba(37, 99, 255, 0.35)",
-        "glow-sm": "0 0 25px -6px rgba(37, 99, 255, 0.25)",
-        dark: "0 4px 24px -4px rgba(0, 0, 0, 0.4)",
+        float: "0 18px 48px -12px rgba(11, 19, 43, 0.08)",
+        card: "0 4px 20px -2px rgba(11, 19, 43, 0.05)",
+        pill: "0 2px 8px -1px rgba(11, 19, 43, 0.08)",
       },
-      keyframes: {
-        "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(24px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        "fade-in": {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-8px)" },
-        },
-        "marquee-left": {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
-        },
-        pulse: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
-        },
-      },
-      animation: {
-        "fade-up": "fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards",
-        "fade-in": "fade-in 0.5s ease forwards",
-        float: "float 6s ease-in-out infinite",
-        "marquee-left": "marquee-left 35s linear infinite",
-        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-      },
-      maxWidth: {
-        container: "1280px",
-        "container-lg": "1520px",
+      borderRadius: {
+        "3xl": "24px",
+        "4xl": "32px",
+        "5xl": "40px",
       },
     },
   },

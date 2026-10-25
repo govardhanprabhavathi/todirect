@@ -65,7 +65,7 @@ export function Testimonials() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-brand-navy mb-5 font-display tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-semibold text-brand-navy mb-5 font-display tracking-tight">
               Real understanding.{" "}
               <span className="text-brand-blue">Lasting financial confidence.</span>
             </h2>

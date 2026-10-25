@@ -47,7 +47,7 @@ export function Integrations() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-5 font-display tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-semibold text-white mb-5 font-display tracking-tight">
               Safety, Ethics & <span className="text-gradient-accent">Learner Protection</span>
             </h2>
           </ScrollReveal>

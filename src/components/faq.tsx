@@ -76,7 +76,7 @@ export function Faq() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-brand-navy mb-5 font-display tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-semibold text-brand-navy mb-5 font-display tracking-tight">
               Clear answers.{" "}
               <span className="text-brand-blue">Total transparency.</span>
             </h2>

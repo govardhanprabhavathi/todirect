@@ -41,7 +41,7 @@ export function Metrics() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-5 font-display tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-semibold text-white mb-5 font-display tracking-tight">
               Evidence-Backed <span className="text-gradient-accent">Mastery Metrics</span>
             </h2>
           </ScrollReveal>
@@ -57,7 +57,7 @@ export function Metrics() {
             <ScrollReveal key={metric.label} delay={i * 90}>
               <div className="relative group text-center p-8 md:p-10 card-dark overflow-hidden bg-neutral-900 border-neutral-800">
                 <div className="relative z-10">
-                  <div className="text-4xl md:text-5xl font-extrabold text-white mb-3 font-display tabular-nums">
+                  <div className="text-4xl md:text-5xl font-semibold text-white mb-3 font-display tabular-nums">
                     <AnimatedCounter
                       end={metric.value}
                       prefix={metric.prefix || ""}

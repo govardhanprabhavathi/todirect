@@ -1,12 +1,13 @@
 {
-  "name": "accretion",
-  "version": "1.0.0",
+  "name": "todirect",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node --experimental-strip-types scripts/test-suite.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

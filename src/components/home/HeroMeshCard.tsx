@@ -2,52 +2,20 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Compass, Sparkles, Shield, Wallet, Calendar, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Compass, Sparkles, Shield, Wallet, Check, TrendingUp, PieChart, Sliders, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 export function HeroMeshCard() {
   const [activeTab, setActiveTab] = useState<number>(0);
-  const [calendarDate, setCalendarDate] = useState<{ year: number; month: number }>({ year: 2026, month: 6 }); // 6 = July (0-indexed)
-  const [selectedDay, setSelectedDay] = useState<number>(22);
-  const [selectedSlot, setSelectedSlot] = useState<string>("3:00 PM");
-  const [bookingNotice, setBookingNotice] = useState<{ text: string; time: string } | null>({
-    text: "Concept Check",
-    time: "3:00 PM"
-  });
 
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  const currentMonthName = monthNames[calendarDate.month];
-  const currentMonthYear = `${currentMonthName} ${calendarDate.year}`;
+  // Interactive controls for Tab 0 (Money & Cash Flow)
+  const [monthlyIncome, setMonthlyIncome] = useState<number>(50000);
 
-  const daysInMonth = new Date(calendarDate.year, calendarDate.month + 1, 0).getDate();
-  const firstDayOfWeek = new Date(calendarDate.year, calendarDate.month, 1).getDay();
+  // Interactive controls for Tab 1 (Compounding & Growth)
+  const [compoundRate, setCompoundRate] = useState<number>(12);
 
-  const handlePrevMonth = () => {
-    setCalendarDate((prev) => {
-      const newMonth = prev.month === 0 ? 11 : prev.month - 1;
-      const newYear = prev.month === 0 ? prev.year - 1 : prev.year;
-      const maxDaysInNewMonth = new Date(newYear, newMonth + 1, 0).getDate();
-      if (selectedDay > maxDaysInNewMonth) {
-        setSelectedDay(maxDaysInNewMonth);
-      }
-      return { year: newYear, month: newMonth };
-    });
-  };
-
-  const handleNextMonth = () => {
-    setCalendarDate((prev) => {
-      const newMonth = prev.month === 11 ? 0 : prev.month + 1;
-      const newYear = prev.month === 11 ? prev.year + 1 : prev.year;
-      const maxDaysInNewMonth = new Date(newYear, newMonth + 1, 0).getDate();
-      if (selectedDay > maxDaysInNewMonth) {
-        setSelectedDay(maxDaysInNewMonth);
-      }
-      return { year: newYear, month: newMonth };
-    });
-  };
+  // Interactive controls for Tab 2 (Risk & Diversification)
+  const [riskProfile, setRiskProfile] = useState<"balanced" | "growth" | "conservative">("balanced");
 
   const tabs = [
     {
@@ -59,12 +27,6 @@ export function HeroMeshCard() {
       description:
         "Giving you complete conceptual clarity and practical reasoning, TO DIRECT is the easiest and most dependable way to build lifelong financial literacy.",
       link: "/curriculum#money",
-      widgetTitle: "Daily Concept Check",
-      slots: [
-        { time: "12:30 PM", label: "Cash Flow Lab" },
-        { time: "2:30 PM", label: "Opportunity Cost" },
-        { time: "3:00 PM", label: "Concept Check" },
-      ],
     },
     {
       id: 1,
@@ -75,12 +37,6 @@ export function HeroMeshCard() {
       description:
         "Explore how time horizon and systematic discipline turn small consistent surpluses into financial freedom, backed by transparent mathematical proof.",
       link: "/curriculum#investments",
-      widgetTitle: "Compounding Simulator",
-      slots: [
-        { time: "10:00 AM", label: "Rule of 72" },
-        { time: "1:30 PM", label: "SIP Growth Lab" },
-        { time: "4:00 PM", label: "Inflation Drift" },
-      ],
     },
     {
       id: 2,
@@ -91,12 +47,6 @@ export function HeroMeshCard() {
       description:
         "Learn why diversification is the only free lunch in finance. Differentiate daily market volatility from permanent loss of capital.",
       link: "/curriculum#risk",
-      widgetTitle: "Allocation Buffer",
-      slots: [
-        { time: "11:00 AM", label: "Asset Classes" },
-        { time: "2:00 PM", label: "Risk Matrix" },
-        { time: "4:30 PM", label: "Defensive Assets" },
-      ],
     },
     {
       id: 3,
@@ -107,20 +57,23 @@ export function HeroMeshCard() {
       description:
         "Execute simulated buys and sells across reviewed index funds, gold, and debt instruments with zero bank links and zero real-world financial hazard.",
       link: "/practice",
-      widgetTitle: "Sandbox Trade Preview",
-      slots: [
-        { time: "10:30 AM", label: "Index Fund Buy" },
-        { time: "1:00 PM", label: "Gold Rebalance" },
-        { time: "3:30 PM", label: "Trade Reflection" },
-      ],
     },
   ];
 
   const current = tabs[activeTab];
 
+  // Tab 0 Calculations
+  const needs = Math.round(monthlyIncome * 0.5);
+  const wants = Math.round(monthlyIncome * 0.3);
+  const savings = Math.round(monthlyIncome * 0.2);
+  const runwayFund = needs * 6;
+
+  // Tab 1 Calculations
+  const doublingYears = (72 / compoundRate).toFixed(1);
+
   return (
     <section className="pt-12 sm:pt-20 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* ─── EXACT CALENDLY HERO TYPOGRAPHY (Image 2) ─── */}
+      {/* ─── HERO TYPOGRAPHY ─── */}
       <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.035em] leading-[1.08] mb-6">
           All the fundamentals of investing, handled.
@@ -195,17 +148,7 @@ export function HeroMeshCard() {
               return (
                 <div key={tab.id} className="relative">
                   <button
-                    onClick={() => {
-                      setActiveTab(idx);
-                      // Update active default slot
-                      if (tab.slots.length > 0) {
-                        setSelectedSlot(tab.slots[2]?.time || tab.slots[0].time);
-                        setBookingNotice({
-                          text: tab.slots[2]?.label || tab.slots[0].label,
-                          time: tab.slots[2]?.time || tab.slots[0].time
-                        });
-                      }
-                    }}
+                    onClick={() => setActiveTab(idx)}
                     className={`relative w-11 h-11 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                       isActive
                         ? "bg-[#2563FF] text-white shadow-sm"
@@ -256,158 +199,291 @@ export function HeroMeshCard() {
               </div>
             </div>
 
-            {/* Right Column: Concept Check / Fully Functioning Calendar Widget */}
-            <div className="lg:col-span-6 bg-[#FAF8F5] dark:bg-[#111625] rounded-2xl p-5 sm:p-6 border border-slate-200/70 dark:border-slate-800">
-              {/* Header with Dynamic Month / Year Navigation */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-[#2563FF] dark:text-blue-300 flex items-center justify-center font-bold text-xs">
-                    <Calendar className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-semibold text-[#0A1629] dark:text-white">{current.widgetTitle}</h4>
-                    <p className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">
-                      {currentMonthYear} • 15 min interactive
-                    </p>
-                  </div>
-                </div>
-
-                {/* Calendar Navigation Buttons matching image */}
-                <div className="flex items-center gap-1.5 text-slate-700 dark:text-slate-200">
-                  <button
-                    type="button"
-                    onClick={handlePrevMonth}
-                    className="p-1 px-1.5 border border-slate-700 dark:border-slate-400 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                    aria-label="Previous month"
-                    title="Previous month"
-                  >
-                    <ChevronLeft className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="text-[11px] font-semibold text-[#0A1629] dark:text-white px-1 select-none">
-                    {currentMonthYear}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={handleNextMonth}
-                    className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-white transition-colors cursor-pointer"
-                    aria-label="Next month"
-                    title="Next month"
-                  >
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Calendar Grid with Accurate Day-of-Week Alignment */}
-              <div className="mt-4 grid grid-cols-7 gap-1 text-center text-[10px]">
-                {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((d) => (
-                  <span key={d} className="font-semibold text-slate-400 dark:text-slate-500 py-1">
-                    {d}
-                  </span>
-                ))}
-
-                {/* Blank slots before Day 1 */}
-                {Array.from({ length: firstDayOfWeek }).map((_, i) => (
-                  <div key={`empty-${i}`} className="h-7 w-7" />
-                ))}
-
-                {/* Days of the month */}
-                {Array.from({ length: daysInMonth }).map((_, i) => {
-                  const day = i + 1;
-                  const isSelected = selectedDay === day;
-                  const dayOfWeek = (firstDayOfWeek + i) % 7;
-                  // Featured cohort interactive days: Tue (2), Wed (3), Thu (4), Sat (6)
-                  const isCohortDay = dayOfWeek === 2 || dayOfWeek === 3 || dayOfWeek === 4 || dayOfWeek === 6;
-
-                  return (
-                    <button
-                      key={day}
-                      type="button"
-                      onClick={() => {
-                        setSelectedDay(day);
-                        if (bookingNotice) {
-                          setBookingNotice({
-                            text: bookingNotice.text,
-                            time: bookingNotice.time
-                          });
-                        }
-                      }}
-                      className={`h-7 w-7 mx-auto rounded-full flex items-center justify-center text-[11px] transition-all cursor-pointer ${
-                        isSelected
-                          ? "bg-[#2563FF] text-white font-bold shadow-xs scale-105"
-                          : isCohortDay
-                          ? "text-[#0A1629] dark:text-slate-100 font-bold hover:bg-blue-100 dark:hover:bg-blue-900/50"
-                          : "text-slate-400 dark:text-slate-500 font-normal hover:bg-slate-100 dark:hover:bg-slate-800"
-                      }`}
-                      aria-label={`${currentMonthName} ${day}`}
-                    >
-                      {day}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Time Slots Preview for Selected Day */}
-              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[11px] font-semibold text-[#0A1629] dark:text-white">
-                    Select Practice Time for {currentMonthName} {selectedDay}
-                  </span>
-                  {bookingNotice && (
-                    <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                      <Check className="w-3 h-3" /> Confirmed
+            {/* Right Column: Financial Intelligence Interactive Visualizer (No Calendars) */}
+            <div className="lg:col-span-6 bg-[#FAF8F5] dark:bg-[#111625] rounded-2xl p-5 sm:p-6 border border-slate-200/70 dark:border-slate-800 shadow-xs">
+              {/* TAB 0: Money & Cash Flow */}
+              {activeTab === 0 && (
+                <div className="space-y-4 animate-fadeIn">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-[#2563FF] dark:text-blue-300 flex items-center justify-center font-bold text-xs">
+                        <PieChart className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-semibold text-[#0A1629] dark:text-white">Cash Flow & Runway Simulator</h4>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400">50-30-20 Rule Calibration</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                      Runway: 6 Months
                     </span>
-                  )}
-                </div>
+                  </div>
 
-                <div className="grid grid-cols-3 gap-2">
-                  {current.slots.map((slot) => {
-                    const isSelected = selectedSlot === slot.time;
-                    return (
-                      <button
-                        key={slot.time}
-                        type="button"
-                        onClick={() => {
-                          setSelectedSlot(slot.time);
-                          setBookingNotice({
-                            text: slot.label,
-                            time: slot.time
-                          });
-                        }}
-                        className={`py-2 px-2 rounded-xl text-center border transition-all cursor-pointer ${
-                          isSelected
-                            ? "border-[#2563FF] bg-[#2563FF] text-white font-medium shadow-xs"
-                            : "border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B0F19] text-[#0A1629] dark:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700 font-normal"
-                        }`}
-                      >
-                        <span className="block text-[11px] font-semibold">{slot.time}</span>
-                        <span
-                          className={`block text-[9px] truncate ${
-                            isSelected ? "text-blue-100 font-normal" : "text-slate-500 dark:text-slate-400"
+                  {/* Monthly Income Presets */}
+                  <div>
+                    <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1.5">
+                      Select Sample Net Salary
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[35000, 50000, 80000].map((inc) => (
+                        <button
+                          key={inc}
+                          type="button"
+                          onClick={() => setMonthlyIncome(inc)}
+                          className={`py-1.5 px-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                            monthlyIncome === inc
+                              ? "bg-[#2563FF] text-white shadow-xs"
+                              : "bg-white dark:bg-[#0B0F19] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-slate-300"
                           }`}
                         >
-                          {slot.label}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
+                          ₹{inc.toLocaleString("en-IN")}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-                {/* Booking feedback */}
-                {bookingNotice && (
-                  <div className="mt-3 p-2.5 rounded-xl bg-blue-50/90 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/60 flex items-center justify-between text-xs animate-fadeIn">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                      <span className="text-[11px] text-slate-700 dark:text-slate-300 font-medium truncate">
-                        {bookingNotice.text} reserved for <strong>{currentMonthName} {selectedDay}</strong> at <strong>{bookingNotice.time}</strong>
+                  {/* 50-30-20 Segmented Visualizer */}
+                  <div className="space-y-2 pt-1">
+                    <div className="flex h-3 w-full rounded-full overflow-hidden gap-0.5 bg-slate-200 dark:bg-slate-800">
+                      <div className="bg-blue-600 h-full rounded-l-full" style={{ width: "50%" }} title="Needs: 50%" />
+                      <div className="bg-amber-500 h-full" style={{ width: "30%" }} title="Wants: 30%" />
+                      <div className="bg-emerald-500 h-full rounded-r-full" style={{ width: "20%" }} title="Savings: 20%" />
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 text-[10px] pt-1">
+                      <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/80 dark:border-slate-800">
+                        <span className="text-slate-500 dark:text-slate-400 block font-medium">50% Needs</span>
+                        <span className="font-bold text-[#0A1629] dark:text-white text-xs">₹{needs.toLocaleString("en-IN")}</span>
+                      </div>
+                      <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/80 dark:border-slate-800">
+                        <span className="text-slate-500 dark:text-slate-400 block font-medium">30% Wants</span>
+                        <span className="font-bold text-[#0A1629] dark:text-white text-xs">₹{wants.toLocaleString("en-IN")}</span>
+                      </div>
+                      <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/80 dark:border-slate-800">
+                        <span className="text-slate-500 dark:text-slate-400 block font-medium">20% Savings</span>
+                        <span className="font-bold text-emerald-600 dark:text-emerald-400 text-xs">₹{savings.toLocaleString("en-IN")}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Liquid Buffer Safeguard */}
+                  <div className="p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50 flex items-center justify-between text-xs">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300 block">
+                        Emergency Liquidity Target
+                      </span>
+                      <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                        ₹{runwayFund.toLocaleString("en-IN")} (6-month buffer)
                       </span>
                     </div>
-                    <Link href="/sign-in" className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline shrink-0 ml-2">
-                      Enter &rarr;
+                    <Link href="/curriculum" className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline">
+                      Learn Lab &rarr;
                     </Link>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+
+              {/* TAB 1: Compounding & Growth */}
+              {activeTab === 1 && (
+                <div className="space-y-4 animate-fadeIn">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-[#2563FF] dark:text-blue-300 flex items-center justify-center font-bold text-xs">
+                        <TrendingUp className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-semibold text-[#0A1629] dark:text-white">Rule of 72 Compounding Engine</h4>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400">Exponential Doubling Velocity</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                      Doubles in {doublingYears} Years
+                    </span>
+                  </div>
+
+                  {/* Compound Rate Switcher */}
+                  <div>
+                    <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1.5">
+                      Select Annual Compound Return (r)
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { r: 7, label: "7% (Bank FD)" },
+                        { r: 12, label: "12% (Index ETF)" },
+                        { r: 15, label: "15% (Equity Alpha)" },
+                      ].map((item) => (
+                        <button
+                          key={item.r}
+                          type="button"
+                          onClick={() => setCompoundRate(item.r)}
+                          className={`py-1.5 px-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                            compoundRate === item.r
+                              ? "bg-[#2563FF] text-white shadow-xs"
+                              : "bg-white dark:bg-[#0B0F19] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-slate-300"
+                          }`}
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Exponential Wealth Multiplier Timeline */}
+                  <div className="grid grid-cols-4 gap-2 pt-1 text-center">
+                    <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/80 dark:border-slate-800">
+                      <span className="text-[10px] text-slate-400 block">Year 0</span>
+                      <span className="text-xs font-bold text-[#0A1629] dark:text-white">₹10K</span>
+                      <span className="text-[9px] text-slate-400 block">Base 1x</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/80 dark:border-slate-800">
+                      <span className="text-[10px] text-slate-400 block">{doublingYears}y</span>
+                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400">₹20K</span>
+                      <span className="text-[9px] text-blue-500 block">2x double</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/80 dark:border-slate-800">
+                      <span className="text-[10px] text-slate-400 block">{(parseFloat(doublingYears) * 2).toFixed(0)}y</span>
+                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400">₹40K</span>
+                      <span className="text-[9px] text-blue-500 block">4x double</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/80 dark:border-slate-800">
+                      <span className="text-[10px] text-slate-400 block">{(parseFloat(doublingYears) * 3).toFixed(0)}y</span>
+                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">₹80K</span>
+                      <span className="text-[9px] text-emerald-500 block">8x double</span>
+                    </div>
+                  </div>
+
+                  {/* Insight note */}
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400 italic bg-slate-100/60 dark:bg-slate-800/40 p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800">
+                    💡 Mental math rule: 72 ÷ {compoundRate}% = {doublingYears} years. Small percentage increases yield massive wealth acceleration over long horizons!
+                  </p>
+                </div>
+              )}
+
+              {/* TAB 2: Risk & Diversification */}
+              {activeTab === 2 && (
+                <div className="space-y-4 animate-fadeIn">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-[#2563FF] dark:text-blue-300 flex items-center justify-center font-bold text-xs">
+                        <Shield className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-semibold text-[#0A1629] dark:text-white">Prudent Asset Allocation Matrix</h4>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400">Zero Single-Asset Vulnerability</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                      Risk: Balanced
+                    </span>
+                  </div>
+
+                  {/* Asset Allocation Sliders Preview */}
+                  <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs font-semibold">
+                        <span className="text-slate-700 dark:text-slate-300">Nifty 50 Index Equities</span>
+                        <span className="text-blue-600 dark:text-blue-400">60%</span>
+                      </div>
+                      <div className="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div className="bg-blue-600 h-full rounded-full" style={{ width: "60%" }} />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs font-semibold">
+                        <span className="text-slate-700 dark:text-slate-300">Sovereign Debt & Fixed Deposits</span>
+                        <span className="text-emerald-600 dark:text-emerald-400">25%</span>
+                      </div>
+                      <div className="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div className="bg-emerald-500 h-full rounded-full" style={{ width: "25%" }} />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs font-semibold">
+                        <span className="text-slate-700 dark:text-slate-300">Sovereign Gold Bonds (Inflation Hedge)</span>
+                        <span className="text-amber-600 dark:text-amber-400">15%</span>
+                      </div>
+                      <div className="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div className="bg-amber-500 h-full rounded-full" style={{ width: "15%" }} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Guardrail badge */}
+                  <div className="p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-900/50 flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <span className="text-[11px] text-emerald-900 dark:text-emerald-200 font-medium">
+                        Concentration Guardrail: <strong className="font-bold">PASSED (No asset &gt; 60%)</strong>
+                      </span>
+                    </div>
+                    <Link href="/curriculum" className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 hover:underline">
+                      Risk Guide &rarr;
+                    </Link>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 3: ₹10,000 Portfolio Sandbox */}
+              {activeTab === 3 && (
+                <div className="space-y-4 animate-fadeIn">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-[#2563FF] dark:text-blue-300 flex items-center justify-center font-bold text-xs">
+                        <Wallet className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-semibold text-[#0A1629] dark:text-white">₹10,000 Simulation Terminal</h4>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400">Live Practice Sandbox</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                      ₹10,000 Virtual Capital
+                    </span>
+                  </div>
+
+                  {/* Portfolio Balances */}
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="p-3 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/80 dark:border-slate-800">
+                      <span className="text-[10px] text-slate-400 block font-medium">Available Cash</span>
+                      <span className="font-bold text-[#0A1629] dark:text-white text-sm">₹3,500.00</span>
+                      <span className="text-[10px] text-slate-500 block">35% buffer balance</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/80 dark:border-slate-800">
+                      <span className="text-[10px] text-slate-400 block font-medium">Invested Assets</span>
+                      <span className="font-bold text-emerald-600 dark:text-emerald-400 text-sm">₹6,500.00</span>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 block">+₹320.00 (+5.1%)</span>
+                    </div>
+                  </div>
+
+                  {/* Sample Holdings List */}
+                  <div className="space-y-1.5 text-xs">
+                    <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
+                      <span className="font-semibold text-slate-800 dark:text-slate-200">Nifty 50 Index ETF</span>
+                      <span className="font-mono font-bold text-slate-700 dark:text-slate-300">₹4,000 (16 units)</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
+                      <span className="font-semibold text-slate-800 dark:text-slate-200">Bharat Bond ETF 2030</span>
+                      <span className="font-mono font-bold text-slate-700 dark:text-slate-300">₹1,500 (1 unit)</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-white dark:bg-[#0B0F19] border border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
+                      <span className="font-semibold text-slate-800 dark:text-slate-200">Sovereign Gold ETF</span>
+                      <span className="font-mono font-bold text-slate-700 dark:text-slate-300">₹1,000 (2 units)</span>
+                    </div>
+                  </div>
+
+                  {/* Rationale habit pill */}
+                  <div className="p-2.5 rounded-xl bg-slate-100/70 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-xs">
+                    <span className="text-[11px] text-slate-600 dark:text-slate-400">
+                      ✓ Mandatory trade reflection rationale habit
+                    </span>
+                    <Link href="/practice" className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline">
+                      Launch Sandbox &rarr;
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

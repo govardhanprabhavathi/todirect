@@ -69,7 +69,7 @@ export function FeatureAccordion() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         {/* Left Column: Interactive Accordion */}
         <div className="lg:col-span-6 space-y-3">
           {features.map((feature) => {

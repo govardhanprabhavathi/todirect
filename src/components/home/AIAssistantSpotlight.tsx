@@ -63,7 +63,7 @@ export function AIAssistantSpotlight() {
 
   return (
     <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
         {/* Left Column: Radiant Aurora Mesh Card with Finn Preview (Matches Image 5) */}
         <div className="lg:col-span-6 order-2 lg:order-1">
           <div className="relative rounded-[28px] p-6 sm:p-10 bg-gradient-to-br from-[#71D7CE] via-[#86E4AE] to-[#F1E897] dark:from-[#064E3B] dark:via-[#0F766E] dark:to-[#1E3A8A] shadow-xl overflow-hidden border border-white/50 dark:border-white/10 transition-colors">

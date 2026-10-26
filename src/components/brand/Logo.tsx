@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -11,54 +12,84 @@ interface LogoProps {
 }
 
 export function Logo({
-  variant = "light",
+  variant,
   size = "md",
   showWordmark = true,
   className,
   href = "/",
 }: LogoProps) {
-  const iconSizes = {
-    sm: "w-7 h-7",
-    md: "w-9 h-9",
-    lg: "w-11 h-11",
+  const sizeMap = {
+    sm: { icon: 26, textW: 86, textH: 23 },
+    md: { icon: 34, textW: 112, textH: 30 },
+    lg: { icon: 46, textW: 152, textH: 40 },
   };
 
-  const textSizes = {
-    sm: "text-base tracking-tight font-semibold",
-    md: "text-lg tracking-tight font-semibold",
-    lg: "text-2xl tracking-tighter font-semibold",
-  };
-
-  const symbol = (
-    <div
-      className={cn(
-        "relative flex items-center justify-center rounded-full transition-transform duration-200 group-hover:scale-105 shadow-sm",
-        iconSizes[size],
-        variant === "dark"
-          ? "bg-white text-[#2563FF]"
-          : "bg-[#2563FF] text-white"
-      )}
-    >
-      {/* Modern spiral / compass direction mark (inspired by Calendly swirl + TO DIRECT forward beacon) */}
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-5/6 h-5/6 p-1"
-      >
-        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="38 12" />
-        <path d="M10 8L15 12L10 16V8Z" fill="currentColor" />
-      </svg>
-    </div>
-  );
+  const currentSize = sizeMap[size];
 
   const content = (
-    <div className={cn("group inline-flex items-center gap-2.5 select-none", className)}>
-      {symbol}
+    <div
+      className={cn(
+        "group inline-flex items-center gap-2.5 select-none transition-transform duration-200 hover:opacity-95",
+        className
+      )}
+    >
+      {/* Brand Icon: Blue circle with white disc and blue chevron arrow */}
+      <div className="relative shrink-0 flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
+        <Image
+          src="/images/logo-icon.png"
+          alt="TO DIRECT icon"
+          width={currentSize.icon}
+          height={currentSize.icon}
+          className="object-contain rounded-full shadow-2xs"
+          priority
+        />
+      </div>
+
+      {/* Brand Wordmark (todirect) */}
       {showWordmark && (
-        <span className={cn(textSizes[size], variant === "dark" ? "text-white" : "text-[#0B132B]")}>
-          TO <span className="text-[#2563FF]">DIRECT</span>
-        </span>
+        <div className="relative flex items-center shrink-0">
+          {variant === "dark" ? (
+            /* Explicit dark variant */
+            <Image
+              src="/images/logo-text-dark.png"
+              alt="todirect"
+              width={currentSize.textW}
+              height={currentSize.textH}
+              className="object-contain"
+              priority
+            />
+          ) : variant === "light" ? (
+            /* Explicit light variant */
+            <Image
+              src="/images/logo-text.png"
+              alt="todirect"
+              width={currentSize.textW}
+              height={currentSize.textH}
+              className="object-contain"
+              priority
+            />
+          ) : (
+            /* Theme-responsive wordmark: light mode uses black 'to', dark mode uses white 'to' */
+            <>
+              <Image
+                src="/images/logo-text.png"
+                alt="todirect"
+                width={currentSize.textW}
+                height={currentSize.textH}
+                className="dark:hidden object-contain"
+                priority
+              />
+              <Image
+                src="/images/logo-text-dark.png"
+                alt="todirect"
+                width={currentSize.textW}
+                height={currentSize.textH}
+                className="hidden dark:block object-contain"
+                priority
+              />
+            </>
+          )}
+        </div>
       )}
     </div>
   );

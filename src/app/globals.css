@@ -290,3 +290,38 @@
   animation-delay: -11s, -8s;
   will-change: transform, opacity, filter;
 }
+
+/* =========================================================
+   3D INTERACTIVE GOLD COIN IDLE FLOAT & METALLIC SHINE
+   ========================================================= */
+@keyframes coinFloat {
+  0% {
+    transform: rotateX(10deg) rotateY(-14deg) translateY(0px) scale3d(1, 1, 1);
+  }
+  50% {
+    transform: rotateX(14deg) rotateY(-6deg) translateY(-12px) scale3d(1.02, 1.02, 1.02);
+  }
+  100% {
+    transform: rotateX(10deg) rotateY(-14deg) translateY(0px) scale3d(1, 1, 1);
+  }
+}
+
+@keyframes coinShine {
+  0% {
+    transform: translateX(-150%) rotate(45deg);
+  }
+  20%, 100% {
+    transform: translateX(150%) rotate(45deg);
+  }
+}
+
+.animate-coin-float {
+  animation: coinFloat 5s infinite ease-in-out;
+  will-change: transform;
+}
+
+.animate-coin-shine {
+  animation: coinShine 6s infinite ease-in-out;
+  will-change: transform;
+}
+

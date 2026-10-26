@@ -22,16 +22,16 @@ export function Navbar() {
     <div className="sticky top-0 z-50 w-full">
       {/* ─── TOP ANNOUNCEMENT BANNER ─── */}
       {bannerOpen && (
-        <div className="bg-[#D9EDFC] dark:bg-[#0B1A36] border-b border-[#C3E0FA] dark:border-[#1E3A8A]/40 text-[#0A1629] dark:text-[#94C5FF] text-xs py-2 px-4 transition-colors">
+        <div className="bg-[#D9EDFC] dark:bg-white border-b border-[#C3E0FA] dark:border-slate-200 text-[#0A1629] dark:text-[#0A1629] text-xs py-2 px-4 transition-colors shadow-2xs">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex-1 flex items-center justify-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-[#2563FF] dark:text-[#60A5FA] shrink-0" />
-              <span className="font-normal">
+              <Sparkles className="w-3.5 h-3.5 text-[#2563FF] dark:text-[#2563FF] shrink-0" />
+              <span className="font-medium text-[#0A1629] dark:text-[#0A1629]">
                 Introducing the new TO DIRECT, built to handle all of the foundational work around money and investing.
               </span>
               <Link
                 href="/curriculum"
-                className="hidden sm:inline-flex items-center gap-1 font-medium text-[#0A1629] dark:text-white bg-white/70 dark:bg-white/10 hover:bg-white dark:hover:bg-white/20 px-2.5 py-0.5 rounded-full border border-[#B8DAF7] dark:border-white/20 transition-colors text-[11px]"
+                className="hidden sm:inline-flex items-center gap-1 font-semibold text-[#0A1629] dark:text-[#0A1629] bg-white/80 dark:bg-slate-100 hover:bg-white dark:hover:bg-slate-200 px-2.5 py-0.5 rounded-full border border-[#B8DAF7] dark:border-slate-300 transition-colors text-[11px]"
               >
                 Learn more &rarr;
               </Link>
@@ -39,7 +39,7 @@ export function Navbar() {
 
             <button
               onClick={() => setBannerOpen(false)}
-              className="p-1 text-[#0A1629]/60 dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-white rounded-md transition-colors"
+              className="p-1 text-[#0A1629]/60 dark:text-[#0A1629]/70 hover:text-[#0A1629] dark:hover:text-[#0A1629] rounded-md transition-colors"
               aria-label="Dismiss banner"
             >
               <X className="w-3.5 h-3.5" />

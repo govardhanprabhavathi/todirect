@@ -119,13 +119,12 @@ export function EcosystemGrid() {
               </div>
 
               <div className="mt-8 pt-5 border-t border-slate-100 dark:border-slate-800">
-                <Link href="/sign-in" className="w-full block">
-                  <button
-                    type="button"
-                    className="w-full text-xs font-semibold text-[#2563FF] dark:text-[#60A5FA] hover:bg-blue-50 dark:hover:bg-blue-950/40 py-2.5 rounded-full transition-colors flex items-center justify-center gap-1"
-                  >
-                    Get Started &rarr;
-                  </button>
+                <Link
+                  href={`/onboarding?track=${track.id}`}
+                  className="w-full text-xs font-semibold text-[#2563FF] dark:text-[#60A5FA] hover:bg-blue-50 dark:hover:bg-blue-950/40 py-2.5 rounded-full transition-colors flex items-center justify-center gap-1 group/btn cursor-pointer"
+                >
+                  <span>Get Started</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
                 </Link>
               </div>
             </div>

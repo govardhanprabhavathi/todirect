@@ -1,19 +1,37 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Logo } from '@/components/brand/Logo';
 import { Button } from '@/components/ui/Button';
 import { GraduationCap, Briefcase, Compass, CheckCircle2, ArrowRight } from 'lucide-react';
 import { useAppState } from '@/lib/store';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
-export default function OnboardingPage() {
+function OnboardingContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const trackParam = searchParams.get('track');
   const { updateState } = useAppState();
   const [step, setStep] = useState<1 | 2>(1);
   const [level, setLevel] = useState('College Student');
   const [goal, setGoal] = useState('Master compounding & index investing basics');
+
+  useEffect(() => {
+    if (trackParam === 'students') {
+      setLevel('College Student');
+      setGoal('Master compounding & index investing basics');
+    } else if (trackParam === 'early-career') {
+      setLevel('First-Job Earner');
+      setGoal('Build an emergency buffer and stop living month-to-month');
+    } else if (trackParam === 'retail-beginners') {
+      setLevel('First-Job Earner');
+      setGoal('Practice asset allocation with ₹10,000 virtual balance');
+    } else if (trackParam === 'curious-minds') {
+      setLevel('Curious Lifelong Learner');
+      setGoal('Avoid get-rich-quick scams, bad advice, and crypto hype');
+    }
+  }, [trackParam]);
 
   const handleNext = () => {
     if (step === 1) {
@@ -145,5 +163,13 @@ export default function OnboardingPage() {
         &copy; {new Date().getFullYear()} TO DIRECT. Learn before you invest.
       </div>
     </div>
+  );
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#FAF8F5] dark:bg-[#070A11] flex items-center justify-center" />}>
+      <OnboardingContent />
+    </Suspense>
   );
 }

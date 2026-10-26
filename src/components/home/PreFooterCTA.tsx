@@ -7,12 +7,12 @@ import { InteractiveGoldCoin } from "./InteractiveGoldCoin";
 
 export function PreFooterCTA() {
   return (
-    <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Luxury Neutral Card (Removed Blue Gradient Background) */}
-      <div className="relative rounded-[32px] sm:rounded-[40px] p-8 sm:p-12 lg:p-16 bg-white dark:bg-[#0B0F19] border border-slate-200/90 dark:border-slate-800/80 shadow-card overflow-hidden transition-colors">
+    <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      {/* Borderless Seamless Container (Zero borders) */}
+      <div className="relative p-4 sm:p-8 lg:p-12 border-0 shadow-none overflow-visible transition-colors">
         {/* Soft Ambient Warm Glow Behind Coin Area on Right */}
-        <div className="absolute top-1/2 -translate-y-1/2 -right-16 w-96 h-96 bg-amber-400/10 dark:bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -top-20 left-1/4 w-72 h-72 bg-slate-100 dark:bg-slate-800/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 -translate-y-1/2 -right-10 w-96 h-96 bg-amber-400/15 dark:bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-16 left-1/4 w-72 h-72 bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* Left Column: Left-Aligned Text Content & Actions */}

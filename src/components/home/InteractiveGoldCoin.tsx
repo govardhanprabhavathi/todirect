@@ -10,13 +10,14 @@ export function InteractiveGoldCoin() {
     const container = mountRef.current;
     if (!container) return;
 
-    const width = container.clientWidth || 340;
-    const height = container.clientHeight || 340;
+    const width = container.clientWidth || 400;
+    const height = container.clientHeight || 440;
 
     // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-    camera.position.set(0, 0.1, 7.2);
+    // Generous camera FOV and distance to prevent ANY bottom or edge clipping
+    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
+    camera.position.set(0, 0, 9.4);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -26,10 +27,10 @@ export function InteractiveGoldCoin() {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.25;
+    renderer.toneMappingExposure = 1.35;
     container.appendChild(renderer.domElement);
 
-    // 2. Procedural Studio Environment Map for Realistic Gold Reflections
+    // 2. High-Contrast Studio Environment Map for Realistic Gold Specular Sheen
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
 
@@ -39,22 +40,31 @@ export function InteractiveGoldCoin() {
     const envCtx = envCanvas.getContext("2d")!;
     const envGrad = envCtx.createLinearGradient(0, 0, 0, 512);
     envGrad.addColorStop(0, "#FFFDF5");
-    envGrad.addColorStop(0.3, "#FDE68A");
-    envGrad.addColorStop(0.65, "#D97706");
-    envGrad.addColorStop(1, "#451A03");
+    envGrad.addColorStop(0.25, "#FDE68A");
+    envGrad.addColorStop(0.6, "#D97706");
+    envGrad.addColorStop(1, "#381402");
     envCtx.fillStyle = envGrad;
     envCtx.fillRect(0, 0, 1024, 512);
 
-    // Softbox Light Highlights
-    envCtx.fillStyle = "rgba(255, 255, 255, 0.95)";
+    // Primary High-Key Softbox (Top-Left Key Light Reflection)
+    envCtx.fillStyle = "rgba(255, 255, 255, 1.0)";
     envCtx.beginPath();
-    envCtx.ellipse(280, 140, 200, 90, -0.25, 0, Math.PI * 2);
+    envCtx.ellipse(300, 130, 220, 95, -0.28, 0, Math.PI * 2);
     envCtx.fill();
 
-    envCtx.fillStyle = "rgba(255, 255, 255, 0.75)";
+    // Secondary Softbox (Right Rim Reflection)
+    envCtx.fillStyle = "rgba(255, 255, 240, 0.85)";
     envCtx.beginPath();
-    envCtx.ellipse(780, 200, 160, 70, 0.2, 0, Math.PI * 2);
+    envCtx.ellipse(800, 200, 170, 75, 0.22, 0, Math.PI * 2);
     envCtx.fill();
+
+    // Studio Horizon Light Strip
+    const stripGrad = envCtx.createLinearGradient(0, 220, 1024, 220);
+    stripGrad.addColorStop(0, "rgba(255, 255, 255, 0.1)");
+    stripGrad.addColorStop(0.5, "rgba(255, 248, 220, 0.85)");
+    stripGrad.addColorStop(1, "rgba(255, 255, 255, 0.1)");
+    envCtx.fillStyle = stripGrad;
+    envCtx.fillRect(0, 210, 1024, 20);
 
     const envTexture = new THREE.CanvasTexture(envCanvas);
     envTexture.mapping = THREE.EquirectangularReflectionMapping;
@@ -63,113 +73,117 @@ export function InteractiveGoldCoin() {
     pmremGenerator.dispose();
     envTexture.dispose();
 
-    // 3. Studio 3-Point Lighting
-    const keyLight = new THREE.DirectionalLight(0xfff7e6, 3.2);
-    keyLight.position.set(-4, 5, 5);
+    // 3. Studio 3-Point Lights (Rich 24K Gold Highlights)
+    const keyLight = new THREE.DirectionalLight(0xfff8e8, 3.8);
+    keyLight.position.set(-4.5, 5.5, 5);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xa5c9ff, 1.2);
-    fillLight.position.set(4, -3, 3);
+    const fillLight = new THREE.DirectionalLight(0xb0d0ff, 1.4);
+    fillLight.position.set(4.5, -2.5, 3.5);
     scene.add(fillLight);
 
-    const rimLight = new THREE.DirectionalLight(0xffea88, 4.2);
-    rimLight.position.set(5, 5, -3);
+    const rimLight = new THREE.DirectionalLight(0xffeb99, 4.8);
+    rimLight.position.set(5.5, 4.5, -3.5);
     scene.add(rimLight);
 
-    const ambientLight = new THREE.AmbientLight(0xfff1cc, 0.85);
+    const bounceLight = new THREE.DirectionalLight(0xffbe44, 1.6);
+    bounceLight.position.set(0, -4.5, 2);
+    scene.add(bounceLight);
+
+    const ambientLight = new THREE.AmbientLight(0xfff2d4, 0.9);
     scene.add(ambientLight);
 
-    // 4. Create Procedural Textures for Coin Face with Embossed Rupee (₹)
+    // 4. Procedural Textures for Coin Face with Embossed Rupee (₹)
     const faceCanvas = document.createElement("canvas");
-    faceCanvas.width = 1024;
-    faceCanvas.height = 1024;
+    faceCanvas.width = 2048;
+    faceCanvas.height = 2048;
     const fCtx = faceCanvas.getContext("2d")!;
-    const cx = 512;
-    const cy = 512;
-    const radius = 480;
+    const cx = 1024;
+    const cy = 1024;
+    const radius = 980;
 
-    // Face Radial Gold Satin Gradient
-    const faceGrad = fCtx.createRadialGradient(cx - 100, cy - 100, 40, cx, cy, radius);
-    faceGrad.addColorStop(0, "#FFFDF0");
-    faceGrad.addColorStop(0.25, "#FDE68A");
-    faceGrad.addColorStop(0.65, "#F59E0B");
-    faceGrad.addColorStop(0.9, "#D97706");
-    faceGrad.addColorStop(1, "#92400E");
+    // Face Radial Gold Satin Gradient (Seamless, no harsh borders)
+    const faceGrad = fCtx.createRadialGradient(cx - 240, cy - 260, 80, cx, cy, radius);
+    faceGrad.addColorStop(0, "#FFFEEB");
+    faceGrad.addColorStop(0.2, "#FDE68A");
+    faceGrad.addColorStop(0.55, "#F59E0B");
+    faceGrad.addColorStop(0.85, "#D97706");
+    faceGrad.addColorStop(1, "#A65107");
     fCtx.fillStyle = faceGrad;
     fCtx.beginPath();
     fCtx.arc(cx, cy, radius, 0, Math.PI * 2);
     fCtx.fill();
 
-    // Inner Bevel Recess Shadow Ring
-    fCtx.strokeStyle = "rgba(120, 53, 15, 0.4)";
-    fCtx.lineWidth = 14;
+    // Raised Outer Rim Highlight (Soft specular bevel, no dark line)
+    const rimGrad = fCtx.createRadialGradient(cx, cy, radius - 80, cx, cy, radius);
+    rimGrad.addColorStop(0, "rgba(255, 255, 255, 0)");
+    rimGrad.addColorStop(0.5, "rgba(255, 255, 235, 0.4)");
+    rimGrad.addColorStop(0.9, "rgba(255, 255, 255, 0.7)");
+    rimGrad.addColorStop(1, "rgba(217, 119, 6, 0.2)");
+    fCtx.fillStyle = rimGrad;
     fCtx.beginPath();
-    fCtx.arc(cx, cy, radius - 20, 0, Math.PI * 2);
-    fCtx.stroke();
+    fCtx.arc(cx, cy, radius, 0, Math.PI * 2);
+    fCtx.fill();
 
-    fCtx.strokeStyle = "rgba(255, 255, 255, 0.6)";
-    fCtx.lineWidth = 6;
-    fCtx.beginPath();
-    fCtx.arc(cx, cy, radius - 32, 0, Math.PI * 2);
-    fCtx.stroke();
-
-    // Embossed Indian Rupee (₹) Symbol
+    // Tangible Embossed Indian Rupee (₹) Symbol
     fCtx.textAlign = "center";
     fCtx.textBaseline = "middle";
-    fCtx.font = "900 420px 'Inter', sans-serif, system-ui";
+    fCtx.font = "900 860px 'Inter', sans-serif, system-ui";
 
-    // 3D Occlusion Shadow Under Rupee
-    fCtx.fillStyle = "rgba(120, 53, 15, 0.65)";
-    fCtx.fillText("₹", cx + 7, cy + 9);
+    // 3D Ambient Occlusion Shadow Underneath Rupee
+    fCtx.fillStyle = "rgba(100, 42, 6, 0.7)";
+    fCtx.fillText("₹", cx + 18, cy + 22);
 
-    // Specular Highlight Above Rupee
-    fCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
-    fCtx.fillText("₹", cx - 5, cy - 5);
+    // Deep Inner Groove Shadow
+    fCtx.fillStyle = "rgba(146, 64, 14, 0.5)";
+    fCtx.fillText("₹", cx + 8, cy + 10);
 
-    // Metallic Rupee Body
-    const rupeeGrad = fCtx.createLinearGradient(0, cy - 210, 0, cy + 210);
-    rupeeGrad.addColorStop(0, "#FFFDF2");
-    rupeeGrad.addColorStop(0.3, "#FEF08A");
-    rupeeGrad.addColorStop(0.7, "#D97706");
-    rupeeGrad.addColorStop(1, "#78350F");
+    // Top-Left Specular Highlight Rim
+    fCtx.fillStyle = "rgba(255, 255, 240, 0.95)";
+    fCtx.fillText("₹", cx - 8, cy - 10);
+
+    // Brilliant Metallic Body of Rupee Symbol
+    const rupeeGrad = fCtx.createLinearGradient(0, cy - 430, 0, cy + 430);
+    rupeeGrad.addColorStop(0, "#FFFFF7");
+    rupeeGrad.addColorStop(0.22, "#FEF3C7");
+    rupeeGrad.addColorStop(0.65, "#F59E0B");
+    rupeeGrad.addColorStop(0.95, "#B45309");
     fCtx.fillStyle = rupeeGrad;
     fCtx.fillText("₹", cx, cy);
 
     const faceTexture = new THREE.CanvasTexture(faceCanvas);
-    faceTexture.anisotropy = 8;
+    faceTexture.anisotropy = 16;
 
-    // Face Bump Map for Tangible 3D Embossing
+    // Face Bump Map for Real Tangible 3D Surface Relief
     const bumpCanvas = document.createElement("canvas");
-    bumpCanvas.width = 1024;
-    bumpCanvas.height = 1024;
+    bumpCanvas.width = 2048;
+    bumpCanvas.height = 2048;
     const bCtx = bumpCanvas.getContext("2d")!;
     bCtx.fillStyle = "#808080";
-    bCtx.fillRect(0, 0, 1024, 1024);
+    bCtx.fillRect(0, 0, 2048, 2048);
 
-    // Embossed ring bump
-    bCtx.strokeStyle = "#ffffff";
-    bCtx.lineWidth = 18;
+    // Outer Beveled Rim Bump (Smooth rise, no hard cutoff)
+    const rimBump = bCtx.createRadialGradient(cx, cy, radius - 90, cx, cy, radius);
+    rimBump.addColorStop(0, "#808080");
+    rimBump.addColorStop(0.6, "#c0c0c0");
+    rimBump.addColorStop(0.95, "#f0f0f0");
+    rimBump.addColorStop(1, "#808080");
+    bCtx.fillStyle = rimBump;
     bCtx.beginPath();
-    bCtx.arc(cx, cy, radius - 22, 0, Math.PI * 2);
-    bCtx.stroke();
+    bCtx.arc(cx, cy, radius, 0, Math.PI * 2);
+    bCtx.fill();
 
-    bCtx.strokeStyle = "#404040";
-    bCtx.lineWidth = 14;
-    bCtx.beginPath();
-    bCtx.arc(cx, cy, radius - 36, 0, Math.PI * 2);
-    bCtx.stroke();
-
-    // Embossed Rupee Bump
+    // Rupee Bump (Sharp crisp embossing)
     bCtx.textAlign = "center";
     bCtx.textBaseline = "middle";
-    bCtx.font = "900 420px 'Inter', sans-serif, system-ui";
+    bCtx.font = "900 860px 'Inter', sans-serif, system-ui";
     bCtx.fillStyle = "#ffffff";
     bCtx.fillText("₹", cx, cy);
 
     const faceBumpTexture = new THREE.CanvasTexture(bumpCanvas);
-    faceBumpTexture.anisotropy = 8;
+    faceBumpTexture.anisotropy = 16;
 
-    // 5. Procedural Reeded Edge (Milled Ridges) Bump Map
+    // 5. Procedural Reeded Edge (Milled Coin Ridges)
     const reededCanvas = document.createElement("canvas");
     reededCanvas.width = 2048;
     reededCanvas.height = 128;
@@ -177,16 +191,16 @@ export function InteractiveGoldCoin() {
     rCtx.fillStyle = "#808080";
     rCtx.fillRect(0, 0, 2048, 128);
 
-    const numReeds = 84;
+    const numReeds = 96;
     const reedWidth = 2048 / numReeds;
     for (let i = 0; i < numReeds; i++) {
       const rx = i * reedWidth;
       const reedGrad = rCtx.createLinearGradient(rx, 0, rx + reedWidth, 0);
-      reedGrad.addColorStop(0, "#333333");
-      reedGrad.addColorStop(0.35, "#cccccc");
+      reedGrad.addColorStop(0, "#2b2b2b");
+      reedGrad.addColorStop(0.35, "#cfcfcf");
       reedGrad.addColorStop(0.5, "#ffffff");
-      reedGrad.addColorStop(0.65, "#cccccc");
-      reedGrad.addColorStop(1, "#333333");
+      reedGrad.addColorStop(0.65, "#cfcfcf");
+      reedGrad.addColorStop(1, "#2b2b2b");
       rCtx.fillStyle = reedGrad;
       rCtx.fillRect(rx, 0, reedWidth, 128);
     }
@@ -194,94 +208,98 @@ export function InteractiveGoldCoin() {
     reededBumpTexture.wrapS = THREE.RepeatWrapping;
     reededBumpTexture.wrapT = THREE.ClampToEdgeWrapping;
     reededBumpTexture.repeat.set(1, 1);
-    reededBumpTexture.anisotropy = 8;
+    reededBumpTexture.anisotropy = 16;
 
-    // 6. Materials (Photorealistic 24K Gold PBR Shaders)
+    // 6. Photorealistic 24K Gold PBR Materials
+    const goldColor = 0xffc73b;
+
     const faceMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffd866,
+      color: goldColor,
       map: faceTexture,
       bumpMap: faceBumpTexture,
-      bumpScale: 0.045,
-      metalness: 0.94,
-      roughness: 0.22,
-      envMapIntensity: 1.4,
+      bumpScale: 0.055,
+      metalness: 0.98,
+      roughness: 0.18,
+      envMapIntensity: 1.5,
     });
 
     const edgeMaterial = new THREE.MeshStandardMaterial({
-      color: 0xebb238,
+      color: 0xf5b52e,
       bumpMap: reededBumpTexture,
-      bumpScale: 0.08,
-      metalness: 0.96,
-      roughness: 0.26,
-      envMapIntensity: 1.6,
+      bumpScale: 0.09,
+      metalness: 0.98,
+      roughness: 0.22,
+      envMapIntensity: 1.7,
     });
 
     const backMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffd866,
-      metalness: 0.94,
-      roughness: 0.22,
-      envMapIntensity: 1.3,
+      color: goldColor,
+      metalness: 0.98,
+      roughness: 0.18,
+      envMapIntensity: 1.4,
     });
 
     const rimMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffe277,
-      metalness: 0.98,
-      roughness: 0.16,
-      envMapIntensity: 2.0,
+      color: 0xffd95e,
+      metalness: 1.0,
+      roughness: 0.14,
+      envMapIntensity: 2.2,
     });
 
     // 7. Coin 3D Geometry
     const coinGroup = new THREE.Group();
 
-    // Main Coin Cylinder [side, top (front face), bottom (back face)]
-    const coinRadius = 2.4;
-    const coinThickness = 0.38;
+    // Main Coin Cylinder (Radius 2.15, Thickness 0.35)
+    const coinRadius = 2.15;
+    const coinThickness = 0.35;
     const cylinderGeo = new THREE.CylinderGeometry(coinRadius, coinRadius, coinThickness, 96);
     const coinMesh = new THREE.Mesh(cylinderGeo, [edgeMaterial, faceMaterial, backMaterial]);
     coinMesh.rotation.x = Math.PI / 2; // Face forward
     coinGroup.add(coinMesh);
 
-    // Raised Front Bevel Ring (Torus)
-    const torusGeo = new THREE.TorusGeometry(coinRadius - 0.05, 0.08, 24, 96);
+    // Smooth Curved Outer Bevel Rim Ring (Torus seamlessly aligned)
+    const torusGeo = new THREE.TorusGeometry(coinRadius - 0.04, 0.075, 24, 96);
     const frontRim = new THREE.Mesh(torusGeo, rimMaterial);
     frontRim.position.z = coinThickness / 2;
     coinGroup.add(frontRim);
 
-    // Raised Back Bevel Ring (Torus)
     const backRim = new THREE.Mesh(torusGeo, rimMaterial);
     backRim.position.z = -coinThickness / 2;
     coinGroup.add(backRim);
 
-    // Default angle matching the reference image (~32° perspective)
-    const initialRotX = 0.22;
-    const initialRotY = -0.58;
+    // Initial 3D angle matching the reference image (~32° perspective)
+    const initialRotX = 0.24;
+    const initialRotY = -0.54;
+    const initialRotZ = -0.12;
     coinGroup.rotation.x = initialRotX;
     coinGroup.rotation.y = initialRotY;
+    coinGroup.rotation.z = initialRotZ;
 
     scene.add(coinGroup);
 
-    // 8. Contact Floor Shadow Plane
+    // 8. Soft Natural Contact Floor Shadow (Safely within frustum, ZERO clipping)
     const shadowCanvas = document.createElement("canvas");
-    shadowCanvas.width = 256;
-    shadowCanvas.height = 256;
+    shadowCanvas.width = 512;
+    shadowCanvas.height = 512;
     const sCtx = shadowCanvas.getContext("2d")!;
-    const shadowGrad = sCtx.createRadialGradient(128, 128, 20, 128, 128, 110);
-    shadowGrad.addColorStop(0, "rgba(80, 40, 10, 0.45)");
-    shadowGrad.addColorStop(0.5, "rgba(80, 40, 10, 0.18)");
+    const shadowGrad = sCtx.createRadialGradient(256, 256, 20, 256, 256, 220);
+    shadowGrad.addColorStop(0, "rgba(80, 35, 5, 0.45)");
+    shadowGrad.addColorStop(0.4, "rgba(80, 35, 5, 0.18)");
+    shadowGrad.addColorStop(0.8, "rgba(80, 35, 5, 0.04)");
     shadowGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
     sCtx.fillStyle = shadowGrad;
-    sCtx.fillRect(0, 0, 256, 256);
+    sCtx.fillRect(0, 0, 512, 512);
 
     const shadowTexture = new THREE.CanvasTexture(shadowCanvas);
     const shadowMaterial = new THREE.MeshBasicMaterial({
       map: shadowTexture,
       transparent: true,
-      opacity: 0.65,
+      opacity: 0.6,
       depthWrite: false,
     });
-    const shadowGeo = new THREE.PlaneGeometry(5.2, 2.2);
+    const shadowGeo = new THREE.PlaneGeometry(5.2, 2.0);
     const shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
-    shadowMesh.position.set(0, -2.6, 0);
+    shadowMesh.position.set(0, -2.35, 0);
     shadowMesh.rotation.x = -Math.PI / 2;
     scene.add(shadowMesh);
 
@@ -310,8 +328,8 @@ export function InteractiveGoldCoin() {
         const normX = ((clientX - rect.left) / rect.width) * 2 - 1;
         const normY = ((clientY - rect.top) / rect.height) * 2 - 1;
 
-        targetRotY = initialRotY + normX * 0.85;
-        targetRotX = initialRotX - normY * 0.75;
+        targetRotY = initialRotY + normX * 0.75;
+        targetRotX = initialRotX - normY * 0.65;
       }
     };
 
@@ -333,7 +351,7 @@ export function InteractiveGoldCoin() {
 
     const onMouseEnter = () => {
       isHovered = true;
-      targetScale = 1.08;
+      targetScale = 1.06;
     };
 
     const onMouseLeave = () => {
@@ -354,7 +372,7 @@ export function InteractiveGoldCoin() {
     container.addEventListener("touchstart", onPointerDown, { passive: true });
     window.addEventListener("touchend", onPointerUp);
 
-    // 10. Smooth Render Loop (60 FPS with Damped Physics)
+    // 10. Smooth Render Loop (60 FPS Damped Lerp)
     let animationFrameId: number;
     let clock = new THREE.Clock();
 
@@ -363,39 +381,39 @@ export function InteractiveGoldCoin() {
 
       const elapsedTime = clock.getElapsedTime();
 
-      // Idle floating animation
+      // Idle floating bobbing motion
       let idleOffsetY = 0;
       if (!isHovered && !isDragging) {
-        idleOffsetY = Math.sin(elapsedTime * 1.8) * 0.12;
-        targetRotY = initialRotY + Math.sin(elapsedTime * 1.2) * 0.15;
-        targetRotX = initialRotX + Math.cos(elapsedTime * 1.5) * 0.08;
+        idleOffsetY = Math.sin(elapsedTime * 1.8) * 0.1;
+        targetRotY = initialRotY + Math.sin(elapsedTime * 1.2) * 0.12;
+        targetRotX = initialRotX + Math.cos(elapsedTime * 1.4) * 0.06;
       }
 
       // Smooth damped lerp interpolation
       coinGroup.rotation.x += (targetRotX - coinGroup.rotation.x) * 0.08;
       coinGroup.rotation.y += (targetRotY - coinGroup.rotation.y) * 0.08;
-      coinGroup.position.y += (idleOffsetY - coinGroup.position.y) * 0.1;
+      coinGroup.position.y += (idleOffsetY - coinGroup.position.y) * 0.09;
 
       // Scale lerp
       const currentScale = coinGroup.scale.x;
-      const newScale = currentScale + (targetScale - currentScale) * 0.1;
+      const newScale = currentScale + (targetScale - currentScale) * 0.09;
       coinGroup.scale.set(newScale, newScale, newScale);
 
-      // Contact shadow dynamics
-      shadowMesh.position.x = coinGroup.rotation.y * 0.25;
-      shadowMesh.scale.x = 1 - Math.abs(coinGroup.rotation.y) * 0.08;
-      shadowMaterial.opacity = isHovered ? 0.8 : 0.6;
+      // Dynamic shadow counter-tilt
+      shadowMesh.position.x = coinGroup.rotation.y * 0.2;
+      shadowMesh.scale.x = 1 - Math.abs(coinGroup.rotation.y) * 0.06;
+      shadowMaterial.opacity = isHovered ? 0.75 : 0.55;
 
       renderer.render(scene, camera);
     };
 
     animate();
 
-    // 11. Handle Resizing
+    // 11. Handle Window Resizing
     const handleResize = () => {
       if (!container) return;
-      const w = container.clientWidth || 340;
-      const h = container.clientHeight || 340;
+      const w = container.clientWidth || 400;
+      const h = container.clientHeight || 440;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
@@ -403,7 +421,7 @@ export function InteractiveGoldCoin() {
 
     window.addEventListener("resize", handleResize);
 
-    // 12. Cleanup on Unmount
+    // 12. Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
@@ -420,7 +438,6 @@ export function InteractiveGoldCoin() {
         container.removeChild(renderer.domElement);
       }
 
-      // Dispose Three.js objects
       cylinderGeo.dispose();
       torusGeo.dispose();
       shadowGeo.dispose();
@@ -438,14 +455,14 @@ export function InteractiveGoldCoin() {
   }, []);
 
   return (
-    <div className="relative flex items-center justify-center p-2 sm:p-4 select-none">
+    <div className="relative flex items-center justify-center p-2 select-none overflow-visible">
       {/* Warm Golden Ambient Glow Behind 3D Coin */}
-      <div className="absolute w-72 h-72 sm:w-88 sm:h-88 md:w-96 md:h-96 rounded-full bg-amber-400/25 dark:bg-amber-500/20 blur-3xl pointer-events-none" />
+      <div className="absolute w-72 h-72 sm:w-88 sm:h-88 md:w-96 md:h-96 rounded-full bg-amber-400/20 dark:bg-amber-500/15 blur-3xl pointer-events-none" />
 
-      {/* WebGL Real 3D Coin Canvas Mount */}
+      {/* WebGL Real 3D Coin Canvas Mount with Ample Height to Prevent ANY Bottom Cutoff */}
       <div
         ref={mountRef}
-        className="relative w-68 h-68 sm:w-80 sm:h-80 md:w-92 md:h-92 lg:w-[410px] lg:h-[410px] cursor-grab active:cursor-grabbing flex items-center justify-center touch-none"
+        className="relative w-full max-w-[420px] h-[360px] sm:h-[420px] md:h-[460px] cursor-grab active:cursor-grabbing flex items-center justify-center touch-none overflow-visible"
       />
     </div>
   );

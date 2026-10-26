@@ -73,6 +73,12 @@ export function HeroMeshCard() {
 
   return (
     <section className="relative w-full pt-12 sm:pt-20 pb-24 sm:pb-36 overflow-hidden">
+      {/* ─── LITTLE BOX GRID PATTERN (LAYERED BEHIND FLOWING ORBS) ─── */}
+      <div
+        aria-hidden="true"
+        className="hero-box-grid absolute inset-0 pointer-events-none z-0 select-none"
+      />
+
       {/* ─── CONTINUOUS FLOWING WIDE LIGHT BLUE BLURRY ORBS (HERO SECTION BOTTOM & SIDES) ─── */}
       <div
         aria-hidden="true"

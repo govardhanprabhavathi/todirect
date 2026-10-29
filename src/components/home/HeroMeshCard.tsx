@@ -145,11 +145,11 @@ export function HeroMeshCard() {
         {/* ─── HERO TYPOGRAPHY ─── */}
         <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.035em] leading-[1.08] mb-6">
-          All the fundamentals of investing, handled.
+          Learn before you invest
         </h1>
 
         <p className="text-base sm:text-lg md:text-xl font-normal text-[#475569] dark:text-[#94A3B8] leading-relaxed max-w-2xl mx-auto mb-8 sm:mb-10">
-          From AI-powered coaching to automated misconception checks and a ₹10,000 practice sandbox, get financial confidence with zero real-money risk.
+          India&apos;s First Youth Focused Financial Investment Learning Platform.
         </p>
 
         {/* Dual Social Pills */}

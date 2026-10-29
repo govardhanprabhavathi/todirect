@@ -5,11 +5,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Logo } from '@/components/brand/Logo';
 import { 
+  Home,
   LayoutDashboard, 
   BookOpen, 
   Sliders, 
+  Layers,
   Award, 
   Bot, 
+  Calculator,
+  CheckSquare,
+  User,
   Settings, 
   Flame, 
   Sparkles,
@@ -27,11 +32,13 @@ interface AppShellProps {
 }
 
 const navItems = [
-  { href: '/app', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/app/learn', label: 'Curriculum', icon: BookOpen },
-  { href: '/app/progress', label: 'Understanding', icon: Award },
-  { href: '/app/practice', label: '₹10K Sandbox', icon: Sliders },
+  { href: '/app', label: 'Home', icon: Home },
+  { href: '/app/learning-dashboard', label: 'Learning Dashboard', icon: LayoutDashboard },
+  { href: '/app/practice', label: 'Practical Learning', icon: Layers },
   { href: '/app/coach', label: 'Finn AI Coach', icon: Bot },
+  { href: '/app/playground', label: 'Playground', icon: Calculator },
+  { href: '/app/quizzes', label: 'Quizzes', icon: CheckSquare },
+  { href: '/app/progress', label: 'Profile', icon: User },
   { href: '/app/settings', label: 'Settings', icon: Settings }
 ];
 

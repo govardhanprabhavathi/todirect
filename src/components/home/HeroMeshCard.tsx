@@ -143,7 +143,7 @@ export function HeroMeshCard() {
         {/* ─── TWO PERSPECTIVE COMPARISON CARDS ─── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 max-w-4xl mx-auto text-left">
           {/* Card 1: Traditional Way */}
-          <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-white/75 dark:bg-[#0B0F19]/80 backdrop-blur-md border border-slate-200/90 dark:border-slate-800/90 shadow-sm flex flex-col justify-between transition-all hover:border-slate-300 dark:hover:border-slate-700">
+          <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-white/90 via-slate-50/80 to-blue-50/40 dark:from-[#0B152A]/90 dark:via-[#0E1D3B]/80 dark:to-[#081022]/90 backdrop-blur-md border border-slate-200/90 dark:border-blue-900/40 shadow-sm flex flex-col justify-between transition-all hover:border-slate-300 dark:hover:border-blue-700">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em]">
@@ -187,8 +187,8 @@ export function HeroMeshCard() {
             </div>
           </div>
 
-          {/* Card 2: TO DIRECT Way */}
-          <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-white dark:bg-[#0E1526] backdrop-blur-md border-2 border-[#2563FF]/30 dark:border-[#2563FF]/50 shadow-xl shadow-blue-500/5 dark:shadow-blue-500/10 flex flex-col justify-between transition-all hover:border-[#2563FF]/70 relative overflow-hidden">
+          {/* Card 2: TO DIRECT Way (Blue Premium Gradient) */}
+          <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#F0F7FF] via-[#E2F0FE] to-[#D5E9FE] dark:from-[#0E1F42] dark:via-[#132A5C] dark:to-[#091530] backdrop-blur-md border-2 border-[#2563FF]/40 dark:border-[#38BDF8]/50 shadow-xl shadow-blue-500/10 flex flex-col justify-between transition-all hover:border-[#2563FF]/70 relative overflow-hidden">
             {/* Ambient Accent Glow */}
             <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-blue-500/15 blur-2xl pointer-events-none" />
 

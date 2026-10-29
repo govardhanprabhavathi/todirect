@@ -28,7 +28,7 @@ function drawRoundRect(ctx, x, y, w, h, r, fill = true, stroke = false, strokeCo
 }
 
 function drawSlidersIcon(ctx, cx, cy) {
-  ctx.strokeStyle = '#3B82F6';
+  ctx.strokeStyle = '#38BDF8';
   ctx.lineWidth = 2.5;
   ctx.lineCap = 'round';
   [-11, 0, 11].forEach((offset, idx) => {
@@ -44,7 +44,7 @@ function drawSlidersIcon(ctx, cx, cy) {
   });
 }
 
-function drawShieldIcon(ctx, cx, cy, color = '#3B82F6') {
+function drawShieldIcon(ctx, cx, cy, color = '#38BDF8') {
   ctx.strokeStyle = color;
   ctx.lineWidth = 2.5;
   ctx.lineJoin = 'round';
@@ -162,24 +162,79 @@ function drawSparkleIcon(ctx, cx, cy, color = '#A5B4FC') {
   ctx.fill();
 }
 
+// ─── Shared Blue Premium Gradient Background Generator ────────────────────────
+
+function renderBluePremiumBackground(
+  ctx,
+  w,
+  h,
+  accent1 = '#60A5FA',
+  accent2 = '#2563EB',
+  accent3 = '#0284C7',
+  innerStart = '#0B1736',
+  innerMid = '#0F2552',
+  innerEnd = '#071126'
+) {
+  // 1. Outer Radiant Blue Luxury Gradient Frame
+  const outerGrad = ctx.createLinearGradient(0, 0, w, h);
+  outerGrad.addColorStop(0, accent1);
+  outerGrad.addColorStop(0.35, accent2);
+  outerGrad.addColorStop(0.7, '#1D4ED8');
+  outerGrad.addColorStop(1, accent3);
+  ctx.fillStyle = outerGrad;
+  drawRoundRect(ctx, 0, 0, w, h, 36, true, false);
+
+  // 2. Inner Card: Deep Luxury Blue Gradient (Replaces plain white/black)
+  const innerGrad = ctx.createLinearGradient(0, 0, w, h);
+  innerGrad.addColorStop(0, innerStart);
+  innerGrad.addColorStop(0.45, innerMid);
+  innerGrad.addColorStop(0.85, innerEnd);
+  innerGrad.addColorStop(1, '#050D1E');
+  ctx.fillStyle = innerGrad;
+  drawRoundRect(ctx, 16, 16, w - 32, h - 32, 28, true, true, 'rgba(147, 197, 253, 0.28)', 1.5);
+
+  // 3. Multi-Layer Radiant Ambient Blue Glows (FisherBowl Live Flow Effect)
+  // Top-Right Luminous Azure Bloom
+  const rad1 = ctx.createRadialGradient(w - 100, 80, 10, w - 100, 80, 460);
+  rad1.addColorStop(0, 'rgba(56, 189, 248, 0.35)');
+  rad1.addColorStop(0.55, 'rgba(37, 99, 235, 0.15)');
+  rad1.addColorStop(1, 'transparent');
+  ctx.fillStyle = rad1;
+  ctx.fillRect(16, 16, w - 32, h - 32);
+
+  // Bottom-Left Deep Sapphire Bloom
+  const rad2 = ctx.createRadialGradient(140, h - 80, 10, 140, h - 80, 420);
+  rad2.addColorStop(0, 'rgba(29, 78, 216, 0.3)');
+  rad2.addColorStop(0.65, 'rgba(30, 58, 138, 0.1)');
+  rad2.addColorStop(1, 'transparent');
+  ctx.fillStyle = rad2;
+  ctx.fillRect(16, 16, w - 32, h - 32);
+
+  // 4. Subtle Technical Blueprint Grid
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.04)';
+  ctx.lineWidth = 1;
+  for (let x = 50; x < w - 20; x += 55) {
+    ctx.beginPath();
+    ctx.moveTo(x, 16);
+    ctx.lineTo(x, h - 16);
+    ctx.stroke();
+  }
+  for (let y = 50; y < h - 20; y += 55) {
+    ctx.beginPath();
+    ctx.moveTo(16, y);
+    ctx.lineTo(w - 16, y);
+    ctx.stroke();
+  }
+}
+
 // ─── Individual Feature Card Canvas Renderers ────────────────────────────────
 
 function renderSandboxDashboard(ctx, w, h) {
-  // Outer frame gradient
-  const grad = ctx.createLinearGradient(0, 0, w, h);
-  grad.addColorStop(0, '#2563EB');
-  grad.addColorStop(0.5, '#1D4ED8');
-  grad.addColorStop(1, '#0284C7');
-  ctx.fillStyle = grad;
-  drawRoundRect(ctx, 0, 0, w, h, 36, true, false);
-
-  // Inner dark card
-  ctx.fillStyle = '#0B0F19';
-  drawRoundRect(ctx, 22, 22, w - 44, h - 44, 28, true, true, 'rgba(255, 255, 255, 0.08)', 1.5);
+  renderBluePremiumBackground(ctx, w, h, '#60A5FA', '#2563EB', '#0284C7', '#0A1838', '#0F2654', '#061026');
 
   // Header Icon badge
-  ctx.fillStyle = '#111A2E';
-  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, '#1E293B', 1);
+  ctx.fillStyle = 'rgba(17, 34, 70, 0.85)';
+  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, 'rgba(96, 165, 250, 0.3)', 1);
   drawSlidersIcon(ctx, 87, 83);
 
   // Title & Subtitle
@@ -188,20 +243,20 @@ function renderSandboxDashboard(ctx, w, h) {
   ctx.textAlign = 'left';
   ctx.fillText('Virtual Portfolio Sandbox', 132, 78);
 
-  ctx.fillStyle = '#94A3B8';
+  ctx.fillStyle = '#93C5FD';
   ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Live ₹10,000 Allocation Preview', 132, 102);
 
   // Status Pill: Balanced
-  ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
-  drawRoundRect(ctx, w - 194, 60, 136, 38, 19, true, true, '#059669', 1.5);
-  drawCheckIcon(ctx, w - 172, 79, '#10B981');
+  ctx.fillStyle = 'rgba(16, 185, 129, 0.18)';
+  drawRoundRect(ctx, w - 194, 60, 136, 38, 19, true, true, '#10B981', 1.5);
+  drawCheckIcon(ctx, w - 172, 79, '#34D399');
   ctx.fillStyle = '#34D399';
   ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Balanced', w - 156, 84);
 
   // Divider line
-  ctx.strokeStyle = '#1E293B';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(58, 130);
@@ -212,12 +267,12 @@ function renderSandboxDashboard(ctx, w, h) {
   const sliderWidth = w - 116;
 
   // Item 1: Nifty 50 Index Fund
-  ctx.fillStyle = '#2563FF';
+  ctx.fillStyle = '#38BDF8';
   ctx.beginPath();
   ctx.arc(66, 168, 5.5, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.fillStyle = '#E2E8F0';
+  ctx.fillStyle = '#F0F9FF';
   ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Nifty 50 Index Fund', 82, 173);
 
@@ -227,12 +282,12 @@ function renderSandboxDashboard(ctx, w, h) {
   ctx.fillText('₹5,000 (50%)', w - 58, 173);
   ctx.textAlign = 'left';
 
-  ctx.fillStyle = '#162032';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 188, sliderWidth, 12, 6, true, false);
-  ctx.fillStyle = '#2563FF';
+  ctx.fillStyle = '#38BDF8';
   drawRoundRect(ctx, 58, 188, sliderWidth * 0.5, 12, 6, true, false);
   // Slider knob
-  ctx.fillStyle = '#60A5FA';
+  ctx.fillStyle = '#BAE6FD';
   drawRoundRect(ctx, 58 + sliderWidth * 0.5 - 4, 183, 8, 22, 4, true, false);
 
   // Item 2: Sovereign Gold Bonds
@@ -241,7 +296,7 @@ function renderSandboxDashboard(ctx, w, h) {
   ctx.arc(66, 240, 5.5, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.fillStyle = '#E2E8F0';
+  ctx.fillStyle = '#F0F9FF';
   ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Sovereign Gold Bonds', 82, 245);
 
@@ -251,7 +306,7 @@ function renderSandboxDashboard(ctx, w, h) {
   ctx.fillText('₹3,000 (30%)', w - 58, 245);
   ctx.textAlign = 'left';
 
-  ctx.fillStyle = '#162032';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 260, sliderWidth, 12, 6, true, false);
   ctx.fillStyle = '#F59E0B';
   drawRoundRect(ctx, 58, 260, sliderWidth * 0.3, 12, 6, true, false);
@@ -262,7 +317,7 @@ function renderSandboxDashboard(ctx, w, h) {
   ctx.arc(66, 312, 5.5, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.fillStyle = '#E2E8F0';
+  ctx.fillStyle = '#F0F9FF';
   ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Liquid Fixed Deposit', 82, 317);
 
@@ -272,33 +327,33 @@ function renderSandboxDashboard(ctx, w, h) {
   ctx.fillText('₹2,000 (20%)', w - 58, 317);
   ctx.textAlign = 'left';
 
-  ctx.fillStyle = '#162032';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 332, sliderWidth, 12, 6, true, false);
   ctx.fillStyle = '#10B981';
   drawRoundRect(ctx, 58, 332, sliderWidth * 0.2, 12, 6, true, false);
 
-  // Prudent Diversification Metric Box
-  ctx.fillStyle = '#10172A';
-  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, '#1E293B', 1);
+  // Prudent Diversification Metric Box (Translucent Glass Blue)
+  ctx.fillStyle = 'rgba(10, 24, 56, 0.75)';
+  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, 'rgba(96, 165, 250, 0.25)', 1);
 
-  drawShieldIcon(ctx, 86, 412, '#3B82F6');
+  drawShieldIcon(ctx, 86, 412, '#38BDF8');
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Prudent Diversification Metric', 114, 416);
 
-  ctx.fillStyle = '#94A3B8';
+  ctx.fillStyle = '#BAE6FD';
   ctx.font = '400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Equity: 50% | Defensive: 50%. Complies with beginner safety guardrails.', 114, 444);
 
   // Footer
-  ctx.strokeStyle = '#1E293B';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.beginPath();
   ctx.moveTo(58, 502);
   ctx.lineTo(w - 58, 502);
   ctx.stroke();
 
-  ctx.fillStyle = '#94A3B8';
+  ctx.fillStyle = '#93C5FD';
   ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Virtual Capital: ', 58, 538);
 
@@ -320,40 +375,31 @@ function renderSandboxDashboard(ctx, w, h) {
 }
 
 function renderCurriculumDashboard(ctx, w, h) {
-  // Radiant Cyan/Blue frame
-  const grad = ctx.createLinearGradient(0, 0, w, h);
-  grad.addColorStop(0, '#0284C7');
-  grad.addColorStop(0.5, '#0369A1');
-  grad.addColorStop(1, '#059669');
-  ctx.fillStyle = grad;
-  drawRoundRect(ctx, 0, 0, w, h, 36, true, false);
-
-  ctx.fillStyle = '#080E1B';
-  drawRoundRect(ctx, 22, 22, w - 44, h - 44, 28, true, true, 'rgba(255, 255, 255, 0.08)', 1.5);
+  renderBluePremiumBackground(ctx, w, h, '#38BDF8', '#0284C7', '#0369A1', '#081D34', '#0B2C4E', '#051324');
 
   // Header
-  ctx.fillStyle = '#0C2340';
-  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, '#1E3A8A', 1);
+  ctx.fillStyle = 'rgba(14, 40, 78, 0.85)';
+  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, 'rgba(56, 189, 248, 0.3)', 1);
   drawBookIcon(ctx, 87, 83, '#38BDF8');
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Foundation Curriculum', 132, 78);
 
-  ctx.fillStyle = '#94A3B8';
+  ctx.fillStyle = '#BAE6FD';
   ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Topic 1 of 7: Cashflow & Compounding Mechanics', 132, 102);
 
   // Status Pill
-  ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
-  drawRoundRect(ctx, w - 210, 60, 152, 38, 19, true, true, '#0284C7', 1.5);
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.18)';
+  drawRoundRect(ctx, w - 210, 60, 152, 38, 19, true, true, '#38BDF8', 1.5);
   drawCheckIcon(ctx, w - 188, 79, '#38BDF8');
   ctx.fillStyle = '#38BDF8';
   ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('28 Lessons Ready', w - 172, 84);
 
   // Divider
-  ctx.strokeStyle = '#1E293B';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(58, 130);
@@ -362,12 +408,12 @@ function renderCurriculumDashboard(ctx, w, h) {
 
   const sliderWidth = w - 116;
 
-  // Lesson 1.1 (Completed)
+  // Lesson 1.1
   ctx.fillStyle = '#10B981';
   ctx.beginPath();
   ctx.arc(66, 168, 5.5, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = '#E2E8F0';
+  ctx.fillStyle = '#F0F9FF';
   ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Lesson 1.1: Why Saving Cash Guarantees Loss', 82, 173);
   ctx.fillStyle = '#34D399';
@@ -375,17 +421,17 @@ function renderCurriculumDashboard(ctx, w, h) {
   ctx.textAlign = 'right';
   ctx.fillText('✓ Completed (100%)', w - 58, 173);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#162032';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 188, sliderWidth, 12, 6, true, false);
   ctx.fillStyle = '#10B981';
   drawRoundRect(ctx, 58, 188, sliderWidth, 12, 6, true, false);
 
-  // Lesson 1.2 (Active)
+  // Lesson 1.2
   ctx.fillStyle = '#38BDF8';
   ctx.beginPath();
   ctx.arc(66, 240, 5.5, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = '#E2E8F0';
+  ctx.fillStyle = '#F0F9FF';
   ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Lesson 1.2: Rule of 72 & The Math of Doubling', 82, 245);
   ctx.fillStyle = '#38BDF8';
@@ -393,14 +439,14 @@ function renderCurriculumDashboard(ctx, w, h) {
   ctx.textAlign = 'right';
   ctx.fillText('Current Lesson • 65%', w - 58, 245);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#162032';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 260, sliderWidth, 12, 6, true, false);
   ctx.fillStyle = '#38BDF8';
   drawRoundRect(ctx, 58, 260, sliderWidth * 0.65, 12, 6, true, false);
   ctx.fillStyle = '#BAE6FD';
   drawRoundRect(ctx, 58 + sliderWidth * 0.65 - 4, 255, 8, 22, 4, true, false);
 
-  // Lesson 1.3 (Up Next)
+  // Lesson 1.3
   ctx.fillStyle = '#64748B';
   ctx.beginPath();
   ctx.arc(66, 312, 5.5, 0, Math.PI * 2);
@@ -413,28 +459,28 @@ function renderCurriculumDashboard(ctx, w, h) {
   ctx.textAlign = 'right';
   ctx.fillText('Locked • 10 Mins', w - 58, 317);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#162032';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 332, sliderWidth, 12, 6, true, false);
 
   // Curriculum Metric Box
-  ctx.fillStyle = '#0F1D33';
-  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, '#1E3A8A', 1);
+  ctx.fillStyle = 'rgba(10, 24, 56, 0.75)';
+  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, 'rgba(56, 189, 248, 0.25)', 1);
   drawBookIcon(ctx, 86, 412, '#38BDF8');
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Progressive Pedagogy: 0% Jargon, 100% Practical Signal', 114, 416);
-  ctx.fillStyle = '#94A3B8';
+  ctx.fillStyle = '#BAE6FD';
   ctx.font = '400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Step-by-step verified modules build real intuition before risking any capital.', 114, 444);
 
   // Footer
-  ctx.strokeStyle = '#1E293B';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.beginPath();
   ctx.moveTo(58, 502);
   ctx.lineTo(w - 58, 502);
   ctx.stroke();
 
-  ctx.fillStyle = '#94A3B8';
+  ctx.fillStyle = '#BAE6FD';
   ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Course Outline: ', 58, 538);
   ctx.fillStyle = '#FFFFFF';
@@ -453,40 +499,31 @@ function renderCurriculumDashboard(ctx, w, h) {
 }
 
 function renderAssessmentDashboard(ctx, w, h) {
-  // Vibrant Purple / Indigo Frame
-  const grad = ctx.createLinearGradient(0, 0, w, h);
-  grad.addColorStop(0, '#7C3AED');
-  grad.addColorStop(0.5, '#6366F1');
-  grad.addColorStop(1, '#4338CA');
-  ctx.fillStyle = grad;
-  drawRoundRect(ctx, 0, 0, w, h, 36, true, false);
-
-  ctx.fillStyle = '#0E0C20';
-  drawRoundRect(ctx, 22, 22, w - 44, h - 44, 28, true, true, 'rgba(255, 255, 255, 0.08)', 1.5);
+  renderBluePremiumBackground(ctx, w, h, '#818CF8', '#4F46E5', '#2563EB', '#0D163A', '#132056', '#080E28');
 
   // Header
-  ctx.fillStyle = '#23184E';
-  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, '#4338CA', 1);
+  ctx.fillStyle = 'rgba(26, 32, 80, 0.85)';
+  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, 'rgba(129, 140, 248, 0.3)', 1);
   drawTargetIcon(ctx, 87, 83, '#A855F7');
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Concept Assessment Engine', 132, 78);
 
-  ctx.fillStyle = '#C4B5FD';
+  ctx.fillStyle = '#C7D2FE';
   ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Scenario Diagnostic & Cognitive Trap Detection', 132, 102);
 
   // Status Pill
-  ctx.fillStyle = 'rgba(192, 132, 252, 0.12)';
-  drawRoundRect(ctx, w - 210, 60, 152, 38, 19, true, true, '#7C3AED', 1.5);
+  ctx.fillStyle = 'rgba(168, 85, 247, 0.18)';
+  drawRoundRect(ctx, w - 210, 60, 152, 38, 19, true, true, '#A855F7', 1.5);
   drawCheckIcon(ctx, w - 188, 79, '#C084FC');
   ctx.fillStyle = '#C084FC';
   ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Calibrated Score', w - 172, 84);
 
   // Divider
-  ctx.strokeStyle = '#2E1065';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(58, 130);
@@ -496,14 +533,14 @@ function renderAssessmentDashboard(ctx, w, h) {
   const sliderWidth = w - 116;
 
   // Scenario Question Box
-  ctx.fillStyle = '#181335';
-  drawRoundRect(ctx, 58, 150, sliderWidth, 68, 14, true, true, '#2E1065', 1);
+  ctx.fillStyle = 'rgba(18, 26, 66, 0.8)';
+  drawRoundRect(ctx, 58, 150, sliderWidth, 68, 14, true, true, 'rgba(129, 140, 248, 0.25)', 1);
   ctx.fillStyle = '#FAF5FF';
   ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Scenario: Inflation is 7% and an FD yields 6%. Over 10 years, your real purchasing power:', 76, 189);
 
   // Option A (Trap)
-  ctx.fillStyle = 'rgba(239, 68, 68, 0.12)';
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.16)';
   drawRoundRect(ctx, 58, 230, sliderWidth, 54, 12, true, true, 'rgba(239, 68, 68, 0.4)', 1);
   ctx.fillStyle = '#FCA5A5';
   ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
@@ -515,7 +552,7 @@ function renderAssessmentDashboard(ctx, w, h) {
   ctx.textAlign = 'left';
 
   // Option B (Correct)
-  ctx.fillStyle = 'rgba(16, 185, 129, 0.14)';
+  ctx.fillStyle = 'rgba(16, 185, 129, 0.18)';
   drawRoundRect(ctx, 58, 296, sliderWidth, 54, 12, true, true, 'rgba(16, 185, 129, 0.5)', 1);
   ctx.fillStyle = '#6EE7B7';
   ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
@@ -527,24 +564,24 @@ function renderAssessmentDashboard(ctx, w, h) {
   ctx.textAlign = 'left';
 
   // Debiasing Metric Box
-  ctx.fillStyle = '#16132D';
-  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, '#3730A3', 1);
+  ctx.fillStyle = 'rgba(14, 22, 60, 0.8)';
+  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, 'rgba(129, 140, 248, 0.25)', 1);
   drawTargetIcon(ctx, 86, 412, '#A855F7');
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Cognitive Debiasing Engine: Real Understanding Over Lucky Guesses', 114, 416);
-  ctx.fillStyle = '#C4B5FD';
+  ctx.fillStyle = '#C7D2FE';
   ctx.font = '400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Surfaces hidden cognitive biases like inflation illusion before you invest real funds.', 114, 444);
 
   // Footer
-  ctx.strokeStyle = '#2E1065';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.beginPath();
   ctx.moveTo(58, 502);
   ctx.lineTo(w - 58, 502);
   ctx.stroke();
 
-  ctx.fillStyle = '#C4B5FD';
+  ctx.fillStyle = '#C7D2FE';
   ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Diagnostic Duration: ', 58, 538);
   ctx.fillStyle = '#FFFFFF';
@@ -563,33 +600,24 @@ function renderAssessmentDashboard(ctx, w, h) {
 }
 
 function renderFinnCoachDashboard(ctx, w, h) {
-  // Electric Blue Frame
-  const grad = ctx.createLinearGradient(0, 0, w, h);
-  grad.addColorStop(0, '#2563EB');
-  grad.addColorStop(0.5, '#1D4ED8');
-  grad.addColorStop(1, '#1E3A8A');
-  ctx.fillStyle = grad;
-  drawRoundRect(ctx, 0, 0, w, h, 36, true, false);
-
-  ctx.fillStyle = '#080D1A';
-  drawRoundRect(ctx, 22, 22, w - 44, h - 44, 28, true, true, 'rgba(255, 255, 255, 0.08)', 1.5);
+  renderBluePremiumBackground(ctx, w, h, '#93C5FD', '#3B82F6', '#1D4ED8', '#091A3E', '#0E2962', '#06122C');
 
   // Header
-  ctx.fillStyle = '#0F2447';
-  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, '#1E3A8A', 1);
+  ctx.fillStyle = 'rgba(17, 36, 75, 0.85)';
+  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, 'rgba(96, 165, 250, 0.3)', 1);
   drawBotIcon(ctx, 87, 83, '#60A5FA');
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Finn — Socratic AI Financial Coach', 132, 78);
 
-  ctx.fillStyle = '#94A3B8';
+  ctx.fillStyle = '#93C5FD';
   ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Strictly Socratic Reasoning • Zero Sales Pitches', 132, 102);
 
   // Status Pill
-  ctx.fillStyle = 'rgba(37, 99, 235, 0.15)';
-  drawRoundRect(ctx, w - 194, 60, 136, 38, 19, true, true, '#2563EB', 1.5);
+  ctx.fillStyle = 'rgba(37, 99, 235, 0.2)';
+  drawRoundRect(ctx, w - 194, 60, 136, 38, 19, true, true, '#3B82F6', 1.5);
   ctx.fillStyle = '#10B981';
   ctx.beginPath();
   ctx.arc(w - 172, 79, 4.5, 0, Math.PI * 2);
@@ -599,7 +627,7 @@ function renderFinnCoachDashboard(ctx, w, h) {
   ctx.fillText('AI Active 24/7', w - 156, 84);
 
   // Divider
-  ctx.strokeStyle = '#1E293B';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(58, 130);
@@ -608,19 +636,19 @@ function renderFinnCoachDashboard(ctx, w, h) {
 
   const sliderWidth = w - 116;
 
-  // User chat bubble (right aligned)
+  // User chat bubble
   const userBubbleW = 680;
-  ctx.fillStyle = '#1E293B';
-  drawRoundRect(ctx, w - 58 - userBubbleW, 150, userBubbleW, 58, 16, true, true, '#334155', 1);
+  ctx.fillStyle = 'rgba(15, 30, 65, 0.8)';
+  drawRoundRect(ctx, w - 58 - userBubbleW, 150, userBubbleW, 58, 16, true, true, 'rgba(96, 165, 250, 0.3)', 1);
   ctx.fillStyle = '#F8FAFC';
   ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Should I invest all my savings in this hot trending stock right now?', w - 58 - userBubbleW + 20, 184);
 
-  // Finn AI chat bubble (left aligned)
+  // Finn AI chat bubble
   const finnBubbleW = 840;
-  ctx.fillStyle = '#0F1E36';
-  drawRoundRect(ctx, 58, 222, finnBubbleW, 82, 16, true, true, '#1D4ED8', 1.5);
-  ctx.fillStyle = '#60A5FA';
+  ctx.fillStyle = 'rgba(10, 26, 60, 0.9)';
+  drawRoundRect(ctx, 58, 222, finnBubbleW, 82, 16, true, true, 'rgba(56, 189, 248, 0.4)', 1.5);
+  ctx.fillStyle = '#38BDF8';
   ctx.font = '700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Finn (AI Coach)', 78, 248);
   ctx.fillStyle = '#E2E8F0';
@@ -629,31 +657,31 @@ function renderFinnCoachDashboard(ctx, w, h) {
   ctx.fillText('normal market drawdowns can force you to sell at the worst possible time.', 78, 292);
 
   // Chip suggestion
-  ctx.fillStyle = '#13233C';
-  drawRoundRect(ctx, 58, 318, 420, 38, 19, true, true, '#1D4ED8', 1);
+  ctx.fillStyle = 'rgba(14, 34, 76, 0.8)';
+  drawRoundRect(ctx, 58, 318, 420, 38, 19, true, true, 'rgba(56, 189, 248, 0.3)', 1);
   ctx.fillStyle = '#93C5FD';
   ctx.font = '600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('💡 How do I calculate emergency liquidity ratio?', 76, 342);
 
   // Socratic Metric Box
-  ctx.fillStyle = '#0F172A';
-  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, '#1E293B', 1);
+  ctx.fillStyle = 'rgba(10, 24, 56, 0.75)';
+  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, 'rgba(96, 165, 250, 0.25)', 1);
   drawShieldIcon(ctx, 86, 412, '#60A5FA');
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Socratic Pedagogical Guardrails: Zero Speculation, Pure Education', 114, 416);
-  ctx.fillStyle = '#94A3B8';
+  ctx.fillStyle = '#93C5FD';
   ctx.font = '400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Finn teaches you HOW to reason through financial dilemmas without ever selling products.', 114, 444);
 
   // Footer
-  ctx.strokeStyle = '#1E293B';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.beginPath();
   ctx.moveTo(58, 502);
   ctx.lineTo(w - 58, 502);
   ctx.stroke();
 
-  ctx.fillStyle = '#94A3B8';
+  ctx.fillStyle = '#93C5FD';
   ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Pedagogy Model: ', 58, 538);
   ctx.fillStyle = '#FFFFFF';
@@ -672,20 +700,11 @@ function renderFinnCoachDashboard(ctx, w, h) {
 }
 
 function renderBadgesDashboard(ctx, w, h) {
-  // Radiant Gold Frame
-  const grad = ctx.createLinearGradient(0, 0, w, h);
-  grad.addColorStop(0, '#F59E0B');
-  grad.addColorStop(0.5, '#D97706');
-  grad.addColorStop(1, '#B45309');
-  ctx.fillStyle = grad;
-  drawRoundRect(ctx, 0, 0, w, h, 36, true, false);
-
-  ctx.fillStyle = '#140F05';
-  drawRoundRect(ctx, 22, 22, w - 44, h - 44, 28, true, true, 'rgba(255, 255, 255, 0.08)', 1.5);
+  renderBluePremiumBackground(ctx, w, h, '#38BDF8', '#2563EB', '#F59E0B', '#0E1B38', '#162852', '#081126');
 
   // Header
-  ctx.fillStyle = '#3B280A';
-  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, '#78350F', 1);
+  ctx.fillStyle = 'rgba(40, 30, 20, 0.85)';
+  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, 'rgba(251, 191, 36, 0.3)', 1);
   drawTrophyIcon(ctx, 87, 83, '#FBBF24');
 
   ctx.fillStyle = '#FFFFFF';
@@ -697,14 +716,14 @@ function renderBadgesDashboard(ctx, w, h) {
   ctx.fillText('Evidence-Based Proof of Financial Competence', 132, 102);
 
   // Status Pill
-  ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
-  drawRoundRect(ctx, w - 194, 60, 136, 38, 19, true, true, '#D97706', 1.5);
+  ctx.fillStyle = 'rgba(245, 158, 11, 0.18)';
+  drawRoundRect(ctx, w - 194, 60, 136, 38, 19, true, true, '#F59E0B', 1.5);
   ctx.fillStyle = '#FBBF24';
   ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('★ Tier 2 Mastered', w - 176, 84);
 
   // Divider
-  ctx.strokeStyle = '#451A03';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(58, 130);
@@ -726,35 +745,35 @@ function renderBadgesDashboard(ctx, w, h) {
   ctx.textAlign = 'right';
   ctx.fillText('✓ Verified • Score 96%', w - 58, 173);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#261805';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 188, sliderWidth, 12, 6, true, false);
   ctx.fillStyle = '#FBBF24';
   drawRoundRect(ctx, 58, 188, sliderWidth * 0.96, 12, 6, true, false);
 
   // Badge 2 (Verified Silver)
-  ctx.fillStyle = '#F59E0B';
+  ctx.fillStyle = '#38BDF8';
   ctx.beginPath();
   ctx.arc(66, 240, 5.5, 0, Math.PI * 2);
   ctx.fill();
   ctx.fillStyle = '#FEF3C7';
   ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Compounding & Time Horizon Master', 82, 245);
-  ctx.fillStyle = '#F59E0B';
+  ctx.fillStyle = '#38BDF8';
   ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.textAlign = 'right';
   ctx.fillText('✓ Verified • Score 88%', w - 58, 245);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#261805';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 260, sliderWidth, 12, 6, true, false);
-  ctx.fillStyle = '#F59E0B';
+  ctx.fillStyle = '#38BDF8';
   drawRoundRect(ctx, 58, 260, sliderWidth * 0.88, 12, 6, true, false);
 
   // Badge 3 (In Progress)
-  ctx.fillStyle = '#92400E';
+  ctx.fillStyle = '#F59E0B';
   ctx.beginPath();
   ctx.arc(66, 312, 5.5, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = '#D97706';
+  ctx.fillStyle = '#FCD34D';
   ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Concentration Risk Guardrail Specialist', 82, 317);
   ctx.fillStyle = '#F59E0B';
@@ -762,24 +781,24 @@ function renderBadgesDashboard(ctx, w, h) {
   ctx.textAlign = 'right';
   ctx.fillText('⏳ In Progress • 2/3 Passed', w - 58, 317);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#261805';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 332, sliderWidth, 12, 6, true, false);
-  ctx.fillStyle = '#92400E';
+  ctx.fillStyle = '#F59E0B';
   drawRoundRect(ctx, 58, 332, sliderWidth * 0.66, 12, 6, true, false);
 
   // Metric Box
-  ctx.fillStyle = '#211403';
-  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, '#78350F', 1);
+  ctx.fillStyle = 'rgba(10, 24, 56, 0.75)';
+  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, 'rgba(251, 191, 36, 0.25)', 1);
   drawTrophyIcon(ctx, 86, 412, '#FBBF24');
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Verifiable Proof: Certified Understanding Before Market Exposure', 114, 416);
   ctx.fillStyle = '#FCD34D';
   ctx.font = '400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-  ctx.fillText('Earn on-chain credentials and competency milestones by mastering fundamental modules.', 114, 444);
+  ctx.fillText('Earn verifiable credentials and competency milestones by mastering fundamental modules.', 114, 444);
 
   // Footer
-  ctx.strokeStyle = '#451A03';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.beginPath();
   ctx.moveTo(58, 502);
   ctx.lineTo(w - 58, 502);
@@ -804,20 +823,11 @@ function renderBadgesDashboard(ctx, w, h) {
 }
 
 function renderHabitsDashboard(ctx, w, h) {
-  // Indigo / Violet Frame
-  const grad = ctx.createLinearGradient(0, 0, w, h);
-  grad.addColorStop(0, '#6366F1');
-  grad.addColorStop(0.5, '#4F46E5');
-  grad.addColorStop(1, '#312E81');
-  ctx.fillStyle = grad;
-  drawRoundRect(ctx, 0, 0, w, h, 36, true, false);
-
-  ctx.fillStyle = '#0C0E1E';
-  drawRoundRect(ctx, 22, 22, w - 44, h - 44, 28, true, true, 'rgba(255, 255, 255, 0.08)', 1.5);
+  renderBluePremiumBackground(ctx, w, h, '#60A5FA', '#4338CA', '#1D4ED8', '#0B1636', '#122250', '#070D22');
 
   // Header
-  ctx.fillStyle = '#1E1B4B';
-  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, '#312E81', 1);
+  ctx.fillStyle = 'rgba(25, 30, 75, 0.85)';
+  drawRoundRect(ctx, 58, 54, 58, 58, 14, true, true, 'rgba(129, 140, 248, 0.3)', 1);
   drawSparkleIcon(ctx, 87, 83, '#A5B4FC');
 
   ctx.fillStyle = '#FFFFFF';
@@ -829,15 +839,15 @@ function renderHabitsDashboard(ctx, w, h) {
   ctx.fillText('Lifelong Financial Autonomy & Anti-FOMO Guardrails', 132, 102);
 
   // Status Pill
-  ctx.fillStyle = 'rgba(99, 102, 241, 0.15)';
-  drawRoundRect(ctx, w - 210, 60, 152, 38, 19, true, true, '#4F46E5', 1.5);
+  ctx.fillStyle = 'rgba(99, 102, 241, 0.18)';
+  drawRoundRect(ctx, w - 210, 60, 152, 38, 19, true, true, '#6366F1', 1.5);
   drawCheckIcon(ctx, w - 188, 79, '#818CF8');
   ctx.fillStyle = '#818CF8';
   ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('Graduation Ready', w - 172, 84);
 
   // Divider
-  ctx.strokeStyle = '#1E1B4B';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(58, 130);
@@ -859,27 +869,27 @@ function renderHabitsDashboard(ctx, w, h) {
   ctx.textAlign = 'right';
   ctx.fillText('✓ Active (Anti-Impulse)', w - 58, 173);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#17153B';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 188, sliderWidth, 12, 6, true, false);
   ctx.fillStyle = '#818CF8';
   drawRoundRect(ctx, 58, 188, sliderWidth, 12, 6, true, false);
 
   // Habit 2
-  ctx.fillStyle = '#6366F1';
+  ctx.fillStyle = '#38BDF8';
   ctx.beginPath();
   ctx.arc(66, 240, 5.5, 0, Math.PI * 2);
   ctx.fill();
   ctx.fillStyle = '#E0E7FF';
   ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText('20% Single Asset Concentration Guardrail', 82, 245);
-  ctx.fillStyle = '#6366F1';
+  ctx.fillStyle = '#38BDF8';
   ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.textAlign = 'right';
   ctx.fillText('✓ Guardrail Enforced', w - 58, 245);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#17153B';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 260, sliderWidth, 12, 6, true, false);
-  ctx.fillStyle = '#6366F1';
+  ctx.fillStyle = '#38BDF8';
   drawRoundRect(ctx, 58, 260, sliderWidth, 12, 6, true, false);
 
   // Habit 3
@@ -895,14 +905,14 @@ function renderHabitsDashboard(ctx, w, h) {
   ctx.textAlign = 'right';
   ctx.fillText('✓ 100% Calibrated', w - 58, 317);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#17153B';
+  ctx.fillStyle = '#0B172E';
   drawRoundRect(ctx, 58, 332, sliderWidth, 12, 6, true, false);
   ctx.fillStyle = '#A5B4FC';
   drawRoundRect(ctx, 58, 332, sliderWidth, 12, 6, true, false);
 
   // Metric Box
-  ctx.fillStyle = '#131130';
-  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, '#312E81', 1);
+  ctx.fillStyle = 'rgba(10, 24, 56, 0.75)';
+  drawRoundRect(ctx, 58, 380, sliderWidth, 96, 16, true, true, 'rgba(96, 165, 250, 0.25)', 1);
   drawSparkleIcon(ctx, 86, 412, '#A5B4FC');
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
@@ -912,7 +922,7 @@ function renderHabitsDashboard(ctx, w, h) {
   ctx.fillText('You graduate with verified confidence, immunity against market noise, and clear reasoning.', 114, 444);
 
   // Footer
-  ctx.strokeStyle = '#1E1B4B';
+  ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
   ctx.beginPath();
   ctx.moveTo(58, 502);
   ctx.lineTo(w - 58, 502);
@@ -981,7 +991,7 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
   const [hovered, setHovered] = useState(false);
   const groupRef = useRef(null);
 
-  // Generate crisp procedural dashboard canvas texture
+  // Generate crisp procedural dashboard canvas texture with blue premium gradients
   const texture = useMemo(() => {
     return createFeatureDashboardTexture(project.number || '01');
   }, [project.number]);
@@ -1022,7 +1032,7 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
         }
       }}
     >
-      {/* 3D Dark Beveled Backplate with Depth */}
+      {/* 3D Premium Blue Metallic Beveled Backplate with Depth */}
       <RoundedBox
         args={[cardWidth, cardHeight, 0.16]}
         radius={cardRadius}
@@ -1030,13 +1040,13 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
         position={[0, 0, -0.08]}
       >
         <meshStandardMaterial
-          color="#070A11"
-          roughness={0.35}
-          metalness={0.3}
+          color="#081432"
+          roughness={0.25}
+          metalness={0.65}
         />
       </RoundedBox>
 
-      {/* Front Face with High-Fidelity UI Texture */}
+      {/* Front Face with High-Fidelity Blue Premium Gradient UI Texture */}
       <mesh position={[0, 0, 0.005]}>
         <planeGeometry args={[cardWidth, cardHeight]} />
         {texture && <meshBasicMaterial map={texture} toneMapped={false} />}

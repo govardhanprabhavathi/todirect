@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, XCircle, CheckCircle2 } from "lucide-react";
+import { ArrowRight, XCircle, CheckCircle2 } from "lucide-react";
 
 export function HeroMeshCard() {
   return (
@@ -146,9 +146,8 @@ export function HeroMeshCard() {
           <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-white/75 dark:bg-[#0B0F19]/80 backdrop-blur-md border border-slate-200/90 dark:border-slate-800/90 shadow-sm flex flex-col justify-between transition-all hover:border-slate-300 dark:hover:border-slate-700">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em] flex items-center gap-2.5">
-                  <XCircle className="w-5 h-5 text-rose-500 shrink-0" />
-                  <span>Traditional Way</span>
+                <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em]">
+                  Traditional Way
                 </h3>
                 <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
                   High Risk & Confusion
@@ -195,9 +194,8 @@ export function HeroMeshCard() {
 
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em] flex items-center gap-2.5">
-                  <Sparkles className="w-5 h-5 text-[#2563FF] shrink-0" />
-                  <span>TO DIRECT Way</span>
+                <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em]">
+                  TO DIRECT Way
                 </h3>
                 <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#2563FF] text-white">
                   Recommended

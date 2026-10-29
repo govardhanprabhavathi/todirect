@@ -2,7 +2,6 @@
 
 import React, { useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import ProjectDisplay from './ProjectDisplay';
 
@@ -15,7 +14,7 @@ export const HOW_YOU_LEARN_DATA = [
     tech: ["7 Topics", "28 Lessons", "Jargon-Free", "Zero Fluff"],
     link: "/curriculum",
     buttonLabel: "EXPLORE CURRICULUM ↗",
-    accent: "rgba(56, 189, 248, 0.4)",
+    accent: "rgba(56, 189, 248, 0.45)",
     secondary: "rgba(37, 99, 235, 0.25)",
   },
   {
@@ -26,7 +25,7 @@ export const HOW_YOU_LEARN_DATA = [
     tech: ["Debiasing Traps", "Instant Rationale", "Calibrated Scoring", "Baseline Test"],
     link: "/baseline",
     buttonLabel: "TEST YOUR BASELINE ↗",
-    accent: "rgba(167, 139, 250, 0.4)",
+    accent: "rgba(167, 139, 250, 0.45)",
     secondary: "rgba(124, 58, 237, 0.25)",
   },
   {
@@ -37,7 +36,7 @@ export const HOW_YOU_LEARN_DATA = [
     tech: ["₹10,000 Virtual Fund", "Asset Allocation", "Concentration Guardrails", "Live Simulation"],
     link: "/practice",
     buttonLabel: "ENTER SANDBOX ↗",
-    accent: "rgba(52, 211, 153, 0.4)",
+    accent: "rgba(52, 211, 153, 0.45)",
     secondary: "rgba(16, 185, 129, 0.25)",
   },
   {
@@ -48,7 +47,7 @@ export const HOW_YOU_LEARN_DATA = [
     tech: ["Adaptive AI", "24/7 Availability", "Zero Sales Pitch", "Student Focused"],
     link: "/app/coach",
     buttonLabel: "CHAT WITH FINN ↗",
-    accent: "rgba(96, 165, 250, 0.45)",
+    accent: "rgba(96, 165, 250, 0.5)",
     secondary: "rgba(30, 64, 175, 0.25)",
   },
   {
@@ -59,7 +58,7 @@ export const HOW_YOU_LEARN_DATA = [
     tech: ["5 Competence Tiers", "Verifiable Badges", "Milestone Rewards", "Proof of Skill"],
     link: "/app/progress",
     buttonLabel: "VIEW BADGES ↗",
-    accent: "rgba(251, 191, 36, 0.4)",
+    accent: "rgba(251, 191, 36, 0.45)",
     secondary: "rgba(217, 119, 6, 0.25)",
   },
   {
@@ -70,30 +69,32 @@ export const HOW_YOU_LEARN_DATA = [
     tech: ["Mandatory Rationale", "Safe Guardrails", "Zero Speculation", "Financial Independence"],
     link: "/sign-in",
     buttonLabel: "START FOR FREE ↗",
-    accent: "rgba(129, 140, 248, 0.4)",
+    accent: "rgba(129, 140, 248, 0.45)",
     secondary: "rgba(79, 70, 229, 0.25)",
   }
 ];
 
 export default function RoomScene({ scrollYProgress, isMobile }) {
-  // 3D S-curve flight corridor
+  // 3D S-curve flight corridor with smooth entrance and generous exit runway
   const flightPath = useMemo(() => {
     const waypoints = isMobile ? [
-      new THREE.Vector3(0, 2.8, 10),
+      new THREE.Vector3(0, 3.0, 14),
       new THREE.Vector3(-0.6, 0.4, -18),
-      new THREE.Vector3(0.7, 2.0, -36),
-      new THREE.Vector3(-0.7, -0.6, -54),
-      new THREE.Vector3(0.6, 1.2, -72),
-      new THREE.Vector3(-0.6, 2.4, -90),
-      new THREE.Vector3(0, 0.4, -108),
+      new THREE.Vector3(0.7, 2.0, -38),
+      new THREE.Vector3(-0.7, -0.4, -58),
+      new THREE.Vector3(0.6, 1.4, -78),
+      new THREE.Vector3(-0.6, 2.4, -98),
+      new THREE.Vector3(0, 0.4, -120),
+      new THREE.Vector3(0, 0.4, -145), // Exit runway so last card stays fully visible
     ] : [
-      new THREE.Vector3(0, 3.2, 10),
-      new THREE.Vector3(-1.2, 0.4, -20),
-      new THREE.Vector3(1.5, 2.2, -50),
-      new THREE.Vector3(-1.5, -0.6, -80),
-      new THREE.Vector3(1.4, 1.2, -110),
-      new THREE.Vector3(-1.2, 2.6, -140),
-      new THREE.Vector3(0, 0.6, -170),
+      new THREE.Vector3(0, 3.4, 16),
+      new THREE.Vector3(-1.4, 0.4, -22),
+      new THREE.Vector3(1.6, 2.0, -55),
+      new THREE.Vector3(-1.6, -0.4, -88),
+      new THREE.Vector3(1.5, 1.4, -120),
+      new THREE.Vector3(-1.3, 2.4, -152),
+      new THREE.Vector3(0, 0.6, -185),
+      new THREE.Vector3(0, 0.6, -215), // Exit runway so Card 06 stays fully explored
     ];
     return new THREE.CatmullRomCurve3(waypoints, false, 'centripetal', 0.5);
   }, [isMobile]);
@@ -123,75 +124,52 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
     state.camera.lookAt(currentLookAt);
 
     // Subtle drone roll banking
-    state.camera.rotation.z = -tangent.x * 0.07;
+    state.camera.rotation.z = -tangent.x * 0.06;
   });
 
   return (
     <group>
-      {/* Intro Entrance Text: "How You Will Learn" */}
-      <group position={[isMobile ? -0.22 : 0, 1.4, 0]}>
-        <Text
-          position={[0, isMobile ? 0.7 : 0.8, 0]}
-          fontSize={isMobile ? 0.85 : 1.3}
-          color="#FFFFFF"
-          anchorX="center"
-          anchorY="middle"
-          letterSpacing={-0.035}
-        >
-          How You Will Learn
-        </Text>
-        <Text
-          position={[0, isMobile ? -0.15 : -0.2, 0]}
-          fontSize={isMobile ? 0.2 : 0.26}
-          color="#94A3B8"
-          anchorX="center"
-          anchorY="middle"
-        >
-          scroll to explore the 3D learning corridor
-        </Text>
-      </group>
-
-      {/* 3D Project Cards spaced through the corridor */}
+      {/* 3D Feature Cards spaced through the corridor */}
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[0]}
-        position={isMobile ? [-2.0, 0.4, -18] : [-4.6, 0.4, -20]}
-        rotation={isMobile ? [0, 0.18, 0] : [0, Math.PI / 10, 0]}
+        position={isMobile ? [-1.8, 0.4, -18] : [-4.8, 0.4, -22]}
+        rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[1]}
-        position={isMobile ? [2.0, 2.0, -36] : [4.6, 2.0, -50]}
-        rotation={isMobile ? [0, -0.18, 0] : [0, -Math.PI / 10, 0]}
+        position={isMobile ? [1.8, 2.0, -38] : [4.8, 2.0, -55]}
+        rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[2]}
-        position={isMobile ? [-2.0, -0.6, -54] : [-4.6, -0.6, -80]}
-        rotation={isMobile ? [0, 0.18, 0] : [0, Math.PI / 10, 0]}
+        position={isMobile ? [-1.8, -0.4, -58] : [-4.8, -0.4, -88]}
+        rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[3]}
-        position={isMobile ? [2.0, 1.2, -72] : [4.6, 1.2, -110]}
-        rotation={isMobile ? [0, -0.18, 0] : [0, -Math.PI / 10, 0]}
+        position={isMobile ? [1.8, 1.4, -78] : [4.8, 1.4, -120]}
+        rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[4]}
-        position={isMobile ? [-2.0, 2.4, -90] : [-4.6, 2.4, -140]}
-        rotation={isMobile ? [0, 0.18, 0] : [0, Math.PI / 10, 0]}
+        position={isMobile ? [-1.8, 2.4, -98] : [-4.8, 2.4, -152]}
+        rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[5]}
-        position={isMobile ? [0, 0.4, -108] : [0, 0.6, -170]}
+        position={isMobile ? [0, 0.4, -120] : [0, 0.6, -185]}
         rotation={[0, 0, 0]}
         isMobile={isMobile}
       />
 
-      {/* Corridor Grid Helpers */}
-      <gridHelper args={[300, 100, '#2563FF', '#0F172A']} position={[0, -4.5, -90]} />
-      <gridHelper args={[300, 100, '#1E3A8A', '#020617']} position={[0, 9.5, -90]} />
+      {/* Corridor Spatial Grid Guides */}
+      <gridHelper args={[400, 120, '#2563FF', '#0F172A']} position={[0, -4.8, -100]} />
+      <gridHelper args={[400, 120, '#1E3A8A', '#020617']} position={[0, 10.2, -100]} />
     </group>
   );
 }

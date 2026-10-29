@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect, Suspense, memo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useScroll, useSpring, motion } from 'framer-motion';
-import RoomScene from './RoomScene';
+import RoomScene, { HOW_YOU_LEARN_DATA } from './RoomScene';
 
 // Isolated HUD to prevent re-rendering the 3D Canvas on scroll
 const ProjectHUD = memo(function ProjectHUD({ smoothProgress, projects }) {
@@ -11,8 +11,11 @@ const ProjectHUD = memo(function ProjectHUD({ smoothProgress, projects }) {
 
   useEffect(() => {
     return smoothProgress.on('change', (latest) => {
-      const idx = Math.min(projects.length - 1, Math.max(0, Math.floor(latest * projects.length)));
-      setActiveProjectIndex(idx);
+      const normalized = Math.min(
+        projects.length - 1,
+        Math.max(0, Math.floor((latest / 0.9) * projects.length))
+      );
+      setActiveProjectIndex(normalized);
     });
   }, [smoothProgress, projects.length]);
 
@@ -59,7 +62,7 @@ export default function ProjectRoom3D() {
     return () => observer.disconnect();
   }, []);
 
-  // Track scroll progress across a 650vh container
+  // Track scroll progress across a 950vh container to allow full exploration
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -67,32 +70,49 @@ export default function ProjectRoom3D() {
 
   // Spring physics for smooth drone-like inertia
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 55,
-    damping: 20,
-    mass: 0.5,
+    stiffness: 45,
+    damping: 22,
+    mass: 0.6,
     restDelta: 0.0001,
   });
 
-  const projects = [
-    { num: '01', name: 'Foundation Curriculum' },
-    { num: '02', name: 'Concept Assessments' },
-    { num: '03', name: '₹10,000 Virtual Sandbox' },
-    { num: '04', name: 'Finn AI Coach' },
-    { num: '05', name: 'Competence Badges' },
-    { num: '06', name: 'Disciplined Investor Habits' },
-  ];
+  const projects = HOW_YOU_LEARN_DATA;
 
   return (
-    <section ref={containerRef} className={`relative w-full ${isMobile ? 'h-[500vh]' : 'h-[650vh]'} bg-[#070A11]`}>
+    <section
+      ref={containerRef}
+      className={`relative w-full ${isMobile ? 'h-[750vh]' : 'h-[950vh]'} bg-[#070A11]`}
+    >
       <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#070A11] select-none">
+        {/* Bold Section Title with Negative Color Blend Effect */}
+        <div className="absolute top-8 sm:top-12 inset-x-0 z-30 pointer-events-none flex flex-col items-center justify-center text-center px-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-black/40 backdrop-blur-md mb-2 sm:mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+            <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-white uppercase">
+              Interactive Spatial Journey
+            </span>
+          </div>
+
+          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.035em] text-white mix-blend-difference uppercase select-none">
+            How You Will Learn
+          </h2>
+
+          <p className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-wider text-white/80 mix-blend-difference mt-1.5 sm:mt-2 select-none uppercase">
+            Scroll to fly through the 3D learning corridor
+          </p>
+        </div>
+
+        {/* HUD Overlay with active card info and progress */}
         <ProjectHUD smoothProgress={smoothProgress} projects={projects} />
+
+        {/* Three.js 3D WebGL Canvas */}
         <Canvas
           frameloop={isInView ? 'always' : 'never'}
           camera={{
             position: [0, 0, 5],
             fov: isMobile ? 56 : 45,
             near: 0.5,
-            far: 180,
+            far: 220,
           }}
           dpr={[1, 2]}
           gl={{
@@ -103,10 +123,10 @@ export default function ProjectRoom3D() {
           style={{ width: '100%', height: '100%', background: '#070A11' }}
         >
           <color attach="background" args={['#070A11']} />
-          <fog attach="fog" args={['#070A11', isMobile ? 18 : 22, isMobile ? 58 : 70]} />
-          <ambientLight intensity={0.6} />
+          <fog attach="fog" args={['#070A11', isMobile ? 20 : 25, isMobile ? 65 : 85]} />
+          <ambientLight intensity={0.65} />
           <directionalLight position={[5, 10, 5]} intensity={1.1} color="#FFFFFF" />
-          <directionalLight position={[-5, -5, -5]} intensity={0.4} color="#60A5FA" />
+          <directionalLight position={[-5, -5, -5]} intensity={0.45} color="#60A5FA" />
           <Suspense fallback={null}>
             <RoomScene scrollYProgress={smoothProgress} isMobile={isMobile} />
           </Suspense>

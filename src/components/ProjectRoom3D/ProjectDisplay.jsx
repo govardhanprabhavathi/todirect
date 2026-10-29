@@ -54,76 +54,63 @@ function createRoundedRectPlane(w, h, r, segments = 16) {
   return new THREE.ShapeGeometry(shape, segments);
 }
 
-// Procedural high-resolution luxury card texture generator (zero network latency, 100% reliable)
-function createCardCanvasTexture(accentColor, secondaryColor, category, number) {
+// Procedural high-resolution luxury card texture generator
+function createCardCanvasTexture(accentColor, secondaryColor, number) {
   if (typeof document === 'undefined') return null;
   const canvas = document.createElement('canvas');
-  canvas.width = 1200;
-  canvas.height = 700;
+  canvas.width = 1280;
+  canvas.height = 720;
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
 
-  // Base luxury gradient
-  const bgGrad = ctx.createLinearGradient(0, 0, 1200, 700);
+  // Base background: clean bright luxury gradient
+  const bgGrad = ctx.createLinearGradient(0, 0, 1280, 720);
   bgGrad.addColorStop(0, '#FFFFFF');
-  bgGrad.addColorStop(0.5, '#F8FAFC');
+  bgGrad.addColorStop(0.6, '#F8FAFC');
   bgGrad.addColorStop(1, '#EEF2F6');
   ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, 1200, 700);
+  ctx.fillRect(0, 0, 1280, 720);
 
-  // Radiant ambient color orbs
-  const rad1 = ctx.createRadialGradient(1000, 180, 20, 1000, 180, 480);
+  // Soft radiant color bloom in top right
+  const rad1 = ctx.createRadialGradient(1080, 160, 20, 1080, 160, 520);
   rad1.addColorStop(0, accentColor);
-  rad1.addColorStop(0.8, 'transparent');
+  rad1.addColorStop(0.85, 'transparent');
   ctx.fillStyle = rad1;
-  ctx.fillRect(0, 0, 1200, 700);
+  ctx.fillRect(0, 0, 1280, 720);
 
-  const rad2 = ctx.createRadialGradient(200, 520, 20, 200, 520, 400);
+  // Secondary subtle color bloom in bottom left
+  const rad2 = ctx.createRadialGradient(180, 580, 20, 180, 580, 420);
   rad2.addColorStop(0, secondaryColor);
-  rad2.addColorStop(0.75, 'transparent');
+  rad2.addColorStop(0.8, 'transparent');
   ctx.fillStyle = rad2;
-  ctx.fillRect(0, 0, 1200, 700);
+  ctx.fillRect(0, 0, 1280, 720);
 
-  // Subtle interior grid lines
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.04)';
+  // Subtle interior blueprint grid
+  ctx.strokeStyle = 'rgba(15, 23, 42, 0.035)';
   ctx.lineWidth = 1;
-  for (let x = 60; x < 1200; x += 60) {
+  for (let x = 64; x < 1280; x += 64) {
     ctx.beginPath();
     ctx.moveTo(x, 0);
-    ctx.lineTo(x, 700);
+    ctx.lineTo(x, 720);
     ctx.stroke();
   }
-  for (let y = 60; y < 700; y += 60) {
+  for (let y = 64; y < 720; y += 64) {
     ctx.beginPath();
     ctx.moveTo(0, y);
-    ctx.lineTo(1200, y);
+    ctx.lineTo(1280, y);
     ctx.stroke();
   }
 
-  // Card border outline
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)';
+  // Refined card border outline
+  ctx.strokeStyle = 'rgba(15, 23, 42, 0.09)';
   ctx.lineWidth = 3;
-  ctx.strokeRect(16, 16, 1168, 668);
+  ctx.strokeRect(16, 16, 1248, 688);
 
-  // Category Tag badge
-  ctx.fillStyle = 'rgba(10, 22, 41, 0.05)';
-  ctx.beginPath();
-  ctx.roundRect(60, 55, 340, 44, 22);
-  ctx.fill();
-
-  ctx.strokeStyle = 'rgba(37, 99, 235, 0.2)';
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-
-  ctx.fillStyle = '#2563FF';
-  ctx.font = 'bold 16px sans-serif';
-  ctx.fillText(category.toUpperCase(), 80, 83);
-
-  // Giant watermark number in top right
-  ctx.fillStyle = 'rgba(10, 22, 41, 0.05)';
-  ctx.font = '900 130px sans-serif';
+  // Giant watermark feature number in top right corner
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.045)';
+  ctx.font = '900 160px sans-serif';
   ctx.textAlign = 'right';
-  ctx.fillText(number, 1140, 140);
+  ctx.fillText(number, 1220, 160);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -138,26 +125,28 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
   const btnGroupRef = useRef(null);
   const btnScaleRef = useRef(1);
 
-  // Generate crisp luxury procedural texture for the front face
+  // Generate crisp procedural card texture
   const texture = useMemo(() => {
     return createCardCanvasTexture(
       project.accent || 'rgba(56, 189, 248, 0.35)',
       project.secondary || 'rgba(37, 99, 235, 0.2)',
-      project.category || 'Feature',
       project.number || '01'
     );
   }, [project]);
 
+  // Card Dimensions
   const cardWidth = isMobile ? 6.4 : 12.8;
-  const cardHeight = isMobile ? 8.0 : 7.2;
-  const cardRadius = isMobile ? 0.28 : 0.36;
+  const cardHeight = isMobile ? 8.2 : 7.2;
+  const cardRadius = isMobile ? 0.32 : 0.42;
 
   const frontGeo = useMemo(() => {
     return createRoundedRectGeometry(cardWidth, cardHeight, cardRadius, 32);
   }, [cardWidth, cardHeight, cardRadius]);
 
-  const contentStartX = 0.55;
-  const contentWidth = 5.25;
+  // Precise text layout bounds covering the whole card properly:
+  // Starts on the left edge with healthy padding, stays completely within card margins!
+  const contentStartX = isMobile ? -2.6 : -5.4;
+  const maxTextWidth = isMobile ? 5.2 : 10.4;
 
   useFrame((_, delta) => {
     if (btnGroupRef.current) {
@@ -167,15 +156,15 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
     }
   });
 
-  const btnWidth = isMobile ? 5.0 : contentWidth;
-  const btnHeight = isMobile ? 0.68 : 0.74;
-  const btnGeo = useMemo(() => createRoundedRectPlane(btnWidth, btnHeight, 0.12, 16), [btnWidth, btnHeight]);
+  const btnWidth = isMobile ? 5.0 : 4.4;
+  const btnHeight = isMobile ? 0.72 : 0.78;
+  const btnGeo = useMemo(() => createRoundedRectPlane(btnWidth, btnHeight, 0.14, 16), [btnWidth, btnHeight]);
 
   return (
-    <group position={position} rotation={rotation} scale={isMobile ? 0.72 : 1}>
-      {/* 3D Dark Backplate */}
-      <RoundedBox args={[cardWidth, cardHeight, 0.12]} radius={cardRadius} smoothness={16} position={[0, 0, -0.06]}>
-        <meshStandardMaterial color="#0a0a0e" roughness={0.5} metalness={0.1} />
+    <group position={position} rotation={rotation} scale={isMobile ? 0.76 : 1}>
+      {/* 3D Dark Backplate with Depth */}
+      <RoundedBox args={[cardWidth, cardHeight, 0.14]} radius={cardRadius} smoothness={16} position={[0, 0, -0.07]}>
+        <meshStandardMaterial color="#0A0E17" roughness={0.4} metalness={0.2} />
       </RoundedBox>
 
       {/* Front Face with Background Texture */}
@@ -183,37 +172,69 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
         {texture && <meshBasicMaterial map={texture} toneMapped={false} />}
       </mesh>
 
-      {/* Content Text & Button Overlay */}
+      {/* Content Text & Button Overlay (Centered & Left-Aligned within Card Bounds) */}
       <group position={[0, 0, 0.025]}>
-        {/* Project Name / Feature Title */}
+        {/* Category Tag Badge */}
         <Text
-          position={[isMobile ? -2.5 : contentStartX, isMobile ? 2.3 : 1.44, 0.015]}
-          fontSize={isMobile ? 0.48 : 0.62}
+          position={[contentStartX, isMobile ? 2.8 : 2.4, 0.015]}
+          fontSize={isMobile ? 0.2 : 0.24}
+          color="#2563FF"
+          anchorX="left"
+          anchorY="middle"
+          letterSpacing={0.06}
+        >
+          {project.category.toUpperCase()}
+        </Text>
+
+        {/* Feature Title (Bold & Properly Placed) */}
+        <Text
+          position={[contentStartX, isMobile ? 2.0 : 1.55, 0.015]}
+          fontSize={isMobile ? 0.44 : 0.62}
           color="#0A1629"
           anchorX="left"
           anchorY="middle"
           letterSpacing={-0.03}
+          maxWidth={maxTextWidth}
         >
           {project.name.toUpperCase()}
         </Text>
 
         {/* Feature Description */}
         <Text
-          position={[isMobile ? -2.5 : contentStartX, isMobile ? 1.7 : 0.66, 0.015]}
-          fontSize={isMobile ? 0.2 : 0.22}
+          position={[contentStartX, isMobile ? 1.2 : 0.7, 0.015]}
+          fontSize={isMobile ? 0.2 : 0.26}
           color="#334155"
           anchorX="left"
           anchorY="top"
-          maxWidth={isMobile ? 5.0 : contentWidth}
-          lineHeight={1.45}
+          maxWidth={maxTextWidth}
+          lineHeight={1.5}
         >
           {project.desc}
         </Text>
 
-        {/* Interactive Action Button */}
+        {/* Highlights / Tech Badges Line */}
+        {project.tech && (
+          <Text
+            position={[contentStartX, isMobile ? -0.7 : -0.9, 0.015]}
+            fontSize={isMobile ? 0.17 : 0.2}
+            color="#64748B"
+            anchorX="left"
+            anchorY="middle"
+            maxWidth={maxTextWidth}
+            letterSpacing={0.02}
+          >
+            {project.tech.join("  •  ")}
+          </Text>
+        )}
+
+        {/* Action Button */}
         <group
           ref={btnGroupRef}
-          position={[isMobile ? 0 : contentStartX + btnWidth / 2, isMobile ? -0.45 : -2.05, 0.015]}
+          position={[
+            isMobile ? 0 : contentStartX + btnWidth / 2,
+            isMobile ? -2.4 : -2.1,
+            0.015
+          ]}
           onPointerOver={(e) => {
             e.stopPropagation();
             setBtnHovered(true);
@@ -236,7 +257,7 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
           <mesh geometry={btnGeo} position={[0, 0, 0]}>
             <meshBasicMaterial color={btnHovered ? '#1E293B' : '#0A1629'} toneMapped={false} />
           </mesh>
-          <Text position={[0, 0, 0.012]} fontSize={0.24} color="#FFFFFF" anchorX="center" anchorY="middle">
+          <Text position={[0, 0, 0.012]} fontSize={0.22} color="#FFFFFF" anchorX="center" anchorY="middle">
             {project.buttonLabel.toUpperCase()}
           </Text>
         </group>

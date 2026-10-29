@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Compass, Sparkles, Shield, Wallet, Check, TrendingUp, PieChart, Sliders, ArrowUpRight } from "lucide-react";
+import { ArrowRight, Compass, Sparkles, Shield, Wallet, Check, TrendingUp, PieChart, Sliders, ArrowUpRight, XCircle, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 export function HeroMeshCard() {
@@ -143,7 +143,7 @@ export function HeroMeshCard() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ─── HERO TYPOGRAPHY ─── */}
-        <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
+        <div className="text-center max-w-5xl mx-auto mb-12 sm:mb-16">
         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.035em] leading-[1.08] mb-6">
           Learn before you invest
         </h1>
@@ -152,58 +152,116 @@ export function HeroMeshCard() {
           India&apos;s First Youth Focused Financial Investment Learning Platform.
         </p>
 
-        {/* Dual Social Pills */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-3.5">
-          <Link href="/sign-in" className="w-full sm:w-auto">
-            <button
-              type="button"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-[#0A1629] dark:bg-white hover:bg-[#1E293B] dark:hover:bg-slate-100 text-white dark:text-[#0A1629] text-sm font-medium transition-all shadow-xs cursor-pointer"
-            >
-              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
-                <path
-                  fill="#4285F4"
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                />
-                <path
-                  fill="#EA4335"
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                />
-              </svg>
-              <span>Sign up with Google</span>
-            </button>
-          </Link>
+        {/* ─── TWO PERSPECTIVE COMPARISON CARDS ─── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 max-w-5xl mx-auto text-left">
+          {/* Card 1: Traditional Way */}
+          <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-white/75 dark:bg-[#0B0F19]/80 backdrop-blur-md border border-slate-200/90 dark:border-slate-800/90 shadow-sm flex flex-col justify-between transition-all hover:border-slate-300 dark:hover:border-slate-700">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 text-xs font-semibold border border-slate-200 dark:border-slate-700">
+                  <XCircle className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                  <span>Traditional Way</span>
+                </div>
+                <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
+                  High Risk & Confusion
+                </span>
+              </div>
 
-          <Link href="/sign-in" className="w-full sm:w-auto">
-            <button
-              type="button"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-[#0A1629] dark:bg-white hover:bg-[#1E293B] dark:hover:bg-slate-100 text-white dark:text-[#0A1629] text-sm font-medium transition-all shadow-xs cursor-pointer"
-            >
-              <svg className="w-4 h-4 shrink-0" viewBox="0 0 23 23">
-                <path fill="#f35325" d="M1 1h10v10H1z" />
-                <path fill="#81bc06" d="M12 1h10v10H12z" />
-                <path fill="#05a6f0" d="M1 12h10v10H1z" />
-                <path fill="#ffba08" d="M12 12h10v10H1z" />
-              </svg>
-              <span>Sign up with Microsoft</span>
-            </button>
-          </Link>
+              <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em] mb-2">
+                Trial, Error & Costly Mistakes
+              </h3>
+              <p className="text-xs sm:text-sm text-[#64748B] dark:text-slate-400 leading-relaxed mb-6">
+                Faces constant struggle to learn, unsure where to start, and without a safe guide on how to invest properly.
+              </p>
+
+              <ul className="space-y-3.5 text-xs sm:text-sm text-[#475569] dark:text-slate-300">
+                <li className="flex items-start gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                  <span><strong>Where to start?</strong> — Lost in scattered YouTube videos, random blogs, and conflicting advice</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                  <span><strong>Problems to learn</strong> — Complex financial jargon, dry formulas, and zero beginner context</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                  <span><strong>How to invest properly?</strong> — No structured practice sandbox, forced to risk real money blindly</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                  <span><strong>Speculative FOMO</strong> — Chasing unverified stock tips, Telegram hype, and finfluencer trends</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                  <span><strong>Constant anxiety</strong> — Left second-guessing every choice with persistent fear of capital wipeout</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+              <span>Result: Costly errors & frustration</span>
+              <span className="font-semibold text-rose-600 dark:text-rose-400">High Risk</span>
+            </div>
+          </div>
+
+          {/* Card 2: TO DIRECT Way */}
+          <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-white dark:bg-[#0E1526] backdrop-blur-md border-2 border-[#2563FF]/30 dark:border-[#2563FF]/50 shadow-xl shadow-blue-500/5 dark:shadow-blue-500/10 flex flex-col justify-between transition-all hover:border-[#2563FF]/70 relative overflow-hidden">
+            {/* Ambient Accent Glow */}
+            <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-blue-500/15 blur-2xl pointer-events-none" />
+
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF3FF] dark:bg-blue-950/80 text-[#1748D8] dark:text-blue-300 text-xs font-semibold border border-[#2563FF]/25 dark:border-blue-700">
+                  <Sparkles className="w-3.5 h-3.5 text-[#2563FF] shrink-0" />
+                  <span>TO DIRECT Way</span>
+                </div>
+                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#2563FF] text-white">
+                  Recommended
+                </span>
+              </div>
+
+              <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em] mb-2">
+                Personalised, Practical & Confident
+              </h3>
+              <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed mb-6">
+                A structured, youth-focused path designed to take you from absolute zero to autonomous investing.
+              </p>
+
+              <ul className="space-y-3.5 text-xs sm:text-sm text-[#0A1629] dark:text-slate-200">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
+                  <span><strong>Personalised learning</strong> — Guided paths calibrated to your pace, age, and individual goals</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
+                  <span><strong>Simple lectures</strong> — Intuitive, bite-sized lessons that make complex money concepts click</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
+                  <span><strong>Practical learning</strong> — Hands-on, zero-risk ₹10,000 sandbox to practice real allocation safe</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
+                  <span><strong>Gamified experience</strong> — Streaks, calibrated interactive quizzes, and verifiable competence badges</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
+                  <span><strong>Make you confident</strong> — Graduate with genuine clarity and conviction before risking real rupees</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800/80 relative z-10">
+              <Link
+                href="/curriculum"
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#0A1629] dark:bg-white hover:bg-[#1E293B] dark:hover:bg-slate-100 text-white dark:text-[#0A1629] text-xs sm:text-sm font-semibold transition-all shadow-xs group"
+              >
+                <span>Start Learning Free</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
         </div>
-
-        {/* Microcopy below auth pills */}
-        <p className="text-xs font-normal text-[#64748B] dark:text-slate-400">
-          <Link href="/sign-in" className="underline hover:text-[#0A1629] dark:hover:text-white transition-colors">
-            Sign up with email
-          </Link>{" "}
-          • No credit card required
-        </p>
       </div>
 
       {/* ─── 4-ICON FLOATING CAPSULE & RADIANT SKY MESH CARD ─── */}

@@ -13,7 +13,7 @@ const ProjectHUD = memo(function ProjectHUD({ smoothProgress, projects }) {
     return smoothProgress.on('change', (latest) => {
       const normalized = Math.min(
         projects.length - 1,
-        Math.max(0, Math.floor((latest / 0.9) * projects.length))
+        Math.max(0, Math.floor((latest / 0.92) * projects.length))
       );
       setActiveProjectIndex(normalized);
     });
@@ -25,7 +25,9 @@ const ProjectHUD = memo(function ProjectHUD({ smoothProgress, projects }) {
         <div>
           <p className="text-[10px] font-semibold tracking-wider text-blue-400 uppercase">Interactive 3D Corridor</p>
           <p className="text-sm sm:text-base font-bold tracking-tight text-white flex items-center gap-2">
-            <span className="text-blue-400 font-mono">0{activeProjectIndex + 1}</span>
+            <span className="text-blue-400 font-mono">
+              {String(activeProjectIndex + 1).padStart(2, '0')}
+            </span>
             <span>{projects[activeProjectIndex]?.name}</span>
           </p>
         </div>
@@ -62,7 +64,7 @@ export default function ProjectRoom3D() {
     return () => observer.disconnect();
   }, []);
 
-  // Track scroll progress across a 950vh container to allow full exploration
+  // Track scroll progress across a 1600vh container to allow full exploration of all 11 cards
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -81,7 +83,7 @@ export default function ProjectRoom3D() {
   return (
     <section
       ref={containerRef}
-      className={`relative w-full ${isMobile ? 'h-[750vh]' : 'h-[950vh]'} bg-[#070A11]`}
+      className={`relative w-full ${isMobile ? 'h-[1200vh]' : 'h-[1600vh]'} bg-[#070A11]`}
     >
       <div className="sticky top-0 w-full h-screen h-[100dvh] overflow-hidden bg-[#070A11] select-none z-10">
         {/* Three.js 3D WebGL Canvas (Hosts the 3D scene + exact WebGL Inverted Title) */}
@@ -91,7 +93,7 @@ export default function ProjectRoom3D() {
             position: [0, 0, 5],
             fov: isMobile ? 56 : 45,
             near: 0.5,
-            far: 220,
+            far: 420,
           }}
           dpr={[1, 2]}
           gl={{
@@ -102,7 +104,7 @@ export default function ProjectRoom3D() {
           style={{ width: '100%', height: '100%' }}
         >
           <color attach="background" args={['#070A11']} />
-          <fog attach="fog" args={['#070A11', isMobile ? 20 : 25, isMobile ? 65 : 85]} />
+          <fog attach="fog" args={['#070A11', isMobile ? 22 : 28, isMobile ? 85 : 120]} />
           <ambientLight intensity={0.65} />
           <directionalLight position={[5, 10, 5]} intensity={1.1} color="#FFFFFF" />
           <directionalLight position={[-5, -5, -5]} intensity={0.45} color="#60A5FA" />

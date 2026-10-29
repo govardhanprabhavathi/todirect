@@ -9,69 +9,91 @@ import ProjectDisplay from './ProjectDisplay';
 export const HOW_YOU_LEARN_DATA = [
   {
     number: "01",
-    name: "Foundation Curriculum",
-    category: "Core Fundamentals • Step-by-Step",
-    desc: "7 structured topics covering cashflow, compounding, risk preservation, and equity markets—broken into bite-sized, jargon-free lessons.",
-    tech: ["7 Topics", "28 Lessons", "Jargon-Free", "Zero Fluff"],
-    link: "/curriculum",
-    buttonLabel: "EXPLORE CURRICULUM ↗",
-    accent: "rgba(56, 189, 248, 0.45)",
-    secondary: "rgba(37, 99, 235, 0.25)",
+    name: "AI Financial Avatar",
+    category: "Personalized Socratic AI • 24/7 Companion",
+    desc: "Your personal financial reasoning companion who clarifies complex queries, debiases retail investor traps, and guides your learning journey.",
+    link: "/app/coach",
+    buttonLabel: "CHAT WITH AVATAR ↗",
   },
   {
     number: "02",
-    name: "Concept Assessments",
-    category: "Real Understanding • Misconception Checks",
-    desc: "Interactive scenario quizzes that identify and correct cognitive traps like inflation erosion and the Rule of 72 before you risk real money.",
-    tech: ["Debiasing Traps", "Instant Rationale", "Calibrated Scoring", "Baseline Test"],
-    link: "/baseline",
-    buttonLabel: "TEST YOUR BASELINE ↗",
-    accent: "rgba(167, 139, 250, 0.45)",
-    secondary: "rgba(124, 58, 237, 0.25)",
+    name: "Learning Dashboard",
+    category: "Personal Cockpit • Progress & Streaks",
+    desc: "Centralized learning command center tracking completion %, weekly study streaks, concept mastery radar, and active learning queues.",
+    link: "/app",
+    buttonLabel: "OPEN DASHBOARD ↗",
   },
   {
     number: "03",
-    name: "₹10,000 Virtual Sandbox",
+    name: "Virtual ₹10,000 Sandbox",
     category: "Zero Real-Money Risk • Practice Terminal",
-    desc: "A realistic ₹10,000 simulation sandbox to practice allocating across index funds, sovereign debt, and gold without losing a single rupee.",
-    tech: ["₹10,000 Virtual Fund", "Asset Allocation", "Concentration Guardrails", "Live Simulation"],
+    desc: "A realistic ₹10,000 simulation sandbox to practice allocating across index funds, sovereign debt, and gold with live guardrails.",
     link: "/practice",
     buttonLabel: "ENTER SANDBOX ↗",
-    accent: "rgba(52, 211, 153, 0.45)",
-    secondary: "rgba(16, 185, 129, 0.25)",
   },
   {
     number: "04",
-    name: "Finn — AI Financial Coach",
-    category: "Personalized Guidance • 24/7 Clarification",
-    desc: "Your personal financial reasoning companion who clarifies complex investing queries, evaluates portfolio choices, and guides your learning journey.",
-    tech: ["Adaptive AI", "24/7 Availability", "Zero Sales Pitch", "Student Focused"],
-    link: "/app/coach",
-    buttonLabel: "CHAT WITH FINN ↗",
-    accent: "rgba(96, 165, 250, 0.5)",
-    secondary: "rgba(30, 64, 175, 0.25)",
+    name: "Quizzes & Gamified Drills",
+    category: "Scenario Quizzes • XP & Streaks",
+    desc: "Engaging scenario-based questions that test real understanding over lucky guesses with instant feedback, streak multipliers, and XP.",
+    link: "/app/learn",
+    buttonLabel: "START DAILY QUIZ ↗",
   },
   {
     number: "05",
-    name: "Competence Badges",
-    category: "Credentialing • Evidence-Based Mastery",
-    desc: "Earn proof-of-understanding badges across liquidity, compounding, and diversification to showcase verified financial literacy.",
-    tech: ["5 Competence Tiers", "Verifiable Badges", "Milestone Rewards", "Proof of Skill"],
-    link: "/app/progress",
-    buttonLabel: "VIEW BADGES ↗",
-    accent: "rgba(251, 191, 36, 0.45)",
-    secondary: "rgba(217, 119, 6, 0.25)",
+    name: "Paper Company Analysis",
+    category: "Fundamental Teardowns • Zero Jargon",
+    desc: "Hands-on simulated company analysis: deconstruct balance sheets, P&L statements, PE benchmarks, and competitive moats safely.",
+    link: "/curriculum",
+    buttonLabel: "ANALYZE COMPANY ↗",
   },
   {
     number: "06",
-    name: "Disciplined Investor Habits",
-    category: "Lifelong Autonomy • Anti-FOMO Guardrails",
-    desc: "Graduate with genuine financial confidence, immunity against market hype, and the autonomy to build long-term wealth responsibly.",
-    tech: ["Mandatory Rationale", "Safe Guardrails", "Zero Speculation", "Financial Independence"],
-    link: "/sign-in",
-    buttonLabel: "START FOR FREE ↗",
-    accent: "rgba(129, 140, 248, 0.45)",
-    secondary: "rgba(79, 70, 229, 0.25)",
+    name: "Jargon-Free Financial Topics",
+    category: "Visual Metaphors • 3-Min Reads",
+    desc: "Complex financial concepts translated into plain English through visual metaphors, relatable analogies, and clear mathematical proof.",
+    link: "/curriculum",
+    buttonLabel: "EXPLORE TOPICS ↗",
+  },
+  {
+    number: "07",
+    name: "Baseline Knowledge Diagnostic",
+    category: "Initial Snapshot • Where You Stand",
+    desc: "A 5-minute diagnostic upon logging in that maps your current literacy snapshot across cashflow, compounding, and risk biases.",
+    link: "/baseline",
+    buttonLabel: "TEST YOUR BASELINE ↗",
+  },
+  {
+    number: "08",
+    name: "Badges & Reflection Certificates",
+    category: "Verifiable Credentials • Profile Proof",
+    desc: "Earn proof-of-competence badges and reflection certificates across core principles to showcase verified financial literacy.",
+    link: "/app/progress",
+    buttonLabel: "VIEW CERTIFICATES ↗",
+  },
+  {
+    number: "09",
+    name: "Live Interactive Masterclasses (200m)",
+    category: "Live Cohorts • Real-Time Q&A",
+    desc: "Interactive 200-minute live masterclasses, weekend workshops, and real-time interactive polls with certified finance mentors.",
+    link: "/how-it-works",
+    buttonLabel: "JOIN LIVE COHORT ↗",
+  },
+  {
+    number: "10",
+    name: "Interactive Learning Playground",
+    category: "Standalone Lab • Experimentation",
+    desc: "A dedicated financial sandbox with interactive sliders, inflation time machines, SIP vs lumpsum calculators, and compounding curves.",
+    link: "/practice",
+    buttonLabel: "ENTER PLAYGROUND ↗",
+  },
+  {
+    number: "11",
+    name: "Smart Spaced Review System",
+    category: "Retention Engine • Spaced Repetition",
+    desc: "An intelligent spaced review algorithm on your home cockpit that revisits weak concepts, triggers refresher flashcards, and locks in mastery.",
+    link: "/app",
+    buttonLabel: "REVIEW CONCEPTS ↗",
   }
 ];
 
@@ -90,9 +112,7 @@ export function ScrollRoomTitle({ isMobile = false, titleRef }) {
         outlineWidth={0}
         renderOrder={999}
         material-depthTest={false}
-        // ========================================================
         // ⚡ THE EXACT NEGATIVE / INVERTED BLEND MODE IN THREE.JS ⚡
-        // ========================================================
         material-blending={THREE.CustomBlending}
         material-blendEquation={THREE.AddEquation}
         material-blendSrc={THREE.OneMinusDstColorFactor}
@@ -105,26 +125,36 @@ export function ScrollRoomTitle({ isMobile = false, titleRef }) {
 }
 
 export default function RoomScene({ scrollYProgress, isMobile }) {
-  // 3D S-curve flight corridor with smooth entrance and generous exit runway
+  // 3D S-curve flight corridor across all 11 feature cards
   const flightPath = useMemo(() => {
     const waypoints = isMobile ? [
       new THREE.Vector3(0, 3.0, 14),
-      new THREE.Vector3(-0.6, 0.4, -18),
-      new THREE.Vector3(0.7, 2.0, -38),
-      new THREE.Vector3(-0.7, -0.4, -58),
-      new THREE.Vector3(0.6, 1.4, -78),
-      new THREE.Vector3(-0.6, 2.4, -98),
-      new THREE.Vector3(0, 0.4, -120),
-      new THREE.Vector3(0, 0.4, -145), // Exit runway so last card stays fully visible
+      new THREE.Vector3(-0.6, 0.4, -18),   // 01 AI Avatar
+      new THREE.Vector3(0.6, 1.8, -38),    // 02 Dashboard
+      new THREE.Vector3(-0.6, -0.4, -58),  // 03 Sandbox
+      new THREE.Vector3(0.6, 1.4, -78),    // 04 Quizzes
+      new THREE.Vector3(-0.6, 2.2, -98),   // 05 Paper Company
+      new THREE.Vector3(0.6, 0.4, -118),   // 06 Jargon-Free
+      new THREE.Vector3(-0.6, 1.8, -138),  // 07 Baseline
+      new THREE.Vector3(0.6, -0.4, -158),  // 08 Badges
+      new THREE.Vector3(-0.6, 1.4, -178),  // 09 Live Sessions
+      new THREE.Vector3(0.6, 2.2, -198),   // 10 Playground
+      new THREE.Vector3(0, 0.5, -224),     // 11 Smart Review
+      new THREE.Vector3(0, 0.5, -255),     // Exit runway
     ] : [
       new THREE.Vector3(0, 3.4, 16),
-      new THREE.Vector3(-1.4, 0.4, -22),
-      new THREE.Vector3(1.6, 2.0, -55),
-      new THREE.Vector3(-1.6, -0.4, -88),
-      new THREE.Vector3(1.5, 1.4, -120),
-      new THREE.Vector3(-1.3, 2.4, -152),
-      new THREE.Vector3(0, 0.6, -185),
-      new THREE.Vector3(0, 0.6, -215), // Exit runway so Card 06 stays fully explored
+      new THREE.Vector3(-1.4, 0.4, -22),   // 01 AI Avatar
+      new THREE.Vector3(1.5, 2.0, -52),    // 02 Dashboard
+      new THREE.Vector3(-1.5, -0.4, -82),  // 03 Sandbox
+      new THREE.Vector3(1.4, 1.4, -112),   // 04 Quizzes
+      new THREE.Vector3(-1.4, 2.2, -142),  // 05 Paper Company
+      new THREE.Vector3(1.4, 0.4, -172),   // 06 Jargon-Free
+      new THREE.Vector3(-1.4, 1.8, -202),  // 07 Baseline
+      new THREE.Vector3(1.4, -0.4, -232),  // 08 Badges
+      new THREE.Vector3(-1.4, 1.4, -262),  // 09 Live Sessions
+      new THREE.Vector3(1.4, 2.2, -292),   // 10 Playground
+      new THREE.Vector3(0, 0.6, -325),     // 11 Smart Review
+      new THREE.Vector3(0, 0.6, -365),     // Exit runway so Card 11 stays fully explored
     ];
     return new THREE.CatmullRomCurve3(waypoints, false, 'centripetal', 0.5);
   }, [isMobile]);
@@ -135,7 +165,7 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
   const targetLookAt = useMemo(() => new THREE.Vector3(), []);
   const tangent = useMemo(() => new THREE.Vector3(), []);
 
-  // Title positioning references (pins directly in front of camera lens)
+  // Title positioning reference (pins directly in front of camera lens)
   const titleRef = useRef();
   const forwardVec = useMemo(() => new THREE.Vector3(), []);
   const titleOffset = useMemo(() => new THREE.Vector3(0, 0, -4.8), []);
@@ -146,7 +176,7 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
     flightPath.getPoint(p, targetCamPos);
 
     // Look slightly ahead along the curve
-    const lookAheadP = Math.min(1, p + 0.035);
+    const lookAheadP = Math.min(1, p + 0.025);
     flightPath.getPoint(lookAheadP, targetLookAt);
     flightPath.getTangent(p, tangent);
 
@@ -171,7 +201,7 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
 
   return (
     <group>
-      {/* 3D Feature Cards spaced through the corridor */}
+      {/* 11 3D Feature Cards Spaced Throughout the Corridor */}
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[0]}
         position={isMobile ? [-1.8, 0.4, -18] : [-4.8, 0.4, -22]}
@@ -180,31 +210,61 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[1]}
-        position={isMobile ? [1.8, 2.0, -38] : [4.8, 2.0, -55]}
+        position={isMobile ? [1.8, 1.8, -38] : [4.8, 2.0, -52]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[2]}
-        position={isMobile ? [-1.8, -0.4, -58] : [-4.8, -0.4, -88]}
+        position={isMobile ? [-1.8, -0.4, -58] : [-4.8, -0.4, -82]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[3]}
-        position={isMobile ? [1.8, 1.4, -78] : [4.8, 1.4, -120]}
+        position={isMobile ? [1.8, 1.4, -78] : [4.8, 1.4, -112]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[4]}
-        position={isMobile ? [-1.8, 2.4, -98] : [-4.8, 2.4, -152]}
+        position={isMobile ? [-1.8, 2.2, -98] : [-4.8, 2.2, -142]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[5]}
-        position={isMobile ? [0, 0.4, -120] : [0, 0.6, -185]}
+        position={isMobile ? [1.8, 0.4, -118] : [4.8, 0.4, -172]}
+        rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
+        isMobile={isMobile}
+      />
+      <ProjectDisplay
+        project={HOW_YOU_LEARN_DATA[6]}
+        position={isMobile ? [-1.8, 1.8, -138] : [-4.8, 1.8, -202]}
+        rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
+        isMobile={isMobile}
+      />
+      <ProjectDisplay
+        project={HOW_YOU_LEARN_DATA[7]}
+        position={isMobile ? [1.8, -0.4, -158] : [4.8, -0.4, -232]}
+        rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
+        isMobile={isMobile}
+      />
+      <ProjectDisplay
+        project={HOW_YOU_LEARN_DATA[8]}
+        position={isMobile ? [-1.8, 1.4, -178] : [-4.8, 1.4, -262]}
+        rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
+        isMobile={isMobile}
+      />
+      <ProjectDisplay
+        project={HOW_YOU_LEARN_DATA[9]}
+        position={isMobile ? [1.8, 2.2, -198] : [4.8, 2.2, -292]}
+        rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
+        isMobile={isMobile}
+      />
+      <ProjectDisplay
+        project={HOW_YOU_LEARN_DATA[10]}
+        position={isMobile ? [0, 0.5, -224] : [0, 0.6, -325]}
         rotation={[0, 0, 0]}
         isMobile={isMobile}
       />
@@ -213,8 +273,8 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
       <ScrollRoomTitle isMobile={isMobile} titleRef={titleRef} />
 
       {/* Corridor Spatial Grid Guides */}
-      <gridHelper args={[400, 120, '#2563FF', '#0F172A']} position={[0, -4.8, -100]} />
-      <gridHelper args={[400, 120, '#1E3A8A', '#020617']} position={[0, 10.2, -100]} />
+      <gridHelper args={[800, 240, '#2563FF', '#0F172A']} position={[0, -4.8, -170]} />
+      <gridHelper args={[800, 240, '#1E3A8A', '#020617']} position={[0, 10.2, -170]} />
     </group>
   );
 }

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Star, Quote, CheckCircle2 } from 'lucide-react';
+import { BlurIn } from '@/components/ui/BlurInText';
 
 interface Testimonial {
   quote: string;
@@ -45,51 +46,78 @@ export function TestimonialsBanner() {
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-3xl mb-14">
-          <span className="text-[11px] font-semibold text-blue-300 uppercase tracking-[0.14em] block mb-3">
+          <BlurIn
+            as="span"
+            delay={0.05}
+            duration={0.7}
+            blurAmount="6px"
+            className="text-[11px] font-semibold text-blue-300 uppercase tracking-[0.14em] block mb-3"
+          >
             LEARNER STORIES
-          </span>
-          <h2 className="text-3xl sm:text-5xl md:text-[54px] font-semibold text-white tracking-[-0.03em] leading-[1.12]">
+          </BlurIn>
+
+          <BlurIn
+            as="h2"
+            delay={0.12}
+            duration={0.8}
+            blurAmount="10px"
+            yOffset={16}
+            className="text-3xl sm:text-5xl md:text-[54px] font-semibold text-white tracking-[-0.03em] leading-[1.12]"
+          >
             Loved by beginners. <br />
             <span className="text-blue-400">Trusted by thoughtful learners.</span>
-          </h2>
-          <p className="mt-4 text-base sm:text-lg font-normal text-slate-300 leading-[1.65]">
+          </BlurIn>
+
+          <BlurIn
+            as="p"
+            delay={0.22}
+            duration={0.8}
+            blurAmount="8px"
+            yOffset={12}
+            className="mt-4 text-base sm:text-lg font-normal text-slate-300 leading-[1.65]"
+          >
             Hear from students and early career professionals who built financial confidence without losing hard-earned savings to market speculation.
-          </p>
+          </BlurIn>
         </div>
 
         {/* 3 Testimonial Cards */}
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((item, idx) => (
-            <div
+            <BlurIn
               key={idx}
-              className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-7 border border-white/10 flex flex-col justify-between hover:bg-white/15 transition-all duration-300"
+              delay={0.1 * idx}
+              duration={0.75}
+              blurAmount="8px"
+              className="h-full"
             >
-              <div>
-                <div className="flex items-center gap-1 text-amber-400 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400" />
-                  ))}
-                </div>
-                <p className="text-sm sm:text-base font-normal text-slate-200 leading-[1.65] italic">
-                  "{item.quote}"
-                </p>
-              </div>
-
-              <div className="mt-6 pt-5 border-t border-white/10 flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-full ${item.avatarBg} text-white font-bold flex items-center justify-center text-sm shadow-md`}>
-                  {item.name.charAt(0)}
-                </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-7 border border-white/10 flex flex-col justify-between hover:bg-white/15 transition-all duration-300 h-full">
                 <div>
-                  <h4 className="text-sm font-semibold text-white flex items-center gap-1.5">
-                    {item.name}
-                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
-                  </h4>
-                  <p className="text-xs text-slate-400 font-normal">
-                    {item.role} • {item.collegeOrCompany}
+                  <div className="flex items-center gap-1 text-amber-400 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-sm sm:text-base font-normal text-slate-200 leading-[1.65] italic">
+                    "{item.quote}"
                   </p>
                 </div>
+
+                <div className="mt-6 pt-5 border-t border-white/10 flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-full ${item.avatarBg} text-white font-bold flex items-center justify-center text-sm shadow-md`}>
+                    {item.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-white flex items-center gap-1.5">
+                      {item.name}
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
+                    </h4>
+                    <p className="text-xs text-slate-400 font-normal">
+                      {item.role} • {item.collegeOrCompany}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            </BlurIn>
           ))}
         </div>
       </div>

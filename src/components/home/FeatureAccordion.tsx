@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, CheckCircle2, Sliders, ShieldCheck, Sparkles, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { BlurIn } from '@/components/ui/BlurInText';
 
 interface FeatureItem {
   id: string;
@@ -55,18 +56,40 @@ export function FeatureAccordion() {
 
   return (
     <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Eyebrow & Title */}
+      {/* Eyebrow & Title with Blur-In Animation */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="text-[11px] font-semibold text-[#475569] dark:text-slate-400 uppercase tracking-[0.14em] block mb-3">
+        <BlurIn
+          as="span"
+          delay={0.05}
+          duration={0.7}
+          blurAmount="6px"
+          className="text-[11px] font-semibold text-[#475569] dark:text-slate-400 uppercase tracking-[0.14em] block mb-3"
+        >
           THE TO DIRECT ARCHITECTURE
-        </span>
-        <h2 className="text-3xl sm:text-5xl md:text-[54px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.03em] leading-[1.12] mb-4">
+        </BlurIn>
+
+        <BlurIn
+          as="h2"
+          delay={0.12}
+          duration={0.8}
+          blurAmount="10px"
+          yOffset={16}
+          className="text-3xl sm:text-5xl md:text-[54px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.03em] leading-[1.12] mb-4"
+        >
           A complete learning system. <br className="hidden sm:inline" />
           <span className="text-[#2563FF] dark:text-[#60A5FA]">Built to reward true understanding.</span>
-        </h2>
-        <p className="text-base sm:text-lg font-normal text-[#475569] dark:text-[#94A3B8] leading-[1.65]">
+        </BlurIn>
+
+        <BlurIn
+          as="p"
+          delay={0.22}
+          duration={0.8}
+          blurAmount="8px"
+          yOffset={12}
+          className="text-base sm:text-lg font-normal text-[#475569] dark:text-[#94A3B8] leading-[1.65]"
+        >
           Everything you need to build unbreakable financial literacy and develop smart, disciplined decision-making.
-        </p>
+        </BlurIn>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Sparkles, MessageSquare, Bot, ChevronLeft, ChevronRight, HelpCircle, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { BlurIn } from '@/components/ui/BlurInText';
 
 interface SpotlightSlide {
   id: string;
@@ -145,18 +146,38 @@ export function AIAssistantSpotlight() {
 
         {/* Right Column: Copy & Interactive Slides Controls */}
         <div className="lg:col-span-6 order-1 lg:order-2 space-y-6">
-          <span className="text-[11px] font-semibold text-[#475569] dark:text-slate-400 uppercase tracking-[0.14em] block">
+          <BlurIn
+            as="span"
+            delay={0.05}
+            duration={0.7}
+            blurAmount="6px"
+            className="text-[11px] font-semibold text-[#475569] dark:text-slate-400 uppercase tracking-[0.14em] block"
+          >
             AI LEARNING COMPANION
-          </span>
+          </BlurIn>
 
-          <h2 className="text-3xl sm:text-5xl md:text-[54px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.03em] leading-[1.12]">
+          <BlurIn
+            as="h2"
+            delay={0.12}
+            duration={0.8}
+            blurAmount="10px"
+            yOffset={16}
+            className="text-3xl sm:text-5xl md:text-[54px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.03em] leading-[1.12]"
+          >
             Meet Finn. <br />
             <span className="text-[#2563FF] dark:text-[#60A5FA]">The AI coach that teaches reasoning, not stock tips.</span>
-          </h2>
+          </BlurIn>
 
-          <p className="text-base sm:text-lg font-normal text-[#475569] dark:text-[#94A3B8] leading-[1.65]">
+          <BlurIn
+            as="p"
+            delay={0.22}
+            duration={0.8}
+            blurAmount="8px"
+            yOffset={12}
+            className="text-base sm:text-lg font-normal text-[#475569] dark:text-[#94A3B8] leading-[1.65]"
+          >
             Unlike generic AI chat windows that hallucinate get-rich-quick schemes, Finn is strictly grounded in proven financial foundations. Finn helps you understand compounding, evaluates your risk profile, and debiases retail FOMO.
-          </p>
+          </BlurIn>
 
           {/* Current slide details card */}
           <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3 transition-colors">

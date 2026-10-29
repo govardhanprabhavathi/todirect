@@ -15,6 +15,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { BlurIn } from '@/components/ui/BlurInText';
 
 interface CurriculumModule {
   id: string;
@@ -111,21 +112,42 @@ const modules: CurriculumModule[] = [
 export function CurriculumGrid() {
   return (
     <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Section Header */}
+      {/* Section Header with Blur-In Animation */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
         <div>
-          <span className="text-[11px] font-semibold text-[#475569] dark:text-slate-400 uppercase tracking-[0.14em] block mb-3">
+          <BlurIn
+            as="span"
+            delay={0.05}
+            duration={0.7}
+            blurAmount="6px"
+            className="text-[11px] font-semibold text-[#475569] dark:text-slate-400 uppercase tracking-[0.14em] block mb-3"
+          >
             COMPREHENSIVE SYLLABUS
-          </span>
-          <h2 className="text-3xl sm:text-5xl md:text-[54px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.03em] leading-[1.12]">
+          </BlurIn>
+
+          <BlurIn
+            as="h2"
+            delay={0.12}
+            duration={0.8}
+            blurAmount="10px"
+            yOffset={16}
+            className="text-3xl sm:text-5xl md:text-[54px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.03em] leading-[1.12]"
+          >
             The 7 Core Topics. <br />
             <span className="text-[#2563FF] dark:text-[#60A5FA]">Zero jargon. 100% clarity.</span>
-          </h2>
+          </BlurIn>
         </div>
         <div className="md:max-w-md">
-          <p className="text-base font-normal text-[#475569] dark:text-[#94A3B8] leading-relaxed">
+          <BlurIn
+            as="p"
+            delay={0.22}
+            duration={0.8}
+            blurAmount="8px"
+            yOffset={12}
+            className="text-base font-normal text-[#475569] dark:text-[#94A3B8] leading-relaxed"
+          >
             Carefully sequenced to guide you from absolute beginner to informed investor. Each module includes bite-sized lessons, interactive calculators, and concept check scenarios.
-          </p>
+          </BlurIn>
           <div className="mt-4">
             <Link href="/curriculum">
               <button

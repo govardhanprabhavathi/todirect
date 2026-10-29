@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { CheckCircle2, ShieldCheck, ArrowRight, Sparkles } from "lucide-react";
 import { InteractiveGoldCoin } from "./InteractiveGoldCoin";
+import { BlurIn } from "@/components/ui/BlurInText";
 
 export function PreFooterCTA() {
   return (
@@ -18,26 +19,50 @@ export function PreFooterCTA() {
           {/* Left Column: Left-Aligned Text Content & Actions */}
           <div className="lg:col-span-7 xl:col-span-7 text-left space-y-6">
             {/* Eyebrow Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-[#475569] dark:text-slate-300 text-xs font-semibold tracking-wider uppercase">
+            <BlurIn
+              delay={0.05}
+              duration={0.7}
+              blurAmount="6px"
+              className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-[#475569] dark:text-slate-300 text-xs font-semibold tracking-wider uppercase"
+            >
               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
               <span>ZERO COST • 100% EDUCATIONAL</span>
-            </div>
+            </BlurIn>
 
             {/* Display Headline */}
-            <h2 className="text-3xl sm:text-5xl md:text-[52px] font-semibold text-[#0A1629] dark:text-white tracking-[-0.03em] leading-[1.12]">
+            <BlurIn
+              as="h2"
+              delay={0.12}
+              duration={0.8}
+              blurAmount="10px"
+              yOffset={16}
+              className="text-3xl sm:text-5xl md:text-[52px] font-semibold text-[#0A1629] dark:text-white tracking-[-0.03em] leading-[1.12]"
+            >
               Build financial confidence <br />
               <span className="text-[#2563FF] dark:text-[#60A5FA]">
                 before you invest a single rupee.
               </span>
-            </h2>
+            </BlurIn>
 
             {/* Description */}
-            <p className="text-base sm:text-lg font-normal text-[#475569] dark:text-slate-300 leading-relaxed max-w-xl">
+            <BlurIn
+              as="p"
+              delay={0.22}
+              duration={0.8}
+              blurAmount="8px"
+              yOffset={12}
+              className="text-base sm:text-lg font-normal text-[#475569] dark:text-slate-300 leading-relaxed max-w-xl"
+            >
               Join thousands of students and young professionals who learn the mechanics of wealth, asset allocation, and market psychology risk-free.
-            </p>
+            </BlurIn>
 
             {/* Action Buttons (Left-Aligned) */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-start gap-3.5 pt-2">
+            <BlurIn
+              delay={0.32}
+              duration={0.75}
+              blurAmount="8px"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center justify-start gap-3.5 pt-2"
+            >
               <Link href="/sign-in" className="w-full sm:w-auto">
                 <button
                   type="button"
@@ -55,10 +80,15 @@ export function PreFooterCTA() {
                   Explore 7-Topic Syllabus
                 </button>
               </Link>
-            </div>
+            </BlurIn>
 
             {/* Trust Badges (Left-Aligned) */}
-            <div className="pt-2 flex flex-wrap items-center justify-start gap-x-6 gap-y-2.5 text-xs font-medium text-slate-600 dark:text-slate-400">
+            <BlurIn
+              delay={0.42}
+              duration={0.7}
+              blurAmount="6px"
+              className="pt-2 flex flex-wrap items-center justify-start gap-x-6 gap-y-2.5 text-xs font-medium text-slate-600 dark:text-slate-400"
+            >
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 <span>No credit card required</span>
@@ -71,7 +101,7 @@ export function PreFooterCTA() {
                 <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 <span>Zero speculative stock tips</span>
               </span>
-            </div>
+            </BlurIn>
           </div>
 
           {/* Right Column: 3D Interactive Hover-Responsive Gold Coin */}

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Check, ArrowRight } from "lucide-react";
+import { BlurIn } from "@/components/ui/BlurInText";
 
 export function JourneyCards() {
   const [activeCard, setActiveCard] = useState<number>(2); // Default to Card 3 (Test)
@@ -64,25 +65,45 @@ export function JourneyCards() {
 
   return (
     <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-      {/* ─── TYPOGRAPHY HEADER ─── */}
+      {/* ─── TYPOGRAPHY HEADER WITH BLUR-IN ANIMATION ─── */}
       <div className="text-center max-w-3xl mx-auto mb-14">
         {/* Eyebrow */}
-        <span className="text-[11px] font-semibold text-[#475569] dark:text-slate-400 uppercase tracking-[0.14em] block mb-3">
+        <BlurIn
+          as="span"
+          delay={0.05}
+          duration={0.7}
+          blurAmount="6px"
+          className="text-[11px] font-semibold text-[#475569] dark:text-slate-400 uppercase tracking-[0.14em] block mb-3"
+        >
           FINANCIAL LEARNING PATHS
-        </span>
+        </BlurIn>
 
         {/* Display Heading */}
-        <h2 className="text-3xl sm:text-5xl md:text-[56px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.03em] leading-[1.12] mb-5">
+        <BlurIn
+          as="h2"
+          delay={0.12}
+          duration={0.8}
+          blurAmount="10px"
+          yOffset={16}
+          className="text-3xl sm:text-5xl md:text-[56px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.03em] leading-[1.12] mb-5"
+        >
           Built for people whose future runs on financial clarity
-        </h2>
+        </BlurIn>
 
         {/* Subtitle */}
-        <p className="text-base sm:text-lg font-normal text-[#475569] dark:text-[#94A3B8] leading-[1.65] max-w-2xl mx-auto mb-7">
+        <BlurIn
+          as="p"
+          delay={0.22}
+          duration={0.8}
+          blurAmount="8px"
+          yOffset={12}
+          className="text-base sm:text-lg font-normal text-[#475569] dark:text-[#94A3B8] leading-[1.65] max-w-2xl mx-auto mb-7"
+        >
           Understanding moves you forward, but market noise and speculative tips can wipe you out. TO DIRECT handles the foundations before, during, and after practice, so you make smart decisions with confidence.
-        </p>
+        </BlurIn>
 
         {/* Button: "Start for free" */}
-        <div className="flex justify-center">
+        <BlurIn delay={0.32} duration={0.7} blurAmount="6px" className="flex justify-center">
           <Link href="/sign-in">
             <button
               type="button"
@@ -91,7 +112,7 @@ export function JourneyCards() {
               Start for free
             </button>
           </Link>
-        </div>
+        </BlurIn>
       </div>
 
       {/* ─── 4-COLUMN CARDS CONTAINER (ALL CARDS EQUAL HEIGHT) ─── */}
@@ -100,15 +121,21 @@ export function JourneyCards() {
           const isActive = activeCard === idx;
 
           return (
-            <div
+            <BlurIn
               key={st.id}
-              onClick={() => setActiveCard(idx)}
-              className={`h-full rounded-3xl p-6 sm:p-7 transition-all duration-300 cursor-pointer border flex flex-col justify-between ${
-                isActive
-                  ? "bg-white dark:bg-[#111625] border-blue-500/80 dark:border-blue-500 shadow-float ring-2 ring-blue-500/10 dark:ring-blue-500/20"
-                  : "bg-white/90 dark:bg-[#111625]/80 hover:bg-white dark:hover:bg-[#111625] border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs"
-              }`}
+              delay={0.08 * idx}
+              duration={0.75}
+              blurAmount="8px"
+              className="h-full"
             >
+              <div
+                onClick={() => setActiveCard(idx)}
+                className={`h-full rounded-3xl p-6 sm:p-7 transition-all duration-300 cursor-pointer border flex flex-col justify-between ${
+                  isActive
+                    ? "bg-white dark:bg-[#111625] border-blue-500/80 dark:border-blue-500 shadow-float ring-2 ring-blue-500/10 dark:ring-blue-500/20"
+                    : "bg-white/90 dark:bg-[#111625]/80 hover:bg-white dark:hover:bg-[#111625] border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs"
+                }`}
+              >
               {/* Card Body Content */}
               <div className="flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-3.5">
@@ -184,8 +211,9 @@ export function JourneyCards() {
                 </Link>
               </div>
             </div>
-          );
-        })}
+          </BlurIn>
+        );
+      })}
       </div>
     </section>
   );

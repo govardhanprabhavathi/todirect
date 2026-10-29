@@ -10,6 +10,8 @@
     "test": "node --experimental-strip-types scripts/test-suite.mjs"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
     "@types/three": "^0.186.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",

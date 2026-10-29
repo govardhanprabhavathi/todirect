@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { HeroMeshCard } from '@/components/home/HeroMeshCard';
+import HowYouLearnSection from '@/components/ProjectRoom3D';
 import { JourneyCards } from '@/components/home/JourneyCards';
 import { FeatureAccordion } from '@/components/home/FeatureAccordion';
 import { AIAssistantSpotlight } from '@/components/home/AIAssistantSpotlight';
@@ -17,10 +18,13 @@ export default function HomePage() {
       <Navbar />
 
       <main className="relative overflow-hidden">
-        {/* 1. Hero Section with Tab Capsule and Radiant Sky Mesh Card */}
+        {/* 1. Hero Section */}
         <HeroMeshCard />
 
-        {/* 2. 4-Column Journey Cards with Expansion */}
+        {/* 2. Interactive 3D Scroll Corridor: How You Will Learn */}
+        <HowYouLearnSection />
+
+        {/* 3. 4-Column Journey Cards with Expansion */}
         <JourneyCards />
 
         {/* 3. Deep Dive Feature Accordion with Allocation Preview */}

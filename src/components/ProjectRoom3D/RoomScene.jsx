@@ -99,61 +99,34 @@ export const HOW_YOU_LEARN_DATA = [
 
 // ─── 3D Negative / Inverted Color Title Component ─────────────────────────────
 export function ScrollRoomTitle({ isMobile = false, titleRef }) {
-  const lineOffset = isMobile ? 0.28 : 0.48;
-  const fontSize = isMobile ? 0.44 : 0.74;
-  const outlineW = isMobile ? 0.022 : 0.034;
-  const strokeW = isMobile ? 0.012 : 0.018;
-
   return (
-    <group ref={titleRef} renderOrder={999}>
-      {/* Line 1: HOW YOU with Extra Bold Font Weight & Inverted Blending */}
+    <group
+      ref={titleRef}
+      position={[isMobile ? -0.15 : -0.2, isMobile ? 2.3 : 2.6, isMobile ? 5 : 6]}
+      rotation={[-0.08, 0, 0]}
+    >
       <Text
-        position={[0, lineOffset, 0]}
-        fontSize={fontSize}
-        fontWeight={900}
+        position={[0, 0, 0]}
+        fontSize={isMobile ? 0.72 : 1.2}
+        lineHeight={1.02}
+        textAlign="center"
         color="#FFFFFF"
         anchorX="center"
         anchorY="middle"
-        letterSpacing={-0.02}
-        outlineWidth={outlineW}
+        letterSpacing={-0.03}
+        fontWeight={900}
+        outlineWidth={isMobile ? 0.026 : 0.04}
         outlineColor="#FFFFFF"
-        strokeWidth={strokeW}
-        strokeColor="#FFFFFF"
         sdfGlyphSize={128}
-        renderOrder={999}
-        material-depthTest={false}
+        renderOrder={10}
+        material-depthWrite={false}
         // ⚡ THE EXACT NEGATIVE / INVERTED BLEND MODE IN THREE.JS ⚡
         material-blending={THREE.CustomBlending}
         material-blendEquation={THREE.AddEquation}
         material-blendSrc={THREE.OneMinusDstColorFactor}
         material-blendDst={THREE.OneMinusSrcColorFactor}
       >
-        HOW YOU
-      </Text>
-
-      {/* Line 2: WILL LEARN with Extra Bold Font Weight & Inverted Blending */}
-      <Text
-        position={[0, -lineOffset, 0]}
-        fontSize={fontSize}
-        fontWeight={900}
-        color="#FFFFFF"
-        anchorX="center"
-        anchorY="middle"
-        letterSpacing={-0.02}
-        outlineWidth={outlineW}
-        outlineColor="#FFFFFF"
-        strokeWidth={strokeW}
-        strokeColor="#FFFFFF"
-        sdfGlyphSize={128}
-        renderOrder={999}
-        material-depthTest={false}
-        // ⚡ THE EXACT NEGATIVE / INVERTED BLEND MODE IN THREE.JS ⚡
-        material-blending={THREE.CustomBlending}
-        material-blendEquation={THREE.AddEquation}
-        material-blendSrc={THREE.OneMinusDstColorFactor}
-        material-blendDst={THREE.OneMinusSrcColorFactor}
-      >
-        WILL LEARN
+        {"HOW YOU\nWILL LEARN"}
       </Text>
     </group>
   );
@@ -200,10 +173,8 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
   const targetLookAt = useMemo(() => new THREE.Vector3(), []);
   const tangent = useMemo(() => new THREE.Vector3(), []);
 
-  // Title positioning reference (pins directly in front of camera lens)
+  // Title reference (placed in 3D world space at corridor entrance; zooms in & exits on scroll)
   const titleRef = useRef();
-  const forwardVec = useMemo(() => new THREE.Vector3(), []);
-  const titleOffset = useMemo(() => new THREE.Vector3(0, 0, -4.8), []);
 
   useFrame((state, delta) => {
     const rawProgress = scrollYProgress ? scrollYProgress.get() : 0;
@@ -226,30 +197,20 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
     // Subtle drone roll banking
     state.camera.rotation.z = -tangent.x * 0.06;
 
-    // Title Zoom-Out on Scroll Behavior
-    // Text starts prominent in two bold lines at the start (p = 0), then smoothly zooms out into depth
-    // as the user scrolls, fading/shrinking completely before reaching the first card.
+    // Title zooms in as camera flies forward; cleanly exits once passed
     if (titleRef.current) {
-      const zoomThreshold = 0.075; // Completes zoom-out in first 7.5% of scroll room
-      if (p < zoomThreshold) {
-        titleRef.current.visible = true;
-        const zoomProgress = p / zoomThreshold; // 0 (start) -> 1 (fully zoomed out)
-        // Smooth cubic ease-out zoom curve
-        const zoomFactor = Math.pow(Math.max(0, 1 - zoomProgress), 1.5);
+      const exitZ = isMobile ? 3.8 : 4.8;
+      const startZ = isMobile ? 14 : 16;
+      const camZ = state.camera.position.z;
 
-        // Dynamic scale zoom-out
-        titleRef.current.scale.set(zoomFactor, zoomFactor, zoomFactor);
-
-        // Dynamic 3D depth push (recedes further into the corridor as it zooms out)
-        const dynamicZ = -4.8 - zoomProgress * 8.0;
-        titleOffset.set(0, isMobile ? 0.15 : 0.2, dynamicZ);
-
-        forwardVec.copy(titleOffset).applyQuaternion(state.camera.quaternion).add(currentCamPos);
-        titleRef.current.position.copy(forwardVec);
-        titleRef.current.quaternion.copy(state.camera.quaternion);
-      } else {
-        // Hide title once zoomed out so cards across the rest of the corridor remain 100% unobstructed
+      if (camZ <= exitZ) {
         titleRef.current.visible = false;
+      } else {
+        titleRef.current.visible = true;
+        // Subtle progressive zoom scale as camera approaches
+        const progressToTitle = Math.max(0, Math.min(1, (startZ - camZ) / (startZ - exitZ)));
+        const dynamicScale = 1 + progressToTitle * 0.35;
+        titleRef.current.scale.set(dynamicScale, dynamicScale, 1);
       }
     }
   });

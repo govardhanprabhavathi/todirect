@@ -162,8 +162,7 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
       new THREE.Vector3(0.6, -0.4, -158),  // 08 Badges
       new THREE.Vector3(-0.6, 1.4, -178),  // 09 Live Sessions
       new THREE.Vector3(0.6, 2.2, -198),   // 10 Playground
-      new THREE.Vector3(0, 0.5, -224),     // 11 Smart Review
-      new THREE.Vector3(0, 0.5, -255),     // Exit runway
+      new THREE.Vector3(0, 0.5, -226),     // 11 Smart Review (terminal end - no extra trailing space)
     ] : [
       new THREE.Vector3(0, 3.4, 16),
       new THREE.Vector3(-1.4, 0.4, -22),   // 01 AI Avatar
@@ -176,8 +175,7 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
       new THREE.Vector3(1.4, -0.4, -232),  // 08 Badges
       new THREE.Vector3(-1.4, 1.4, -262),  // 09 Live Sessions
       new THREE.Vector3(1.4, 2.2, -292),   // 10 Playground
-      new THREE.Vector3(0, 0.6, -325),     // 11 Smart Review
-      new THREE.Vector3(0, 0.6, -365),     // Exit runway so Card 11 stays fully explored
+      new THREE.Vector3(0, 0.6, -328),     // 11 Smart Review (terminal end - no extra trailing space)
     ];
     return new THREE.CatmullRomCurve3(waypoints, false, 'centripetal', 0.5);
   }, [isMobile]);
@@ -196,10 +194,14 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
     const p = Math.max(0, Math.min(1, rawProgress));
     flightPath.getPoint(p, targetCamPos);
 
-    // Look slightly ahead along the curve
-    const lookAheadP = Math.min(1, p + 0.025);
+    // Look ahead along curve; near the terminal point, look along forward tangent
+    const lookAheadP = Math.min(1, p + 0.02);
     flightPath.getPoint(lookAheadP, targetLookAt);
     flightPath.getTangent(p, tangent);
+
+    if (lookAheadP >= 0.99) {
+      targetLookAt.copy(targetCamPos).addScaledVector(tangent, 5.0);
+    }
 
     // Exponential smoothing (lerp)
     const smoothFactor = 1 - Math.exp(-8 * delta);

@@ -13,7 +13,7 @@ const ProjectHUD = memo(function ProjectHUD({ smoothProgress, projects }) {
     return smoothProgress.on('change', (latest) => {
       const normalized = Math.min(
         projects.length - 1,
-        Math.max(0, Math.floor((latest / 0.92) * projects.length))
+        Math.max(0, Math.floor(latest * projects.length))
       );
       setActiveProjectIndex(normalized);
     });
@@ -64,7 +64,7 @@ export default function ProjectRoom3D() {
     return () => observer.disconnect();
   }, []);
 
-  // Track scroll progress across a 1600vh container to allow full exploration of all 11 cards
+  // Track scroll progress across a calibrated container that terminates right as Card 11 passes
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -83,7 +83,7 @@ export default function ProjectRoom3D() {
   return (
     <section
       ref={containerRef}
-      className={`relative w-full ${isMobile ? 'h-[1200vh]' : 'h-[1600vh]'} bg-[#070A11]`}
+      className={`relative w-full ${isMobile ? 'h-[800vh]' : 'h-[1100vh]'} bg-[#070A11]`}
     >
       <div className="sticky top-0 w-full h-screen h-[100dvh] overflow-hidden bg-[#070A11] select-none z-10">
         {/* Three.js 3D WebGL Canvas (Hosts the 3D scene + exact WebGL Inverted Title) */}

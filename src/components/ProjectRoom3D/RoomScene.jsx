@@ -99,28 +99,43 @@ export const HOW_YOU_LEARN_DATA = [
 
 // ─── 3D Negative / Inverted Color Title Component ─────────────────────────────
 export function ScrollRoomTitle({ isMobile = false, titleRef }) {
+  const invertMaterial = useMemo(() => {
+    return new THREE.MeshBasicMaterial({
+      color: '#ffffff',
+      transparent: true,
+      depthTest: false,
+      depthWrite: false,
+      blending: THREE.CustomBlending,
+      blendEquation: THREE.AddEquation,
+      blendSrc: THREE.OneMinusDstColorFactor,
+      blendDst: THREE.OneMinusSrcColorFactor,
+    });
+  }, []);
+
   return (
     <group
       ref={titleRef}
+      renderOrder={999}
       position={[isMobile ? -0.15 : -0.2, isMobile ? 2.3 : 2.6, isMobile ? 5 : 6]}
       rotation={[-0.08, 0, 0]}
     >
       <Text
         position={[0, 0, 0]}
-        fontSize={isMobile ? 0.72 : 1.2}
-        lineHeight={1.02}
+        fontSize={isMobile ? 0.68 : 1.05}
+        lineHeight={1.05}
         textAlign="center"
         color="#FFFFFF"
         anchorX="center"
         anchorY="middle"
-        letterSpacing={-0.03}
-        fontWeight={900}
-        outlineWidth={isMobile ? 0.026 : 0.04}
-        outlineColor="#FFFFFF"
+        letterSpacing={-0.02}
+        fontWeight={700}
+        outlineWidth={0}
         sdfGlyphSize={128}
-        renderOrder={10}
+        renderOrder={999}
+        material={invertMaterial}
+        material-transparent={true}
+        material-depthTest={false}
         material-depthWrite={false}
-        // ⚡ THE EXACT NEGATIVE / INVERTED BLEND MODE IN THREE.JS ⚡
         material-blending={THREE.CustomBlending}
         material-blendEquation={THREE.AddEquation}
         material-blendSrc={THREE.OneMinusDstColorFactor}

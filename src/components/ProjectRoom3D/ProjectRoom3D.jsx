@@ -20,7 +20,7 @@ const ProjectHUD = memo(function ProjectHUD({ smoothProgress, projects }) {
   }, [smoothProgress, projects.length]);
 
   return (
-    <div className="absolute inset-0 z-20 pointer-events-none flex flex-col justify-end p-4 sm:p-8 md:p-12 text-white font-sans">
+    <div className="absolute inset-0 z-30 pointer-events-none flex flex-col justify-end p-4 sm:p-8 md:p-12 text-white font-sans">
       <div className="flex items-end justify-between w-full max-w-7xl mx-auto">
         <div>
           <p className="text-[10px] font-semibold tracking-wider text-blue-400 uppercase">Interactive 3D Corridor</p>
@@ -84,28 +84,7 @@ export default function ProjectRoom3D() {
       className={`relative w-full ${isMobile ? 'h-[750vh]' : 'h-[950vh]'} bg-[#070A11]`}
     >
       <div className="sticky top-0 w-full h-screen h-[100dvh] overflow-hidden bg-[#070A11] select-none z-10">
-        {/* Bold Section Title with Negative Color Blend Effect */}
-        <div className="absolute top-16 sm:top-20 md:top-24 inset-x-0 z-30 pointer-events-none flex flex-col items-center justify-center text-center px-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-black/40 backdrop-blur-md mb-2 sm:mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-white uppercase">
-              Interactive Spatial Journey
-            </span>
-          </div>
-
-          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.035em] text-white mix-blend-difference uppercase select-none">
-            How You Will Learn
-          </h2>
-
-          <p className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-wider text-white/80 mix-blend-difference mt-1.5 sm:mt-2 select-none uppercase">
-            Scroll to fly through the 3D learning corridor
-          </p>
-        </div>
-
-        {/* HUD Overlay with active card info and progress */}
-        <ProjectHUD smoothProgress={smoothProgress} projects={projects} />
-
-        {/* Three.js 3D WebGL Canvas */}
+        {/* 1. Three.js 3D WebGL Canvas (Backdrop Layer) */}
         <Canvas
           frameloop={isInView ? 'always' : 'never'}
           camera={{
@@ -117,10 +96,10 @@ export default function ProjectRoom3D() {
           dpr={[1, 2]}
           gl={{
             antialias: true,
-            alpha: false,
+            alpha: true,
             powerPreference: 'high-performance',
           }}
-          style={{ width: '100%', height: '100%', background: '#070A11' }}
+          style={{ width: '100%', height: '100%' }}
         >
           <color attach="background" args={['#070A11']} />
           <fog attach="fog" args={['#070A11', isMobile ? 20 : 25, isMobile ? 65 : 85]} />
@@ -131,6 +110,19 @@ export default function ProjectRoom3D() {
             <RoomScene scrollYProgress={smoothProgress} isMobile={isMobile} />
           </Suspense>
         </Canvas>
+
+        {/* 2. Center & Middle Section Title with Negative Color Blend Effect */}
+        <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center text-center px-4 sm:px-8">
+          <h2
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-[-0.04em] text-white select-none uppercase leading-none drop-shadow-sm"
+            style={{ mixBlendMode: 'difference' }}
+          >
+            How You Will Learn
+          </h2>
+        </div>
+
+        {/* 3. Bottom HUD Overlay with active card info and progress */}
+        <ProjectHUD smoothProgress={smoothProgress} projects={projects} />
       </div>
     </section>
   );

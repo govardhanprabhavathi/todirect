@@ -81,10 +81,10 @@ export function HeroMeshCard() {
         <div className="text-center max-w-5xl mx-auto">
           <BlurIn
             as="h1"
-            delay={0.08}
-            duration={0.85}
-            blurAmount="12px"
-            yOffset={18}
+            delay={0.05}
+            duration={0.65}
+            blurAmount="4px"
+            yOffset={10}
             className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.035em] leading-[1.12] mb-8 sm:mb-10"
           >
             Learn before <br />
@@ -93,10 +93,10 @@ export function HeroMeshCard() {
 
           <BlurIn
             as="p"
-            delay={0.25}
-            duration={0.8}
-            blurAmount="8px"
-            yOffset={14}
+            delay={0.16}
+            duration={0.6}
+            blurAmount="3px"
+            yOffset={8}
             className="text-base sm:text-lg md:text-xl font-normal text-[#475569] dark:text-[#94A3B8] leading-relaxed max-w-2xl mx-auto mb-8 sm:mb-9"
           >
             India&apos;s First Youth Focused Financial Investment Learning Platform.
@@ -104,10 +104,10 @@ export function HeroMeshCard() {
 
           {/* Dual Social Pills */}
           <BlurIn
-            delay={0.38}
-            duration={0.75}
-            blurAmount="8px"
-            yOffset={12}
+            delay={0.25}
+            duration={0.55}
+            blurAmount="3px"
+            yOffset={6}
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-3.5"
           >
             <Link href="/sign-in" className="w-full sm:w-auto">
@@ -156,10 +156,10 @@ export function HeroMeshCard() {
           {/* Microcopy below auth pills */}
           <BlurIn
             as="p"
-            delay={0.48}
-            duration={0.7}
-            blurAmount="6px"
-            yOffset={10}
+            delay={0.32}
+            duration={0.5}
+            blurAmount="2px"
+            yOffset={4}
             className="text-xs font-normal text-[#64748B] dark:text-slate-400 mb-10 sm:mb-12"
           >
             <Link href="/sign-in" className="underline hover:text-[#0A1629] dark:hover:text-white transition-colors">

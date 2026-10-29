@@ -153,11 +153,11 @@ export function HeroMeshCard() {
         </p>
 
         {/* ─── TWO PERSPECTIVE COMPARISON CARDS ─── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 max-w-5xl mx-auto text-left">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 max-w-4xl mx-auto text-left">
           {/* Card 1: Traditional Way */}
           <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-white/75 dark:bg-[#0B0F19]/80 backdrop-blur-md border border-slate-200/90 dark:border-slate-800/90 shadow-sm flex flex-col justify-between transition-all hover:border-slate-300 dark:hover:border-slate-700">
             <div>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-3.5">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 text-xs font-semibold border border-slate-200 dark:border-slate-700">
                   <XCircle className="w-3.5 h-3.5 text-rose-500 shrink-0" />
                   <span>Traditional Way</span>
@@ -167,39 +167,39 @@ export function HeroMeshCard() {
                 </span>
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em] mb-2">
-                Trial, Error & Costly Mistakes
+              <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em] mb-1.5">
+                Trial & Error
               </h3>
-              <p className="text-xs sm:text-sm text-[#64748B] dark:text-slate-400 leading-relaxed mb-6">
-                Faces constant struggle to learn, unsure where to start, and without a safe guide on how to invest properly.
+              <p className="text-xs sm:text-sm text-[#64748B] dark:text-slate-400 leading-relaxed mb-5">
+                Unsure where to start, confused by jargon, and forced to risk real money.
               </p>
 
-              <ul className="space-y-3.5 text-xs sm:text-sm text-[#475569] dark:text-slate-300">
-                <li className="flex items-start gap-2.5">
-                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                  <span><strong>Where to start?</strong> — Lost in scattered YouTube videos, random blogs, and conflicting advice</span>
+              <ul className="space-y-3 text-xs sm:text-sm text-[#475569] dark:text-slate-300">
+                <li className="flex items-center gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                  <span><strong>Where to start?</strong> Lost in scattered advice & noise</span>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                  <span><strong>Problems to learn</strong> — Complex financial jargon, dry formulas, and zero beginner context</span>
+                <li className="flex items-center gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                  <span><strong>Hard to learn:</strong> Complex jargon & dry theory</span>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                  <span><strong>How to invest properly?</strong> — No structured practice sandbox, forced to risk real money blindly</span>
+                <li className="flex items-center gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                  <span><strong>How to invest?</strong> Blind trial & error with real savings</span>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                  <span><strong>Speculative FOMO</strong> — Chasing unverified stock tips, Telegram hype, and finfluencer trends</span>
+                <li className="flex items-center gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                  <span><strong>Market hype:</strong> Chasing unverified tips & FOMO</span>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                  <span><strong>Constant anxiety</strong> — Left second-guessing every choice with persistent fear of capital wipeout</span>
+                <li className="flex items-center gap-2.5">
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                  <span><strong>High anxiety:</strong> Constant fear of losing capital</span>
                 </li>
               </ul>
             </div>
 
-            <div className="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-              <span>Result: Costly errors & frustration</span>
+            <div className="pt-5 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+              <span>Outcome: Costly mistakes & doubt</span>
               <span className="font-semibold text-rose-600 dark:text-rose-400">High Risk</span>
             </div>
           </div>
@@ -210,7 +210,7 @@ export function HeroMeshCard() {
             <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-blue-500/15 blur-2xl pointer-events-none" />
 
             <div className="relative z-10">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-3.5">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF3FF] dark:bg-blue-950/80 text-[#1748D8] dark:text-blue-300 text-xs font-semibold border border-[#2563FF]/25 dark:border-blue-700">
                   <Sparkles className="w-3.5 h-3.5 text-[#2563FF] shrink-0" />
                   <span>TO DIRECT Way</span>
@@ -220,38 +220,38 @@ export function HeroMeshCard() {
                 </span>
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em] mb-2">
-                Personalised, Practical & Confident
+              <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em] mb-1.5">
+                Structured & Confident
               </h3>
-              <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed mb-6">
-                A structured, youth-focused path designed to take you from absolute zero to autonomous investing.
+              <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed mb-5">
+                A simple youth roadmap to learn first and practice with zero risk.
               </p>
 
-              <ul className="space-y-3.5 text-xs sm:text-sm text-[#0A1629] dark:text-slate-200">
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span><strong>Personalised learning</strong> — Guided paths calibrated to your pace, age, and individual goals</span>
+              <ul className="space-y-3 text-xs sm:text-sm text-[#0A1629] dark:text-slate-200">
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <span><strong>Personalised learning:</strong> Tailored to your pace & goals</span>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span><strong>Simple lectures</strong> — Intuitive, bite-sized lessons that make complex money concepts click</span>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <span><strong>Simple lectures:</strong> Bite-sized, visual, and jargon-free</span>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span><strong>Practical learning</strong> — Hands-on, zero-risk ₹10,000 sandbox to practice real allocation safe</span>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <span><strong>Practical learning:</strong> Safe ₹10,000 practice sandbox</span>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span><strong>Gamified experience</strong> — Streaks, calibrated interactive quizzes, and verifiable competence badges</span>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <span><strong>Gamified experience:</strong> Quizzes, streaks, and badges</span>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span><strong>Make you confident</strong> — Graduate with genuine clarity and conviction before risking real rupees</span>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <span><strong>Builds confidence:</strong> Real clarity before investing</span>
                 </li>
               </ul>
             </div>
 
-            <div className="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800/80 relative z-10">
+            <div className="pt-5 mt-5 border-t border-slate-100 dark:border-slate-800/80 relative z-10">
               <Link
                 href="/curriculum"
                 className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#0A1629] dark:bg-white hover:bg-[#1E293B] dark:hover:bg-slate-100 text-white dark:text-[#0A1629] text-xs sm:text-sm font-semibold transition-all shadow-xs group"

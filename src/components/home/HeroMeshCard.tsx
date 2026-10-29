@@ -144,11 +144,12 @@ export function HeroMeshCard() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ─── HERO TYPOGRAPHY ─── */}
         <div className="text-center max-w-5xl mx-auto mb-12 sm:mb-16">
-        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.035em] leading-[1.08] mb-6">
-          Learn before you invest
+        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.035em] leading-[1.12] mb-8 sm:mb-10">
+          Learn before <br />
+          you Invest.
         </h1>
 
-        <p className="text-base sm:text-lg md:text-xl font-normal text-[#475569] dark:text-[#94A3B8] leading-relaxed max-w-2xl mx-auto mb-8 sm:mb-10">
+        <p className="text-base sm:text-lg md:text-xl font-normal text-[#475569] dark:text-[#94A3B8] leading-relaxed max-w-2xl mx-auto mb-12 sm:mb-14">
           India&apos;s First Youth Focused Financial Investment Learning Platform.
         </p>
 

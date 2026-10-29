@@ -17,7 +17,7 @@ export default function HomePage() {
       {/* Top Navbar */}
       <Navbar />
 
-      <main className="relative overflow-hidden">
+      <main className="relative">
         {/* 1. Hero Section */}
         <HeroMeshCard />
 

@@ -83,9 +83,9 @@ export default function ProjectRoom3D() {
       ref={containerRef}
       className={`relative w-full ${isMobile ? 'h-[750vh]' : 'h-[950vh]'} bg-[#070A11]`}
     >
-      <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#070A11] select-none">
+      <div className="sticky top-0 w-full h-screen h-[100dvh] overflow-hidden bg-[#070A11] select-none z-10">
         {/* Bold Section Title with Negative Color Blend Effect */}
-        <div className="absolute top-8 sm:top-12 inset-x-0 z-30 pointer-events-none flex flex-col items-center justify-center text-center px-4">
+        <div className="absolute top-16 sm:top-20 md:top-24 inset-x-0 z-30 pointer-events-none flex flex-col items-center justify-center text-center px-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-black/40 backdrop-blur-md mb-2 sm:mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
             <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-white uppercase">

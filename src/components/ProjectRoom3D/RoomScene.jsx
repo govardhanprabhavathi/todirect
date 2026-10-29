@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import ProjectDisplay from './ProjectDisplay';
 
@@ -74,6 +75,35 @@ export const HOW_YOU_LEARN_DATA = [
   }
 ];
 
+// ─── 3D Negative / Inverted Color Title Component ─────────────────────────────
+export function ScrollRoomTitle({ isMobile = false, titleRef }) {
+  return (
+    <group ref={titleRef} renderOrder={999}>
+      <Text
+        position={[0, 0, 0]}
+        fontSize={isMobile ? 0.38 : 0.62}
+        color="#FFFFFF"
+        anchorX="center"
+        anchorY="middle"
+        letterSpacing={-0.035}
+        sdfGlyphSize={128}
+        outlineWidth={0}
+        renderOrder={999}
+        material-depthTest={false}
+        // ========================================================
+        // ⚡ THE EXACT NEGATIVE / INVERTED BLEND MODE IN THREE.JS ⚡
+        // ========================================================
+        material-blending={THREE.CustomBlending}
+        material-blendEquation={THREE.AddEquation}
+        material-blendSrc={THREE.OneMinusDstColorFactor}
+        material-blendDst={THREE.OneMinusSrcColorFactor}
+      >
+        HOW YOU WILL LEARN
+      </Text>
+    </group>
+  );
+}
+
 export default function RoomScene({ scrollYProgress, isMobile }) {
   // 3D S-curve flight corridor with smooth entrance and generous exit runway
   const flightPath = useMemo(() => {
@@ -105,6 +135,11 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
   const targetLookAt = useMemo(() => new THREE.Vector3(), []);
   const tangent = useMemo(() => new THREE.Vector3(), []);
 
+  // Title positioning references (pins directly in front of camera lens)
+  const titleRef = useRef();
+  const forwardVec = useMemo(() => new THREE.Vector3(), []);
+  const titleOffset = useMemo(() => new THREE.Vector3(0, 0, -4.8), []);
+
   useFrame((state, delta) => {
     const rawProgress = scrollYProgress ? scrollYProgress.get() : 0;
     const p = Math.max(0, Math.min(1, rawProgress));
@@ -125,6 +160,13 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
 
     // Subtle drone roll banking
     state.camera.rotation.z = -tangent.x * 0.06;
+
+    // Pin the 3D Inverted Title in front of the camera lens with lookAt orientation
+    if (titleRef.current) {
+      forwardVec.copy(titleOffset).applyQuaternion(state.camera.quaternion).add(currentCamPos);
+      titleRef.current.position.copy(forwardVec);
+      titleRef.current.quaternion.copy(state.camera.quaternion);
+    }
   });
 
   return (
@@ -166,6 +208,9 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
         rotation={[0, 0, 0]}
         isMobile={isMobile}
       />
+
+      {/* 3D Negative / Inverted Color Title (Inside WebGL Pipeline) */}
+      <ScrollRoomTitle isMobile={isMobile} titleRef={titleRef} />
 
       {/* Corridor Spatial Grid Guides */}
       <gridHelper args={[400, 120, '#2563FF', '#0F172A']} position={[0, -4.8, -100]} />

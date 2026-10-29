@@ -5,16 +5,6 @@ import { Canvas } from '@react-three/fiber';
 import { useScroll, useSpring, motion } from 'framer-motion';
 import RoomScene, { HOW_YOU_LEARN_DATA } from './RoomScene';
 
-// Card milestones along the 3D spline corridor with their chromatic negative colors
-const CARD_MILESTONES = [
-  { progress: 0.14, name: 'Foundation Curriculum', negativeColor: '#FD8A36' }, // Inverse of Cyan
-  { progress: 0.29, name: 'Concept Assessments', negativeColor: '#A3E635' }, // Inverse of Purple
-  { progress: 0.44, name: 'Virtual Sandbox', negativeColor: '#FBBF24' },     // Inverse of Sapphire Blue
-  { progress: 0.59, name: 'Finn AI Coach', negativeColor: '#F59E0B' },       // Inverse of Azure/Cobalt
-  { progress: 0.74, name: 'Competence Badges', negativeColor: '#38BDF8' },   // Inverse of Gold Topaz
-  { progress: 0.89, name: 'Disciplined Habits', negativeColor: '#4ADE80' },  // Inverse of Violet
-];
-
 // Isolated HUD to prevent re-rendering the 3D Canvas on scroll
 const ProjectHUD = memo(function ProjectHUD({ smoothProgress, projects }) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
@@ -54,12 +44,6 @@ export default function ProjectRoom3D() {
   const [isMobile, setIsMobile] = useState(false);
   const [isInView, setIsInView] = useState(true);
 
-  // Dynamic negative color state tracking which card is currently behind the center text
-  const [activeNegativeState, setActiveNegativeState] = useState({
-    active: false,
-    color: '#FFFFFF',
-  });
-
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -92,35 +76,6 @@ export default function ProjectRoom3D() {
     restDelta: 0.0001,
   });
 
-  // Track proximity to 3D cards to drive negative color transition in real-time
-  useEffect(() => {
-    return smoothProgress.on('change', (p) => {
-      let minDistance = 1;
-      let closestCard = CARD_MILESTONES[0];
-
-      for (const card of CARD_MILESTONES) {
-        const dist = Math.abs(p - card.progress);
-        if (dist < minDistance) {
-          minDistance = dist;
-          closestCard = card;
-        }
-      }
-
-      // Proximity threshold: when a card is directly centered behind the title
-      if (minDistance < 0.048) {
-        setActiveNegativeState({
-          active: true,
-          color: closestCard.negativeColor,
-        });
-      } else {
-        setActiveNegativeState({
-          active: false,
-          color: '#FFFFFF',
-        });
-      }
-    });
-  }, [smoothProgress]);
-
   const projects = HOW_YOU_LEARN_DATA;
 
   return (
@@ -129,7 +84,7 @@ export default function ProjectRoom3D() {
       className={`relative w-full ${isMobile ? 'h-[750vh]' : 'h-[950vh]'} bg-[#070A11]`}
     >
       <div className="sticky top-0 w-full h-screen h-[100dvh] overflow-hidden bg-[#070A11] select-none z-10">
-        {/* 1. Three.js 3D WebGL Canvas (Backdrop Layer) */}
+        {/* Three.js 3D WebGL Canvas (Hosts the 3D scene + exact WebGL Inverted Title) */}
         <Canvas
           frameloop={isInView ? 'always' : 'never'}
           camera={{
@@ -156,23 +111,7 @@ export default function ProjectRoom3D() {
           </Suspense>
         </Canvas>
 
-        {/* 2. Center & Middle Section Title with Reduced Font Size and Negative Color Effect */}
-        <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center text-center px-4 sm:px-8">
-          <h2
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-[-0.03em] uppercase select-none leading-tight transition-colors duration-200"
-            style={{
-              mixBlendMode: 'difference',
-              color: activeNegativeState.active ? activeNegativeState.color : '#FFFFFF',
-              textShadow: activeNegativeState.active
-                ? `0 0 24px ${activeNegativeState.color}80, 0 0 48px ${activeNegativeState.color}33`
-                : 'none',
-            }}
-          >
-            How You Will Learn
-          </h2>
-        </div>
-
-        {/* 3. Bottom HUD Overlay with active card info and progress */}
+        {/* Bottom HUD Overlay with active card info and progress */}
         <ProjectHUD smoothProgress={smoothProgress} projects={projects} />
       </div>
     </section>

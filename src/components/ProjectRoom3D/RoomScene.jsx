@@ -99,17 +99,27 @@ export const HOW_YOU_LEARN_DATA = [
 
 // ─── 3D Negative / Inverted Color Title Component ─────────────────────────────
 export function ScrollRoomTitle({ isMobile = false, titleRef }) {
+  const lineOffset = isMobile ? 0.28 : 0.48;
+  const fontSize = isMobile ? 0.44 : 0.74;
+  const outlineW = isMobile ? 0.022 : 0.034;
+  const strokeW = isMobile ? 0.012 : 0.018;
+
   return (
     <group ref={titleRef} renderOrder={999}>
+      {/* Line 1: HOW YOU with Extra Bold Font Weight & Inverted Blending */}
       <Text
-        position={[0, 0, 0]}
-        fontSize={isMobile ? 0.38 : 0.62}
+        position={[0, lineOffset, 0]}
+        fontSize={fontSize}
+        fontWeight={900}
         color="#FFFFFF"
         anchorX="center"
         anchorY="middle"
-        letterSpacing={-0.035}
+        letterSpacing={-0.02}
+        outlineWidth={outlineW}
+        outlineColor="#FFFFFF"
+        strokeWidth={strokeW}
+        strokeColor="#FFFFFF"
         sdfGlyphSize={128}
-        outlineWidth={0}
         renderOrder={999}
         material-depthTest={false}
         // ⚡ THE EXACT NEGATIVE / INVERTED BLEND MODE IN THREE.JS ⚡
@@ -118,7 +128,32 @@ export function ScrollRoomTitle({ isMobile = false, titleRef }) {
         material-blendSrc={THREE.OneMinusDstColorFactor}
         material-blendDst={THREE.OneMinusSrcColorFactor}
       >
-        HOW YOU WILL LEARN
+        HOW YOU
+      </Text>
+
+      {/* Line 2: WILL LEARN with Extra Bold Font Weight & Inverted Blending */}
+      <Text
+        position={[0, -lineOffset, 0]}
+        fontSize={fontSize}
+        fontWeight={900}
+        color="#FFFFFF"
+        anchorX="center"
+        anchorY="middle"
+        letterSpacing={-0.02}
+        outlineWidth={outlineW}
+        outlineColor="#FFFFFF"
+        strokeWidth={strokeW}
+        strokeColor="#FFFFFF"
+        sdfGlyphSize={128}
+        renderOrder={999}
+        material-depthTest={false}
+        // ⚡ THE EXACT NEGATIVE / INVERTED BLEND MODE IN THREE.JS ⚡
+        material-blending={THREE.CustomBlending}
+        material-blendEquation={THREE.AddEquation}
+        material-blendSrc={THREE.OneMinusDstColorFactor}
+        material-blendDst={THREE.OneMinusSrcColorFactor}
+      >
+        WILL LEARN
       </Text>
     </group>
   );
@@ -191,11 +226,31 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
     // Subtle drone roll banking
     state.camera.rotation.z = -tangent.x * 0.06;
 
-    // Pin the 3D Inverted Title in front of the camera lens with lookAt orientation
+    // Title Zoom-Out on Scroll Behavior
+    // Text starts prominent in two bold lines at the start (p = 0), then smoothly zooms out into depth
+    // as the user scrolls, fading/shrinking completely before reaching the first card.
     if (titleRef.current) {
-      forwardVec.copy(titleOffset).applyQuaternion(state.camera.quaternion).add(currentCamPos);
-      titleRef.current.position.copy(forwardVec);
-      titleRef.current.quaternion.copy(state.camera.quaternion);
+      const zoomThreshold = 0.075; // Completes zoom-out in first 7.5% of scroll room
+      if (p < zoomThreshold) {
+        titleRef.current.visible = true;
+        const zoomProgress = p / zoomThreshold; // 0 (start) -> 1 (fully zoomed out)
+        // Smooth cubic ease-out zoom curve
+        const zoomFactor = Math.pow(Math.max(0, 1 - zoomProgress), 1.5);
+
+        // Dynamic scale zoom-out
+        titleRef.current.scale.set(zoomFactor, zoomFactor, zoomFactor);
+
+        // Dynamic 3D depth push (recedes further into the corridor as it zooms out)
+        const dynamicZ = -4.8 - zoomProgress * 8.0;
+        titleOffset.set(0, isMobile ? 0.15 : 0.2, dynamicZ);
+
+        forwardVec.copy(titleOffset).applyQuaternion(state.camera.quaternion).add(currentCamPos);
+        titleRef.current.position.copy(forwardVec);
+        titleRef.current.quaternion.copy(state.camera.quaternion);
+      } else {
+        // Hide title once zoomed out so cards across the rest of the corridor remain 100% unobstructed
+        titleRef.current.visible = false;
+      }
     }
   });
 

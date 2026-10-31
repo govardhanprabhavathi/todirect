@@ -169,7 +169,7 @@ export function HeroMeshCard() {
           </BlurIn>
 
         {/* ─── TWO PERSPECTIVE COMPARISON CARDS ─── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 max-w-4xl mx-auto text-left">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 max-w-5xl mx-auto text-left">
           {/* Card 1: Traditional Way */}
           <BlurIn
             delay={0.1}

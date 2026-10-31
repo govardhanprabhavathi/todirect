@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { AppShell } from '@/components/layout/AppShell';
 import { Button } from '@/components/ui/Button';
+import { Link000, Link001, Link004 } from '@/components/ui/skiper-ui/skiper40';
 import { CURRICULUM_DATA, SANDBOX_INSTRUMENTS } from '@/lib/data';
 import { useAppState } from '@/lib/store';
 import { 
@@ -340,10 +341,10 @@ export default function HomePage() {
               </div>
             </div>
             <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
-              <Link href="/app/lesson/sc-2" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1.5">
-                <Play className="w-3.5 h-3.5 fill-current" />
-                <span>Resume from 6:40 &rarr;</span>
-              </Link>
+              <Link001 href="/app/lesson/sc-2" className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+                <Play className="w-3.5 h-3.5 fill-current shrink-0 mr-1" />
+                <span>Resume from 6:40</span>
+              </Link001>
             </div>
           </div>
 
@@ -374,9 +375,9 @@ export default function HomePage() {
               </div>
             </div>
             <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
-              <Link href="/app/learn/saving-compounding" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
-                Open Current Module &rarr;
-              </Link>
+              <Link001 href="/app/learn/saving-compounding" className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                <span>Open Current Module</span>
+              </Link001>
             </div>
           </div>
 
@@ -525,9 +526,9 @@ export default function HomePage() {
                 {remainingModules.length} core topics left in your verified finance roadmap
               </p>
             </div>
-            <Link href="/app/learn" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline">
-              View Full Syllabus Catalog &rarr;
-            </Link>
+            <Link001 href="/app/learn" className="text-xs font-bold text-blue-600 dark:text-blue-400">
+              View Full Syllabus Catalog
+            </Link001>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -569,13 +570,12 @@ export default function HomePage() {
                   </div>
 
                   <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-                    <Link
+                    <Link001
                       href={`/app/learn/${mod.id}`}
-                      className="text-xs font-bold text-[#2563FF] dark:text-[#60A5FA] hover:underline flex items-center justify-between"
+                      className="text-xs font-bold text-[#2563FF] dark:text-[#60A5FA]"
                     >
-                      <span>{isStarted ? 'Continue Topic' : 'Start Topic'}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                      {isStarted ? 'Continue Topic' : 'Start Topic'}
+                    </Link001>
                   </div>
                 </div>
               );

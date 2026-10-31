@@ -6,6 +6,7 @@ import { Menu, X, ChevronDown, ArrowRight, Sparkles, BookOpen, ShieldCheck, Comp
 import { Logo } from '@/components/brand/Logo';
 import { Button } from '@/components/ui/Button';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { Link000, Link001, Link003 } from '@/components/ui/skiper-ui/skiper40';
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,12 +30,12 @@ export function Navbar() {
               <span className="font-medium text-[#0A1629] dark:text-[#0A1629]">
                 Introducing the new TO DIRECT, built to handle all of the foundational work around money and investing.
               </span>
-              <Link
+              <Link001
                 href="/curriculum"
                 className="hidden sm:inline-flex items-center gap-1 font-semibold text-[#0A1629] dark:text-[#0A1629] bg-white/80 dark:bg-slate-100 hover:bg-white dark:hover:bg-slate-200 px-2.5 py-0.5 rounded-full border border-[#B8DAF7] dark:border-slate-300 transition-colors text-[11px]"
               >
-                Learn more &rarr;
-              </Link>
+                Learn more
+              </Link001>
             </div>
 
             <button
@@ -60,32 +61,32 @@ export function Navbar() {
           {/* Logo */}
           <Logo size="md" />
 
-          {/* Desktop Nav Items */}
+          {/* Desktop Nav Items with Skiper40 Animated Underlines */}
           <div className="hidden lg:flex items-center gap-8">
-            <Link
+            <Link000
               href="/curriculum"
               className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#0A1629] dark:hover:text-white transition-colors"
             >
               Curriculum
-            </Link>
-            <Link
+            </Link000>
+            <Link000
               href="/how-it-works"
               className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#0A1629] dark:hover:text-white transition-colors"
             >
               How It Works
-            </Link>
-            <Link
+            </Link000>
+            <Link000
               href="/practice"
               className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#0A1629] dark:hover:text-white transition-colors"
             >
               ₹10K Sandbox
-            </Link>
-            <Link
+            </Link000>
+            <Link000
               href="/about"
               className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#0A1629] dark:hover:text-white transition-colors"
             >
               Pedagogy & Ethics
-            </Link>
+            </Link000>
           </div>
 
           {/* Desktop Auth CTAs & Theme Toggle */}
@@ -93,12 +94,12 @@ export function Navbar() {
             {/* Theme Toggle Button */}
             <ThemeToggle />
 
-            <Link
+            <Link000
               href="/about"
               className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#0A1629] dark:hover:text-white transition-colors mr-1"
             >
               Talk to educators
-            </Link>
+            </Link000>
             <Link href="/sign-in">
               <button
                 type="button"

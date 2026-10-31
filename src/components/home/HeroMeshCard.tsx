@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, XCircle, CheckCircle2 } from "lucide-react";
 import { BlurIn } from "@/components/ui/BlurInText";
+import { Link000, Link001 } from "@/components/ui/skiper-ui/skiper40";
 
 export function HeroMeshCard() {
   return (
@@ -153,7 +154,7 @@ export function HeroMeshCard() {
             </Link>
           </BlurIn>
 
-          {/* Microcopy below auth pills */}
+          {/* Microcopy below auth pills with Skiper40 animated link */}
           <BlurIn
             as="p"
             delay={0.32}
@@ -162,9 +163,9 @@ export function HeroMeshCard() {
             yOffset={4}
             className="text-xs font-normal text-[#64748B] dark:text-slate-400 mb-10 sm:mb-12"
           >
-            <Link href="/sign-in" className="underline hover:text-[#0A1629] dark:hover:text-white transition-colors">
+            <Link000 href="/sign-in" className="hover:text-[#0A1629] dark:hover:text-white transition-colors">
               Sign up with email
-            </Link>{" "}
+            </Link000>{" "}
             • No credit card required
           </BlurIn>
 

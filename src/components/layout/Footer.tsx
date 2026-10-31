@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Logo } from '@/components/brand/Logo';
 import { ShieldCheck, Lock, Award, Heart } from 'lucide-react';
+import { Link000, Link001 } from '@/components/ui/skiper-ui/skiper40';
 
 export function Footer() {
   return (
@@ -29,39 +30,39 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   1. Money Foundations
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   2. Saving & Compounding
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   3. Inflation & Purchasing Power
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   4. Investment Vehicles
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   5. Risk & Diversification
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   6. Mutual Funds & ETFs
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/curriculum" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   7. Stock Markets & Psychology
-                </Link>
+                </Link000>
               </li>
             </ul>
           </div>
@@ -73,29 +74,29 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/how-it-works" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/how-it-works" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   The 6-Stage Journey
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/practice" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/practice" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   ₹10,000 Sandbox
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/sign-in" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/sign-in" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   Misconception Engine
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/sign-in" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/sign-in" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   Finn AI Companion
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/sign-in" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/sign-in" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   Baseline Diagnostic
-                </Link>
+                </Link000>
               </li>
             </ul>
           </div>
@@ -107,29 +108,29 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/about" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/about" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   Pedagogical Charter
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/privacy" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/privacy" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   Privacy Policy (DPDP Act)
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/terms" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/terms" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   Terms of Education
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/privacy#deletion" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/privacy#deletion" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   Account Deletion
-                </Link>
+                </Link000>
               </li>
               <li>
-                <Link href="/admin" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
+                <Link000 href="/admin" className="text-[#475569] dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-[#F8FAFC] transition-colors">
                   Curriculum Portal
-                </Link>
+                </Link000>
               </li>
             </ul>
           </div>

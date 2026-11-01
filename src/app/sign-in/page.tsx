@@ -142,11 +142,11 @@ export default function SignInPage() {
               disabled={isLoading}
               className="w-full flex items-center justify-center gap-2.5 py-3 px-4 rounded-full bg-[#0A1629] hover:bg-[#1E293B] text-white text-sm font-medium transition-all shadow-xs"
             >
-              <svg className="w-4 h-4 shrink-0" viewBox="0 0 23 23">
-                <path fill="#f35325" d="M1 1h10v10H1z" />
-                <path fill="#81bc06" d="M12 1h10v10H12z" />
-                <path fill="#05a6f0" d="M1 12h10v10H1z" />
-                <path fill="#ffba08" d="M12 12h10v10H12z" />
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="10" height="10" fill="#f25022" />
+                <rect x="12" y="1" width="10" height="10" fill="#7fba00" />
+                <rect x="1" y="12" width="10" height="10" fill="#00a4ef" />
+                <rect x="12" y="12" width="10" height="10" fill="#ffb900" />
               </svg>
               <span>Sign up with Microsoft</span>
             </button>

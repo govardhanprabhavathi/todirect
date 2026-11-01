@@ -32,18 +32,60 @@ function drawGlassPanel(ctx, x, y, w, h, r = 24, bg = 'rgba(15, 23, 42, 0.75)', 
   drawRoundRect(ctx, x, y, w, h, r, true, true, border, borderWidth);
 }
 
+// ─── 3D Rounded Rectangle Geometry Generator ─────────────────────────────────
+
+function createRoundedRectGeometry(width, height, radius, segments = 24) {
+  const shape = new THREE.Shape();
+  const x = -width / 2;
+  const y = -height / 2;
+  const r = Math.min(radius, width / 2, height / 2);
+
+  shape.moveTo(x + r, y);
+  shape.lineTo(x + width - r, y);
+  shape.quadraticCurveTo(x + width, y, x + width, y + r);
+  shape.lineTo(x + width, y + height - r);
+  shape.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+  shape.lineTo(x + r, y + height);
+  shape.quadraticCurveTo(x, y + height, x, y + height - r);
+  shape.lineTo(x, y + r);
+  shape.quadraticCurveTo(x, y, x + r, y);
+
+  const geometry = new THREE.ShapeGeometry(shape, segments);
+  const pos = geometry.attributes.position;
+  const uvs = new Float32Array(pos.count * 2);
+
+  for (let i = 0; i < pos.count; i++) {
+    const px = pos.getX(i);
+    const py = pos.getY(i);
+    uvs[i * 2] = (px - x) / width;
+    uvs[i * 2 + 1] = (py - y) / height;
+  }
+  geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+  return geometry;
+}
+
 // ─── Master 4K Application Frame (2320 x 1240 Retina) ─────────────────────────
 
 function renderCardFrame(ctx, w, h, categoryTag, cardNumber, title, subtitle, statusText = 'ACTIVE', statusColor = '#10B981') {
-  // 1. Ultra-deep obsidian sapphire background
+  // 1. Clear entire canvas (zero alpha outside card boundary)
+  ctx.clearRect(0, 0, w, h);
+
+  const cornerRadius = 76;
+
+  // 2. Clip all card rendering strictly to the rounded rectangle
+  ctx.save();
+  drawRoundRect(ctx, 0, 0, w, h, cornerRadius, false, false);
+  ctx.clip();
+
+  // 3. Ultra-deep obsidian sapphire background
   const baseGrad = ctx.createLinearGradient(0, 0, w, h);
   baseGrad.addColorStop(0, '#060B18');
   baseGrad.addColorStop(0.5, '#0A1329');
   baseGrad.addColorStop(1, '#040711');
   ctx.fillStyle = baseGrad;
-  drawRoundRect(ctx, 0, 0, w, h, 44, true, false);
+  ctx.fillRect(0, 0, w, h);
 
-  // 2. Diffuse ambient light glow (subtle and high-end)
+  // 4. Diffuse ambient light glow (strictly clipped inside the card)
   const bloomTopRight = ctx.createRadialGradient(w - 240, 120, 20, w - 240, 120, 700);
   bloomTopRight.addColorStop(0, 'rgba(56, 189, 248, 0.18)');
   bloomTopRight.addColorStop(0.5, 'rgba(37, 99, 235, 0.08)');
@@ -57,15 +99,27 @@ function renderCardFrame(ctx, w, h, categoryTag, cardNumber, title, subtitle, st
   ctx.fillStyle = bloomBottomLeft;
   ctx.fillRect(0, 0, w, h);
 
-  // 3. Hairline luxury metallic border
-  const borderGrad = ctx.createLinearGradient(0, 0, w, h);
-  borderGrad.addColorStop(0, 'rgba(255, 255, 255, 0.22)');
-  borderGrad.addColorStop(0.3, 'rgba(56, 189, 248, 0.35)');
-  borderGrad.addColorStop(0.7, 'rgba(37, 99, 235, 0.2)');
-  borderGrad.addColorStop(1, 'rgba(255, 255, 255, 0.08)');
-  drawRoundRect(ctx, 8, 8, w - 16, h - 16, 40, false, true, borderGrad, 2);
+  // 5. Flawless double metallic border flush with the card contour
+  const borderOffset = 4;
+  const bW = w - borderOffset * 2;
+  const bH = h - borderOffset * 2;
+  const bRadius = cornerRadius - borderOffset;
 
-  // 4. Clean Mac-style window controls (top left)
+  const borderGrad = ctx.createLinearGradient(0, 0, w, h);
+  borderGrad.addColorStop(0, 'rgba(255, 255, 255, 0.38)');
+  borderGrad.addColorStop(0.25, 'rgba(56, 189, 248, 0.5)');
+  borderGrad.addColorStop(0.7, 'rgba(37, 99, 235, 0.3)');
+  borderGrad.addColorStop(1, 'rgba(255, 255, 255, 0.15)');
+
+  // Outer bezel stroke
+  drawRoundRect(ctx, borderOffset, borderOffset, bW, bH, bRadius, false, true, borderGrad, 3.5);
+
+  // Specular inner stroke
+  drawRoundRect(ctx, borderOffset + 3, borderOffset + 3, bW - 6, bH - 6, bRadius - 3, false, true, 'rgba(255, 255, 255, 0.08)', 1.5);
+
+  ctx.restore();
+
+  // 6. Clean Mac-style window controls (top left)
   const dotY = 82;
   const dots = [
     { x: 88, color: '#EF4444' },
@@ -100,7 +154,7 @@ function renderCardFrame(ctx, w, h, categoryTag, cardNumber, title, subtitle, st
   ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
   ctx.fillText(statusText, pillX + 46, 88);
 
-  // 5. Header Area: Category Eyebrow, Hero Title & Subtitle
+  // 7. Header Area: Category Eyebrow, Hero Title & Subtitle
   ctx.fillStyle = '#38BDF8';
   ctx.font = '800 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
   ctx.fillText(categoryTag.toUpperCase(), 88, 156);
@@ -1427,7 +1481,12 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
   // Card Dimensions (Matching 2320x1240 aspect ratio: 1.87 : 1)
   const cardWidth = isMobile ? 8.2 : 12.8;
   const cardHeight = isMobile ? 4.38 : 6.84;
-  const cardRadius = isMobile ? 0.35 : 0.45;
+  const cardRadius = isMobile ? 0.32 : 0.44;
+
+  // Mathematically matching 3D rounded front face geometry
+  const frontGeometry = useMemo(() => {
+    return createRoundedRectGeometry(cardWidth, cardHeight, cardRadius, 24);
+  }, [cardWidth, cardHeight, cardRadius]);
 
   useFrame((_, delta) => {
     if (groupRef.current) {
@@ -1474,10 +1533,16 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
         />
       </RoundedBox>
 
-      {/* Front Face with Ultra-Crisp 4K Retina Texture */}
-      <mesh position={[0, 0, 0.005]}>
-        <planeGeometry args={[cardWidth, cardHeight]} />
-        {texture && <meshBasicMaterial map={texture} toneMapped={false} />}
+      {/* Front Face with Ultra-Crisp 4K Retina Texture and Exact Curved Corners */}
+      <mesh geometry={frontGeometry} position={[0, 0, 0.005]}>
+        {texture && (
+          <meshBasicMaterial
+            map={texture}
+            toneMapped={false}
+            transparent={true}
+            alphaTest={0.01}
+          />
+        )}
       </mesh>
     </group>
   );

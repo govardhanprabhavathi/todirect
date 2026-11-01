@@ -304,10 +304,6 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
 
       {/* 3D Negative / Inverted Color Title (Inside WebGL Pipeline) */}
       <ScrollRoomTitle isMobile={isMobile} titleRef={titleRef} />
-
-      {/* Corridor Spatial Grid Guides */}
-      <gridHelper args={[800, 240, '#2563FF', '#0F172A']} position={[0, -4.8, -170]} />
-      <gridHelper args={[800, 240, '#1E3A8A', '#020617']} position={[0, 10.2, -170]} />
     </group>
   );
 }

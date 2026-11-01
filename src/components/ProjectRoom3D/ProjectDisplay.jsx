@@ -5,9 +5,9 @@ import { RoundedBox } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-// ─── Precision 2D Drawing Utilities ──────────────────────────────────────────
+// ─── Precision 2D Vector Drawing Primitives ──────────────────────────────────
 
-function drawRoundRect(ctx, x, y, w, h, r, fill = true, stroke = false, strokeColor = '#334155', lineWidth = 1) {
+function drawRoundRect(ctx, x, y, w, h, r, fill = true, stroke = false, strokeColor = '#334155', lineWidth = 2) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
   ctx.lineTo(x + w - r, y);
@@ -27,209 +27,315 @@ function drawRoundRect(ctx, x, y, w, h, r, fill = true, stroke = false, strokeCo
   }
 }
 
-// ─── Shared Luxury Blueprint Background & Master Frame ──────────────────────
+function drawGlassPanel(ctx, x, y, w, h, r = 24, bg = 'rgba(15, 23, 42, 0.75)', border = 'rgba(255, 255, 255, 0.08)', borderWidth = 1.5) {
+  ctx.fillStyle = bg;
+  drawRoundRect(ctx, x, y, w, h, r, true, true, border, borderWidth);
+}
 
-function renderCardFrame(ctx, w, h, categoryTag, cardNumber, title, subtitle, statusText = 'ACTIVE', statusColor = '#38BDF8') {
-  // 1. Ultra-deep obsidian blue base
+// ─── Master 4K Application Frame (2320 x 1240 Retina) ─────────────────────────
+
+function renderCardFrame(ctx, w, h, categoryTag, cardNumber, title, subtitle, statusText = 'ACTIVE', statusColor = '#10B981') {
+  // 1. Ultra-deep obsidian sapphire background
   const baseGrad = ctx.createLinearGradient(0, 0, w, h);
-  baseGrad.addColorStop(0, '#040816');
-  baseGrad.addColorStop(0.5, '#07122A');
-  baseGrad.addColorStop(1, '#030712');
+  baseGrad.addColorStop(0, '#060B18');
+  baseGrad.addColorStop(0.5, '#0A1329');
+  baseGrad.addColorStop(1, '#040711');
   ctx.fillStyle = baseGrad;
-  drawRoundRect(ctx, 0, 0, w, h, 32, true, false);
+  drawRoundRect(ctx, 0, 0, w, h, 44, true, false);
 
-  // 2. Multi-layer radiant volumetric blue blooms
-  const bloomTopRight = ctx.createRadialGradient(w - 120, 60, 20, w - 120, 60, 480);
-  bloomTopRight.addColorStop(0, 'rgba(56, 189, 248, 0.28)');
-  bloomTopRight.addColorStop(0.5, 'rgba(37, 99, 235, 0.12)');
+  // 2. Diffuse ambient light glow (subtle and high-end)
+  const bloomTopRight = ctx.createRadialGradient(w - 240, 120, 20, w - 240, 120, 700);
+  bloomTopRight.addColorStop(0, 'rgba(56, 189, 248, 0.18)');
+  bloomTopRight.addColorStop(0.5, 'rgba(37, 99, 235, 0.08)');
   bloomTopRight.addColorStop(1, 'transparent');
   ctx.fillStyle = bloomTopRight;
   ctx.fillRect(0, 0, w, h);
 
-  const bloomBottomLeft = ctx.createRadialGradient(160, h - 80, 20, 160, h - 80, 440);
-  bloomBottomLeft.addColorStop(0, 'rgba(30, 64, 175, 0.35)');
-  bloomBottomLeft.addColorStop(0.6, 'rgba(15, 23, 42, 0.1)');
-  bloomBottomLeft.addColorStop(1, 'transparent');
+  const bloomBottomLeft = ctx.createRadialGradient(280, h - 140, 30, 280, h - 140, 650);
+  bloomBottomLeft.addColorStop(0, 'rgba(30, 64, 175, 0.22)');
+  bloomBottomLeft.addColorStop(0.6, 'transparent');
   ctx.fillStyle = bloomBottomLeft;
   ctx.fillRect(0, 0, w, h);
 
-  // 3. Technical fine grid lines
-  ctx.strokeStyle = 'rgba(147, 197, 253, 0.035)';
-  ctx.lineWidth = 1;
-  for (let x = 45; x < w; x += 55) {
-    ctx.beginPath();
-    ctx.moveTo(x, 18);
-    ctx.lineTo(x, h - 18);
-    ctx.stroke();
-  }
-  for (let y = 45; y < h; y += 55) {
-    ctx.beginPath();
-    ctx.moveTo(18, y);
-    ctx.lineTo(w - 18, y);
-    ctx.stroke();
-  }
-
-  // 4. Electric blue double bezel border
+  // 3. Hairline luxury metallic border
   const borderGrad = ctx.createLinearGradient(0, 0, w, h);
-  borderGrad.addColorStop(0, '#38BDF8');
-  borderGrad.addColorStop(0.3, '#2563EB');
-  borderGrad.addColorStop(0.7, '#1D4ED8');
-  borderGrad.addColorStop(1, '#0284C7');
-  drawRoundRect(ctx, 4, 4, w - 8, h - 8, 28, false, true, borderGrad, 2);
-  drawRoundRect(ctx, 8, 8, w - 16, h - 16, 25, false, true, 'rgba(255, 255, 255, 0.08)', 1);
+  borderGrad.addColorStop(0, 'rgba(255, 255, 255, 0.22)');
+  borderGrad.addColorStop(0.3, 'rgba(56, 189, 248, 0.35)');
+  borderGrad.addColorStop(0.7, 'rgba(37, 99, 235, 0.2)');
+  borderGrad.addColorStop(1, 'rgba(255, 255, 255, 0.08)');
+  drawRoundRect(ctx, 8, 8, w - 16, h - 16, 40, false, true, borderGrad, 2);
 
-  // 5. Technical corner crosshairs
-  ctx.strokeStyle = '#38BDF8';
-  ctx.lineWidth = 2;
-  const corners = [
-    [26, 26], [w - 26, 26], [26, h - 26], [w - 26, h - 26]
+  // 4. Clean Mac-style window controls (top left)
+  const dotY = 82;
+  const dots = [
+    { x: 88, color: '#EF4444' },
+    { x: 116, color: '#F59E0B' },
+    { x: 144, color: '#10B981' }
   ];
-  corners.forEach(([cx, cy]) => {
+  dots.forEach(d => {
+    ctx.fillStyle = d.color;
     ctx.beginPath();
-    ctx.moveTo(cx - 6, cy);
-    ctx.lineTo(cx + 6, cy);
-    ctx.moveTo(cx, cy - 6);
-    ctx.lineTo(cx, cy + 6);
-    ctx.stroke();
+    ctx.arc(d.x, dotY, 7, 0, Math.PI * 2);
+    ctx.fill();
   });
 
-  // 6. Header Strip: Category Micro-Caps + Card Number
-  ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif';
-  ctx.fillText(`FEATURE ${cardNumber} // ${categoryTag.toUpperCase()}`, 52, 54);
+  // Window Breadcrumb Pill
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+  drawRoundRect(ctx, 184, 60, 280, 44, 22, true, true, 'rgba(255, 255, 255, 0.08)', 1);
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText(`TODIRECT • SUITE 0${cardNumber}`, 212, 88);
 
-  // Status Badge (Top-Right)
-  const pillW = 145;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, w - 52 - pillW, 36, pillW, 32, 16, true, true, statusColor, 1.5);
+  // Status Badge (Top Right)
+  const pillW = 260;
+  const pillH = 44;
+  const pillX = w - 88 - pillW;
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
+  drawRoundRect(ctx, pillX, 60, pillW, pillH, 22, true, true, 'rgba(255, 255, 255, 0.1)', 1);
   ctx.fillStyle = statusColor;
   ctx.beginPath();
-  ctx.arc(w - 52 - pillW + 18, 52, 4, 0, Math.PI * 2);
+  ctx.arc(pillX + 26, 82, 6, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '700 12px -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif';
-  ctx.fillText(statusText, w - 52 - pillW + 30, 56);
+  ctx.fillStyle = '#F8FAFC';
+  ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText(statusText, pillX + 46, 88);
 
-  // 7. Bold Main Title & Subtitle
+  // 5. Header Area: Category Eyebrow, Hero Title & Subtitle
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText(categoryTag.toUpperCase(), 88, 156);
+
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 32px -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif';
-  ctx.fillText(title, 52, 92);
+  ctx.font = '900 52px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText(title, 88, 220);
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 14px -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif';
-  ctx.fillText(subtitle, 52, 116);
+  ctx.font = '500 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText(subtitle, 88, 260);
 
-  // Subtle separator line
-  ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
+  // Hairline separator under header
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(52, 132);
-  ctx.lineTo(w - 52, 132);
+  ctx.moveTo(88, 286);
+  ctx.lineTo(w - 88, 286);
   ctx.stroke();
 
-  // 8. Bottom Footer Bar
-  ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
+  // Bottom Footer Divider
   ctx.beginPath();
-  ctx.moveTo(52, 532);
-  ctx.lineTo(w - 52, 532);
+  ctx.moveTo(88, 1058);
+  ctx.lineTo(w - 88, 1058);
   ctx.stroke();
 }
 
 function renderBottomButton(ctx, w, h, label = 'Explore Feature →') {
-  const btnW = 210;
-  const btnH = 44;
-  const bx = w - 52 - btnW;
-  const by = 550;
+  const btnW = 340;
+  const btnH = 68;
+  const bx = w - 88 - btnW;
+  const by = 1090;
 
-  // Glowing white button
+  // Crisp high-contrast action pill
   ctx.fillStyle = '#FFFFFF';
-  drawRoundRect(ctx, bx, by, btnW, btnH, 22, true, false);
-  ctx.fillStyle = '#0A1629';
-  ctx.font = '800 13px -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif';
+  drawRoundRect(ctx, bx, by, btnW, btnH, 34, true, false);
+
+  ctx.fillStyle = '#060B18';
+  ctx.font = '900 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(label, bx + btnW / 2, by + 27);
+  ctx.fillText(label, bx + btnW / 2, by + 42);
   ctx.textAlign = 'left';
 }
 
-// ─── 01. AI Financial Avatar ──────────────────────────────────────────────────
+// ─── 01. AI Financial Avatar (Finn Socratic Coach) ───────────────────────────
 
 function renderAvatarDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
-    'Socratic Intelligence', '01',
-    'AI Financial Avatar',
-    'Voice & Real-Time Socratic Reasoning • 100% Bias Debiasing',
-    'AVATAR ONLINE', '#10B981'
+    'Socratic Intelligence Companion', '1',
+    'Finn — Socratic Financial Avatar',
+    'Interactive voice and reasoning coach that de-biases investing decisions with zero stock tips.',
+    'Socratic Active', '#10B981'
   );
 
-  // Dynamic Audio Frequency Equalizer Bar HUD
-  const eqX = 52;
-  const eqY = 155;
+  const colW = (w - 176 - 40) / 2;
+  const topY = 320;
+  const colH = 690;
+
+  // ── LEFT COLUMN: Real Chat Interaction Window ──
+  drawGlassPanel(ctx, 88, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
+
+  // Window Header Bar
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '700 11px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('SOCRATIC SPEECH & REASONING FREQUENCY SPECTRUM', eqX, eqY);
-
-  const barCount = 38;
-  const heights = [12, 18, 28, 42, 34, 22, 16, 32, 48, 38, 20, 14, 26, 44, 52, 36, 18, 24, 38, 46, 30, 20, 16, 28, 40, 48, 32, 22, 14, 20, 36, 44, 30, 18, 12, 20, 16, 10];
-  for (let i = 0; i < barCount; i++) {
-    const bh = heights[i % heights.length];
-    const bx = eqX + i * 27;
-    const by = eqY + 56 - bh;
-    const barGrad = ctx.createLinearGradient(0, by, 0, by + bh);
-    barGrad.addColorStop(0, '#38BDF8');
-    barGrad.addColorStop(1, '#1D4ED8');
-    ctx.fillStyle = barGrad;
-    drawRoundRect(ctx, bx, by, 8, bh, 4, true, false);
-  }
-
-  // Chat Conversation Glass Panel
-  const chatY = 230;
-  const panelW = w - 104;
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.7)';
-  drawRoundRect(ctx, 52, chatY, panelW, 200, 18, true, true, 'rgba(56, 189, 248, 0.25)', 1);
-
-  // User Query Bubble (Right-aligned inside panel)
-  const uBubbleW = 540;
-  const uX = 52 + panelW - uBubbleW - 24;
-  ctx.fillStyle = 'rgba(30, 58, 138, 0.6)';
-  drawRoundRect(ctx, uX, chatY + 20, uBubbleW, 46, 14, true, true, 'rgba(96, 165, 250, 0.3)', 1);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '600 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Learner: "How do I know if an 18% promised return is safe?"', uX + 16, chatY + 48);
-
-  // Finn AI Socratic Response Box (Left-aligned)
-  const fX = 52 + 24;
-  const fY = chatY + 80;
-  const fW = panelW - 48;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
-  drawRoundRect(ctx, fX, fY, fW, 88, 14, true, true, 'rgba(56, 189, 248, 0.4)', 1.5);
-
-  ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('FINN AI COACH // SOCRATIC COUNTER-PROBE', fX + 16, fY + 26);
-
-  ctx.fillStyle = '#F8FAFC';
-  ctx.font = '500 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Look at guaranteed yield vs risk-free sovereign benchmarks (~7%). Any asset offering +11% spread without', fX + 16, fY + 50);
-  ctx.fillText('volatility is holding hidden credit default risk. What cashflow backs this payout?', fX + 16, fY + 70);
-
-  // Bottom Telemetry Chips
-  ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
-  drawRoundRect(ctx, 52, 450, 240, 34, 17, true, true, '#10B981', 1);
-  ctx.fillStyle = '#34D399';
-  ctx.font = '700 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('✓ 99.8% SOCRATIC FIDELITY', 72, 471);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('LIVE SOCRATIC CONVERSATION', 128, topY + 54);
 
   ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
-  drawRoundRect(ctx, 308, 450, 250, 34, 17, true, true, '#38BDF8', 1);
-  ctx.fillStyle = '#93C5FD';
-  ctx.font = '700 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('ZERO UNSOLICITED STOCK PICKS', 324, 471);
+  drawRoundRect(ctx, 88 + colW - 190, topY + 30, 150, 34, 17, true, true, 'rgba(56, 189, 248, 0.3)', 1);
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('● Voice & Audio', 88 + colW - 172, topY + 52);
 
-  // Footer left label
+  // 1. Learner Query Bubble
+  const bW = colW - 80;
+  ctx.fillStyle = 'rgba(30, 58, 138, 0.45)';
+  drawRoundRect(ctx, 128, topY + 90, bW, 114, 20, true, true, 'rgba(96, 165, 250, 0.25)', 1.5);
+
+  ctx.fillStyle = '#93C5FD';
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('YOU  •  10:42 AM', 156, topY + 128);
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '500 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('"A private bond scheme is offering 18% guaranteed annual yield.', 156, topY + 162);
+  ctx.fillText('Should I put my emergency fund in it?"', 156, topY + 192);
+
+  // 2. Finn AI Response Card
+  const fY = topY + 230;
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+  drawRoundRect(ctx, 128, fY, bW, 320, 20, true, true, 'rgba(56, 189, 248, 0.35)', 1.5);
+
+  // Finn Avatar Tag
+  ctx.fillStyle = '#38BDF8';
+  ctx.beginPath();
+  ctx.arc(162, fY + 44, 12, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#0F172A';
+  ctx.font = '900 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('F', 157, fY + 49);
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('FINN AI COACH', 186, fY + 48);
+
+  ctx.fillStyle = '#10B981';
+  ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('First-Principles Counter-Probe', 346, fY + 48);
+
+  // Socratic Breakdown
+  ctx.fillStyle = '#E2E8F0';
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Where does that 18% cashflow originate?', 156, fY + 98);
+
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Trained exclusively on verified SEBI investor education principles', 52, 574);
+  ctx.font = '400 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('1. The sovereign risk-free rate (RBI benchmark) is ~7.1%.', 156, fY + 140);
+  ctx.fillText('2. Any asset offering +10.9% spread without volatility is', 156, fY + 178);
+  ctx.fillText('   carrying severe hidden credit risk or lock-in illiquidity.', 156, fY + 214);
+  ctx.fillText('3. Emergency funds require zero default risk and instant T+0 exit.', 156, fY + 252);
+
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '700 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('What specific liquid collateral backs their payout promise?', 156, fY + 296);
+
+  // Action Chip
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
+  drawRoundRect(ctx, 128, topY + 580, bW, 64, 18, true, true, 'rgba(56, 189, 248, 0.3)', 1);
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('✦ ASK FINN: "WHAT COLLATERAL BACKS THIS SCHEME?" →', 160, topY + 620);
+
+  // ── RIGHT COLUMN: Diagnostic Telemetry & Risk Decomposition ──
+  const rX = 88 + colW + 40;
+  drawGlassPanel(ctx, rX, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
+
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('REAL-TIME RISK & LOGIC AUDIT', rX + 40, topY + 54);
+
+  // 1. Yield Comparison Chart HUD
+  const chartY = topY + 90;
+  const cW = colW - 80;
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  drawRoundRect(ctx, rX + 40, chartY, cW, 230, 20, true, true, 'rgba(255, 255, 255, 0.08)', 1);
+
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('YIELD BENCHMARK DISPERSION', rX + 64, chartY + 44);
+
+  // Bar 1: Safe Sovereign Rate (7.1%)
+  ctx.fillStyle = '#E2E8F0';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('RBI Sovereign 10Y Benchmark', rX + 64, chartY + 84);
+  ctx.fillStyle = '#10B981';
+  ctx.fillText('7.1% (Safe)', rX + cW - 130, chartY + 84);
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+  drawRoundRect(ctx, rX + 64, chartY + 96, cW - 48, 12, 6, true, false);
+  ctx.fillStyle = '#10B981';
+  drawRoundRect(ctx, rX + 64, chartY + 96, (cW - 48) * 0.39, 12, 6, true, false);
+
+  // Bar 2: Claimed Yield (18.0%)
+  ctx.fillStyle = '#E2E8F0';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Claimed Scheme Yield', rX + 64, chartY + 144);
+  ctx.fillStyle = '#EF4444';
+  ctx.fillText('18.0% (Extreme Risk)', rX + cW - 200, chartY + 144);
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+  drawRoundRect(ctx, rX + 64, chartY + 156, cW - 48, 12, 6, true, false);
+  ctx.fillStyle = '#EF4444';
+  drawRoundRect(ctx, rX + 64, chartY + 156, (cW - 48) * 1.0, 12, 6, true, false);
+
+  // Alert Tag
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.15)';
+  drawRoundRect(ctx, rX + 64, chartY + 184, cW - 48, 32, 16, true, false);
+  ctx.fillStyle = '#F87171';
+  ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('⚠️ UNHEDGED YIELD SPREAD: +10.9% PROBABLE CAPITAL LOSS RISK', rX + 80, chartY + 206);
+
+  // 2. Dual Socratic Guardrail Tiles
+  const tY = topY + 346;
+  const tileW = (cW - 20) / 2;
+
+  // Tile 1
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  drawRoundRect(ctx, rX + 40, tY, tileW, 140, 20, true, true, 'rgba(56, 189, 248, 0.2)', 1);
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('STOCK TIPS GIVEN', rX + 64, tY + 44);
+  ctx.fillStyle = '#10B981';
+  ctx.font = '900 48px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('0.00', rX + 64, tY + 104);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('100% Socratic Education', rX + 64, tY + 126);
+
+  // Tile 2
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  drawRoundRect(ctx, rX + 40 + tileW + 20, tY, tileW, 140, 20, true, true, 'rgba(56, 189, 248, 0.2)', 1);
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('SOCRATIC FIDELITY', rX + 64 + tileW + 20, tY + 44);
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '900 48px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('99.8%', rX + 64 + tileW + 20, tY + 104);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('SEBI Pedagogical Standard', rX + 64 + tileW + 20, tY + 126);
+
+  // 3. Biases Interrogated Checklist
+  const ckY = topY + 510;
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  drawRoundRect(ctx, rX + 40, ckY, cW, 134, 20, true, true, 'rgba(255, 255, 255, 0.08)', 1);
+
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('COGNITIVE BIASES FLAGGED IN REAL TIME', rX + 64, ckY + 38);
+
+  const tags = [
+    '✓ Greed / Guaranteed Yield Illusion',
+    '✓ Emergency Fund Misallocation Trap',
+    '✓ Credit Default Illiquidity Blindspot'
+  ];
+  tags.forEach((tag, idx) => {
+    ctx.fillStyle = '#34D399';
+    ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(tag, rX + 64, ckY + 70 + idx * 26);
+  });
+
+  // Footer Metadata
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Engineered with Socratic inquiry to foster independent investor judgment.', 88, 1134);
 
   renderBottomButton(ctx, w, h, 'Chat With Finn AI →');
 }
@@ -239,90 +345,144 @@ function renderAvatarDashboard(ctx, w, h) {
 function renderDashboardDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
-    'Cockpit & Telemetry', '02',
+    'Cockpit & Telemetry', '2',
     'Personal Learning Dashboard',
-    'Centralized Progress Radar, Streak Mechanics & Mastery Rings',
-    'SYNCED LIVE', '#38BDF8'
+    'Comprehensive syllabus roadmap, real-time mastery metrics, and daily consistency streaks.',
+    'Synced Live', '#38BDF8'
   );
 
-  // 3 Large Bold KPI Cards
-  const kpiW = (w - 104 - 32) / 3;
-  const kpiY = 150;
-  const kpiH = 150;
+  const topY = 320;
 
-  // KPI 1: Completion
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, 52, kpiY, kpiW, kpiH, 18, true, true, 'rgba(56, 189, 248, 0.3)', 1.5);
+  // ── Top Row: 3 Luxury Metric Tiles ──
+  const kpiW = (w - 176 - 48) / 3;
+  const kpiH = 290;
+
+  // Tile 1: Syllabus Mastery
+  drawGlassPanel(ctx, 88, topY, kpiW, kpiH, 24, 'rgba(10, 18, 36, 0.8)', 'rgba(56, 189, 248, 0.25)');
   ctx.fillStyle = '#93C5FD';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('SYLLABUS COMPLETION', 72, kpiY + 34);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 48px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('68%', 72, kpiY + 88);
-  ctx.fillStyle = '#38BDF8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('19 of 28 Modules Mastered', 72, kpiY + 120);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('SYLLABUS MASTERY', 124, topY + 54);
 
-  // Progress Bar
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '900 84px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('68%', 124, topY + 150);
+
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('19 of 28 Modules Mastered', 124, topY + 196);
+
   ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-  drawRoundRect(ctx, 72, kpiY + 130, kpiW - 40, 6, 3, true, false);
+  drawRoundRect(ctx, 124, topY + 224, kpiW - 72, 14, 7, true, false);
   ctx.fillStyle = '#38BDF8';
-  drawRoundRect(ctx, 72, kpiY + 130, (kpiW - 40) * 0.68, 6, 3, true, false);
+  drawRoundRect(ctx, 124, topY + 224, (kpiW - 72) * 0.68, 14, 7, true, false);
 
-  // KPI 2: Streak
-  const k2X = 52 + kpiW + 16;
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, k2X, kpiY, kpiW, kpiH, 18, true, true, 'rgba(245, 158, 11, 0.3)', 1.5);
-  ctx.fillStyle = '#FCD34D';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('DAILY STUDY CONSISTENCY', k2X + 20, kpiY + 34);
-  ctx.fillStyle = '#F59E0B';
-  ctx.font = '900 48px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('14 DAYS', k2X + 20, kpiY + 88);
+  // Tile 2: Study Consistency
+  const k2X = 88 + kpiW + 24;
+  drawGlassPanel(ctx, k2X, topY, kpiW, kpiH, 24, 'rgba(10, 18, 36, 0.8)', 'rgba(245, 158, 11, 0.25)');
   ctx.fillStyle = '#FDE68A';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('🔥 Top 5% Cohort Consistency', k2X + 20, kpiY + 120);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('DAILY STUDY CONSISTENCY', k2X + 36, topY + 54);
 
-  // KPI 3: Retention
-  const k3X = k2X + kpiW + 16;
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, k3X, kpiY, kpiW, kpiH, 18, true, true, 'rgba(16, 185, 129, 0.3)', 1.5);
+  ctx.fillStyle = '#F59E0B';
+  ctx.font = '900 84px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('14 DAYS', k2X + 36, topY + 150);
+
+  ctx.fillStyle = '#FCD34D';
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('🔥 Top 5% Cohort Learning Discipline', k2X + 36, topY + 196);
+
+  // Day indicators (M T W T F S S)
+  const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  const dayStep = (kpiW - 72) / 7;
+  days.forEach((day, idx) => {
+    const dx = k2X + 36 + idx * dayStep;
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.25)';
+    drawRoundRect(ctx, dx, topY + 224, dayStep - 8, 28, 6, true, false);
+    ctx.fillStyle = '#FDE68A';
+    ctx.font = '700 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(day, dx + (dayStep - 8) / 2 - 6, topY + 244);
+  });
+
+  // Tile 3: Retention Stability
+  const k3X = k2X + kpiW + 24;
+  drawGlassPanel(ctx, k3X, topY, kpiW, kpiH, 24, 'rgba(10, 18, 36, 0.8)', 'rgba(16, 185, 129, 0.25)');
   ctx.fillStyle = '#6EE7B7';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('CONCEPT RETENTION RATE', k3X + 20, kpiY + 34);
-  ctx.fillStyle = '#10B981';
-  ctx.font = '900 48px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('92%', k3X + 20, kpiY + 88);
-  ctx.fillStyle = '#A7F3D0';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Calibrated via Socratic Probes', k3X + 20, kpiY + 120);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('RETENTION STABILITY INDEX', k3X + 36, topY + 54);
 
-  // Active Next-Up Lesson Card
-  const activeY = 325;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, 52, activeY, w - 104, 150, 18, true, true, 'rgba(56, 189, 248, 0.35)', 1.5);
+  ctx.fillStyle = '#10B981';
+  ctx.font = '900 84px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('92%', k3X + 36, topY + 150);
+
+  ctx.fillStyle = '#A7F3D0';
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Verified via Adaptive Retention Drills', k3X + 36, topY + 196);
+
+  ctx.fillStyle = 'rgba(16, 185, 129, 0.2)';
+  drawRoundRect(ctx, k3X + 36, topY + 224, kpiW - 72, 34, 17, true, false);
+  ctx.fillStyle = '#34D399';
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('● Ebbinghaus Decay Protected', k3X + 56, topY + 246);
+
+  // ── Bottom Section: Active Queue & Weak Spot Focus ──
+  const activeY = 640;
+  const activeW = w - 176;
+  drawGlassPanel(ctx, 88, activeY, activeW, 370, 28, 'rgba(10, 18, 36, 0.85)', 'rgba(255, 255, 255, 0.09)');
 
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('ACTIVE LEARNING QUEUE // NEXT LESSON READY', 76, activeY + 36);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('ACTIVE LEARNING QUEUE // NEXT MODULE READY', 132, activeY + 54);
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '800 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Topic 02.2: Mental Math with the Rule of 72 & Doubling Curves', 76, activeY + 70);
+  ctx.font = '900 38px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Module 03: The Physics of Compound Interest & Inflation Erosion', 132, activeY + 114);
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Learn how to compute doubling periods in your head before allocating capital. Estimated time: 6 mins.', 76, activeY + 98);
+  ctx.font = '500 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Deconstruct how the Rule of 72 computes doubling periods and why inflation functions as a hidden tax.', 132, activeY + 160);
+  ctx.fillText('Estimated completion: 8 minutes • Includes 3 interactive debiasing scenarios with Finn AI.', 132, activeY + 196);
 
-  ctx.fillStyle = 'rgba(56, 189, 248, 0.2)';
-  drawRoundRect(ctx, 76, activeY + 112, 160, 26, 13, true, true, '#38BDF8', 1);
-  ctx.fillStyle = '#BAE6FD';
-  ctx.font = '700 11px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('▶ 3 SCENARIO CHECKS', 90, activeY + 129);
+  // Action pills
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+  drawRoundRect(ctx, 132, activeY + 240, 240, 56, 28, true, true, '#38BDF8', 1.5);
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('▶ RESUME LESSON', 168, activeY + 276);
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+  drawRoundRect(ctx, 396, activeY + 240, 320, 56, 28, true, true, 'rgba(255, 255, 255, 0.1)', 1);
+  ctx.fillStyle = '#CBD5E1';
+  ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('REVIEW PREVIOUS CHEAT SHEET', 424, activeY + 276);
+
+  // Right side focus area box
+  const focW = 540;
+  const focX = activeW + 88 - focW - 44;
+  drawGlassPanel(ctx, focX, activeY + 36, focW, 296, 20, 'rgba(15, 23, 42, 0.9)', 'rgba(56, 189, 248, 0.2)');
+
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('TARGETED REVISION FOCUS', focX + 32, activeY + 76);
+
+  const focalTopics = [
+    { title: 'Inflation Drag on Fixed Deposits', status: '82% Clarity', color: '#F59E0B' },
+    { title: 'Expense Ratio Compounding Cost', status: 'Needs Review', color: '#EF4444' },
+    { title: 'Emergency Fund Sizing Rules', status: 'Mastered', color: '#10B981' }
+  ];
+  focalTopics.forEach((t, idx) => {
+    const ty = activeY + 116 + idx * 64;
+    ctx.fillStyle = '#E2E8F0';
+    ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(t.title, focX + 32, ty);
+
+    ctx.fillStyle = t.color;
+    ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(t.status, focX + focW - 160, ty);
+  });
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Student Level: Level 4 Apprentice (820 XP)', 52, 574);
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Personalized daily roadmap adapting dynamically to your concept clarity.', 88, 1134);
 
   renderBottomButton(ctx, w, h, 'Open Dashboard →');
 }
@@ -332,90 +492,123 @@ function renderDashboardDashboard(ctx, w, h) {
 function renderSandboxDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
-    'Risk-Free Trading Terminal', '03',
-    'Virtual ₹10,000 Sandbox',
-    'Practice Real Asset Allocation Across Index ETFs, Gold & Debt',
-    'PORTFOLIO BALANCED', '#10B981'
+    'Zero-Risk Trading Terminal', '3',
+    'Virtual ₹10,000 Practice Sandbox',
+    'Simulate realistic asset allocation across equity index ETFs, sovereign gold, and liquid cash.',
+    'Portfolio Balanced', '#10B981'
   );
 
-  // Big Bold Hero Balance Display
-  const topY = 150;
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, 52, topY, w - 104, 110, 18, true, true, 'rgba(56, 189, 248, 0.3)', 1.5);
+  const topY = 320;
+  const totalW = w - 176;
+
+  // ── Hero Portfolio Header Card ──
+  drawGlassPanel(ctx, 88, topY, totalW, 200, 26, 'rgba(10, 18, 36, 0.85)', 'rgba(56, 189, 248, 0.25)');
 
   ctx.fillStyle = '#93C5FD';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('TOTAL SIMULATED PORTFOLIO VALUE', 76, topY + 34);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('SIMULATED PORTFOLIO VALUATION', 132, topY + 54);
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 48px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('₹10,480.00', 76, topY + 84);
+  ctx.font = '900 86px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('₹10,480.00', 132, topY + 148);
 
   // Profit Pill
   ctx.fillStyle = 'rgba(16, 185, 129, 0.2)';
-  drawRoundRect(ctx, 380, topY + 48, 160, 36, 18, true, true, '#10B981', 1.5);
+  drawRoundRect(ctx, 720, topY + 86, 290, 60, 30, true, true, '#10B981', 1.5);
   ctx.fillStyle = '#34D399';
-  ctx.font = '800 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('+4.8% PROFIT (+₹480)', 396, topY + 71);
+  ctx.font = '900 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('+4.80% PROFIT (+₹480)', 750, topY + 124);
 
+  // Meta stats
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Cash Buffer: ₹2,000.00 (20%) | Initial Capital: ₹10,000', 570, topY + 71);
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Cash Buffer Available: ₹2,000.00 (20.0%)', 1060, topY + 110);
+  ctx.fillText('Initial Capital Seed: ₹10,000.00', 1060, topY + 140);
 
-  // Segmented Asset Allocation Bar
-  const allocY = 280;
-  const barW = w - 104;
+  // ── Multi-Asset Allocation Ribbon ──
+  const barY = 550;
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('ASSET ALLOCATION DIVERSIFICATION SPECTRUM', 52, allocY - 12);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('ASSET ALLOCATION SPECTRUM (EQUITY 50%  •  GOLD 30%  •  LIQUID CASH 20%)', 88, barY - 16);
 
-  // Segments: Equity (50%), Gold (30%), Liquid FD (20%)
-  const w1 = barW * 0.5;
-  const w2 = barW * 0.3;
-  const w3 = barW * 0.2;
+  const w1 = totalW * 0.5;
+  const w2 = totalW * 0.3;
+  const w3 = totalW * 0.2;
 
   ctx.fillStyle = '#3B82F6';
-  drawRoundRect(ctx, 52, allocY, w1 - 2, 14, 4, true, false);
+  drawRoundRect(ctx, 88, barY, w1 - 4, 20, 8, true, false);
   ctx.fillStyle = '#F59E0B';
-  drawRoundRect(ctx, 52 + w1, allocY, w2 - 2, 14, 4, true, false);
+  drawRoundRect(ctx, 88 + w1, barY, w2 - 4, 20, 8, true, false);
   ctx.fillStyle = '#10B981';
-  drawRoundRect(ctx, 52 + w1 + w2, allocY, w3, 14, 4, true, false);
+  drawRoundRect(ctx, 88 + w1 + w2, barY, w3, 20, 8, true, false);
 
-  // 3 Holding Row Cards
-  const holdY = 320;
-  const holdW = (barW - 24) / 3;
+  // ── 3 Active Holding Position Cards ──
+  const holdY = 604;
+  const holdW = (totalW - 48) / 3;
 
   const holdings = [
-    { title: 'NIFTY 50 ETF', amt: '₹5,000', pct: '50% (Equity)', change: '+3.2%', cColor: '#34D399', border: '#3B82F6' },
-    { title: 'SOVEREIGN GOLD', amt: '₹3,000', pct: '30% (Hedge)', change: '+1.8%', cColor: '#FBBF24', border: '#F59E0B' },
-    { title: 'LIQUID OVERNIGHT', amt: '₹2,000', pct: '20% (Safety)', change: '+0.6%', cColor: '#60A5FA', border: '#10B981' }
+    {
+      title: 'NIFTY 50 INDEX ETF',
+      sub: 'Equity Growth Core (50%)',
+      amount: '₹5,000.00',
+      pnl: '+3.4% (₹170)',
+      pnlColor: '#34D399',
+      rationale: 'Validated Long-term Broad Market Beta'
+    },
+    {
+      title: 'SOVEREIGN GOLD ETF',
+      sub: 'Inflation Hedge (30%)',
+      amount: '₹3,000.00',
+      pnl: '+2.1% (₹63)',
+      pnlColor: '#FBBF24',
+      rationale: 'Hedge against rupee purchasing power erosion'
+    },
+    {
+      title: 'OVERNIGHT LIQUID FUND',
+      sub: 'Emergency Dry Powder (20%)',
+      amount: '₹2,000.00',
+      pnl: '+0.7% (₹14)',
+      pnlColor: '#60A5FA',
+      rationale: 'Zero volatility instant liquidity reserve'
+    }
   ];
 
   holdings.forEach((hld, idx) => {
-    const hx = 52 + idx * (holdW + 12);
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-    drawRoundRect(ctx, hx, holdY, holdW, 140, 16, true, true, 'rgba(56, 189, 248, 0.25)', 1.5);
+    const hx = 88 + idx * (holdW + 24);
+    drawGlassPanel(ctx, hx, holdY, holdW, 400, 24, 'rgba(10, 18, 36, 0.85)', 'rgba(255, 255, 255, 0.08)');
 
     ctx.fillStyle = '#94A3B8';
-    ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(hld.title, hx + 18, holdY + 34);
+    ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(hld.title, hx + 36, holdY + 54);
+
+    ctx.fillStyle = '#64748B';
+    ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(hld.sub, hx + 36, holdY + 84);
 
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '900 26px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(hld.amt, hx + 18, holdY + 70);
+    ctx.font = '900 48px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(hld.amount, hx + 36, holdY + 160);
 
-    ctx.fillStyle = hld.cColor;
-    ctx.font = '700 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(`${hld.change} Today`, hx + 18, holdY + 98);
+    ctx.fillStyle = hld.pnlColor;
+    ctx.font = '800 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(`${hld.pnl} Return`, hx + 36, holdY + 214);
+
+    // Rationale tag
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    drawRoundRect(ctx, hx + 36, holdY + 258, holdW - 72, 80, 16, true, true, 'rgba(255, 255, 255, 0.08)', 1);
 
     ctx.fillStyle = '#94A3B8';
-    ctx.font = '500 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(hld.pct, hx + 18, holdY + 120);
+    ctx.font = '700 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText('MANDATORY TRADE RATIONALE:', hx + 54, holdY + 292);
+
+    ctx.fillStyle = '#E2E8F0';
+    ctx.font = '500 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(hld.rationale, hx + 54, holdY + 322);
   });
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('100% Risk-Free Simulation Sandbox • Mandatory Investment Rationale Required', 52, 574);
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Mandatory investment rationale required before executing every virtual trade.', 88, 1134);
 
   renderBottomButton(ctx, w, h, 'Launch Sandbox →');
 }
@@ -425,142 +618,179 @@ function renderSandboxDashboard(ctx, w, h) {
 function renderQuizzesDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
-    'Socratic Diagnostic Engine', '04',
-    'Quizzes & Gamified Testing',
-    'Adaptive Follow-Up Probes That Verify Why You Selected Your Answer',
-    'ADAPTIVE ACTIVE', '#A855F7'
+    'Socratic Diagnostic Engine', '4',
+    'Adaptive Quizzes & Debiasing Drills',
+    'Interactive scenario problems that interrogate cognitive biases and reward first-principles reasoning.',
+    'Adaptive Active', '#A855F7'
   );
 
-  // Scenario Question Box
-  const qY = 150;
-  const boxW = w - 104;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, 52, qY, boxW, 80, 16, true, true, 'rgba(168, 85, 247, 0.35)', 1.5);
+  const topY = 320;
+  const boxW = w - 176;
+
+  // ── Scenario Question Box ──
+  drawGlassPanel(ctx, 88, topY, boxW, 160, 24, 'rgba(10, 18, 36, 0.85)', 'rgba(168, 85, 247, 0.3)');
 
   ctx.fillStyle = '#C084FC';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('SCENARIO 03 // PURCHASING POWER EROSION', 76, qY + 28);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('SCENARIO 04 OF 10  •  PURCHASING POWER EROSION', 132, topY + 50);
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('You keep ₹1,00,000 in a fixed deposit earning 5% interest while inflation runs at 7%. Over 3 years:', 76, qY + 56);
+  ctx.font = '700 28px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('You lock ₹1,00,000 into a fixed deposit yielding 5.0% annual interest while inflation runs at 7.0%.', 132, topY + 98);
+  ctx.fillText('After 3 years, what has actually happened to your purchasing power?', 132, topY + 134);
 
-  // Option A (Trap - Red Strike)
-  const o1Y = 246;
-  ctx.fillStyle = 'rgba(239, 68, 68, 0.12)';
-  drawRoundRect(ctx, 52, o1Y, boxW, 58, 14, true, true, 'rgba(239, 68, 68, 0.5)', 1.5);
+  // ── Option A (The Trap) ──
+  const o1Y = 510;
+  drawGlassPanel(ctx, 88, o1Y, boxW, 130, 20, 'rgba(239, 68, 68, 0.1)', 'rgba(239, 68, 68, 0.4)');
+
   ctx.fillStyle = '#FCA5A5';
-  ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('A) Your wealth grows because 5% compounding guarantees safety.', 76, o1Y + 34);
+  ctx.font = '600 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('A) My wealth has grown because 5% annual compound interest produces guaranteed positive rupees.', 132, o1Y + 54);
+
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
+  drawRoundRect(ctx, 132, o1Y + 76, 380, 36, 18, true, false);
   ctx.fillStyle = '#EF4444';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('✕ COGNITIVE TRAP: MONEY ILLUSION', w - 320, o1Y + 34);
+  ctx.font = '800 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('✕ COGNITIVE TRAP: MONEY ILLUSION BIAS', 152, o1Y + 100);
 
-  // Option B (Correct - Green Glow)
-  const o2Y = 318;
-  ctx.fillStyle = 'rgba(16, 185, 129, 0.18)';
-  drawRoundRect(ctx, 52, o2Y, boxW, 58, 14, true, true, '#10B981', 2);
+  // ── Option B (The Verified Answer) ──
+  const o2Y = 664;
+  drawGlassPanel(ctx, 88, o2Y, boxW, 130, 20, 'rgba(16, 185, 129, 0.15)', 'rgba(16, 185, 129, 0.6)');
+
   ctx.fillStyle = '#6EE7B7';
-  ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('B) Purchasing power declines by -2% per year despite nominal digits rising.', 76, o2Y + 34);
-  ctx.fillStyle = '#10B981';
-  ctx.font = '900 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('✓ VERIFIED ACCURATE (+50 XP)', w - 280, o2Y + 34);
+  ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('B) My purchasing power has eroded by ~2% annually. Real Return = 5% Nominal - 7% Inflation.', 132, o2Y + 54);
 
-  // Gamification Ribbon
-  const gY = 394;
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, 52, gY, boxW, 76, 16, true, true, 'rgba(56, 189, 248, 0.3)', 1);
+  ctx.fillStyle = 'rgba(16, 185, 129, 0.25)';
+  drawRoundRect(ctx, 132, o2Y + 76, 360, 36, 18, true, false);
+  ctx.fillStyle = '#10B981';
+  ctx.font = '800 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('✓ VERIFIED FIRST-PRINCIPLES (+50 XP)', 152, o2Y + 100);
+
+  // ── Streak Ribbon ──
+  const sY = 820;
+  drawGlassPanel(ctx, 88, sY, boxW, 170, 24, 'rgba(10, 18, 36, 0.85)', 'rgba(255, 255, 255, 0.08)');
 
   ctx.fillStyle = '#F59E0B';
-  ctx.font = '900 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('🔥 7-DAY STREAK • 2.5X XP MULTIPLIER ACTIVE', 76, gY + 34);
+  ctx.font = '900 28px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('🔥 7-DAY SOCRATIC STREAK  •  2.5X XP MULTIPLIER ACTIVE', 132, sY + 62);
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Selecting an answer triggers an adaptive follow-up Socratic question to verify true conceptual mastery.', 76, gY + 58);
+  ctx.font = '500 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Answering correctly triggers an AI follow-up probe verifying your reasoning, preventing rote guessing.', 132, sY + 106);
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Comprehensive syllabus testing across 7 core financial disciplines', 52, 574);
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Every answer requires you to state your investment premise before confirmation.', 88, 1134);
 
-  renderBottomButton(ctx, w, h, 'Take Socratic Quiz →');
+  renderBottomButton(ctx, w, h, 'Take Diagnostic Drill →');
 }
 
-// ─── 05. Paper Company Analysis ───────────────────────────────────────────────
+// ─── 05. Paper Company Analysis ──────────────────────────────────────────────
 
 function renderPaperCompanyDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
-    'Institutional Teardown', '05',
-    'Paper Company Analysis',
-    'Deconstruct Corporate Statements, Ratios & Moats Without Financial Jargon',
-    'DOSSIER READY', '#38BDF8'
+    'Institutional Teardown', '5',
+    'Paper Company Forensic Analysis',
+    'Deconstruct financial statements, cashflow quality, and balance sheet moats without Wall Street jargon.',
+    'Dossier Loaded', '#38BDF8'
   );
 
-  // Target Dossier Header
-  const topY = 150;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, 52, topY, w - 104, 70, 16, true, true, 'rgba(56, 189, 248, 0.35)', 1.5);
+  const topY = 320;
+  const colW = (w - 176 - 40) / 2;
+  const colH = 690;
+
+  // ── LEFT COLUMN: 4 Financial Health Ratios ──
+  drawGlassPanel(ctx, 88, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
 
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('SIMULATION DOSSIER // BSE: 500124', 76, topY + 28);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('EQUITY DOSSIER: APEX CONSUMER BRANDS LTD (NSE: APEX)', 128, topY + 54);
 
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '800 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Apex Consumer Brands Ltd • FMCG Bluechip Conglomerate', 76, topY + 54);
-
-  // 4 Financial Matrix Cards
-  const fY = 236;
-  const colW = (w - 104 - 36) / 4;
-  const metrics = [
-    { label: 'P/E RATIO', val: '16.2x', sub: 'Industry Median: 24.5x', tag: 'Fair Valuation', color: '#38BDF8' },
-    { label: 'RETURN ON EQUITY', val: '24.8%', sub: 'Capital Efficiency: High', tag: 'Wide Moat', color: '#10B981' },
-    { label: 'DEBT TO EQUITY', val: '0.18', sub: 'Solvency Risk: Low', tag: 'Virtually Debt-Free', color: '#F59E0B' },
-    { label: 'FREE CASH FLOW', val: '₹840 Cr', sub: 'Cash Conversion: 94%', tag: 'Real Cashflows', color: '#A855F7' }
+  const ratios = [
+    { label: 'PRICE TO EARNINGS (P/E)', val: '16.4x', note: 'Sector Average: 24.2x (32% Discount)', color: '#34D399' },
+    { label: 'RETURN ON EQUITY (ROE)', val: '24.8%', note: 'High capital productivity and reinvestment moat', color: '#38BDF8' },
+    { label: 'DEBT TO EQUITY RATIO', val: '0.14', note: 'Virtually debt-free balance sheet (Low Solvency Risk)', color: '#34D399' },
+    { label: 'FREE CASH FLOW (FCF)', val: '₹840 Cr', note: 'Operating cash conversion is 96% of net income', color: '#FBBF24' }
   ];
 
-  metrics.forEach((m, idx) => {
-    const mx = 52 + idx * (colW + 12);
-    ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-    drawRoundRect(ctx, mx, fY, colW, 140, 16, true, true, 'rgba(56, 189, 248, 0.25)', 1.5);
+  const rGridW = (colW - 96) / 2;
+  ratios.forEach((r, idx) => {
+    const rx = 128 + (idx % 2) * (rGridW + 24);
+    const ry = topY + 96 + Math.floor(idx / 2) * 260;
+
+    drawGlassPanel(ctx, rx, ry, rGridW, 230, 20, 'rgba(15, 23, 42, 0.85)', 'rgba(255, 255, 255, 0.08)');
 
     ctx.fillStyle = '#94A3B8';
-    ctx.font = '800 11px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(m.label, mx + 16, fY + 30);
+    ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(r.label, rx + 24, ry + 44);
 
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = '900 32px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(m.val, mx + 16, fY + 70);
+    ctx.fillStyle = r.color;
+    ctx.font = '900 48px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(r.val, rx + 24, ry + 116);
 
-    ctx.fillStyle = m.color;
-    ctx.font = '700 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(m.tag, mx + 16, fY + 98);
-
-    ctx.fillStyle = '#64748B';
-    ctx.font = '500 11px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(m.sub, mx + 16, fY + 120);
+    ctx.fillStyle = '#CBD5E1';
+    ctx.font = '500 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(r.note, rx + 24, ry + 168);
   });
 
-  // AI Auditor Verification Stamp Card
-  const vY = 392;
-  ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
-  drawRoundRect(ctx, 52, vY, w - 104, 76, 16, true, true, '#10B981', 1.5);
+  // ── RIGHT COLUMN: AI Forensic Auditor Stamp ──
+  const rX = 88 + colW + 40;
+  drawGlassPanel(ctx, rX, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
 
-  ctx.fillStyle = '#34D399';
-  ctx.font = '800 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('FINN AI REPORT AUDITOR // VERDICT CONFIRMED: GRADE A+', 76, vY + 32);
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('AI FORENSIC QUALITY OF EARNINGS REPORT', rX + 40, topY + 54);
 
-  ctx.fillStyle = '#E2E8F0';
-  ctx.font = '500 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Student submitted analysis correctly flagged aggressive accounting in receivables. Recommended video lessons auto-queued.', 76, vY + 56);
+  // Grade Stamp Card
+  const gY = topY + 90;
+  const gW = colW - 80;
+  drawGlassPanel(ctx, rX + 40, gY, gW, 200, 20, 'rgba(15, 23, 42, 0.9)', 'rgba(16, 185, 129, 0.4)');
+
+  ctx.fillStyle = '#10B981';
+  ctx.font = '900 84px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('GRADE A+', rX + 72, gY + 110);
+
+  ctx.fillStyle = '#93C5FD';
+  ctx.font = '700 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('High Quality Earnings Verdict', rX + 72, gY + 154);
+
+  // Auditor Checklist
+  const aY = topY + 316;
+  drawGlassPanel(ctx, rX + 40, aY, gW, 330, 20, 'rgba(15, 23, 42, 0.9)', 'rgba(255, 255, 255, 0.08)');
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Simulate institutional equity research without risking a single rupee', 52, 574);
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('FORENSIC AUDITOR VERIFICATION CHECKLIST', rX + 68, aY + 44);
 
-  renderBottomButton(ctx, w, h, 'Analyze Company →');
+  const checks = [
+    { title: 'Zero Aggressive Revenue Recognition', desc: 'Receivable days steady at 28 days (Industry: 45 days)', ok: true },
+    { title: 'Working Capital Health', desc: 'Operating cash fully funds capital expenditures', ok: true },
+    { title: 'Promoter Share Pledging', desc: '0.00% shares pledged as collateral', ok: true },
+    { title: 'Related-Party Transactions', desc: 'Clean unconflicted governance disclosures', ok: true }
+  ];
+
+  checks.forEach((c, idx) => {
+    const cy = aY + 86 + idx * 56;
+    ctx.fillStyle = '#34D399';
+    ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText('✓', rX + 68, cy);
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(c.title, rX + 96, cy);
+
+    ctx.fillStyle = '#64748B';
+    ctx.font = '500 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(c.desc, rX + 96, cy + 20);
+  });
+
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Learn to audit actual 10-K balance sheets without needing an MBA.', 88, 1134);
+
+  renderBottomButton(ctx, w, h, 'Analyze Paper Dossier →');
 }
 
 // ─── 06. Jargon-Free Financial Topics ─────────────────────────────────────────
@@ -568,507 +798,559 @@ function renderPaperCompanyDashboard(ctx, w, h) {
 function renderSimpleTopicsDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
-    'Plain English Pedagogy', '06',
+    'Plain English Pedagogy', '6',
     'Jargon-Free Financial Topics',
-    'Complex Institutional Mechanics Translated Into Intuitive Visual Models',
-    'ELI5 READY', '#F59E0B'
+    'Complex Wall Street vocabulary translated into clean, intuitive real-world mental models.',
+    'Zero Jargon', '#F59E0B'
   );
 
-  // Side-by-Side Comparison Matrix
-  const cmpY = 150;
-  const colW = (w - 104 - 40) / 2;
+  const topY = 320;
+  const colW = (w - 176 - 40) / 2;
+  const colH = 690;
 
-  // Left: Wall Street Jargon
-  ctx.fillStyle = 'rgba(239, 68, 68, 0.1)';
-  drawRoundRect(ctx, 52, cmpY, colW, 180, 18, true, true, 'rgba(239, 68, 68, 0.4)', 1.5);
-
-  ctx.fillStyle = '#EF4444';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('THE WALL STREET JARGON', 76, cmpY + 34);
-
-  ctx.fillStyle = '#FCA5A5';
-  ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('"Mitigate unsystematic idiosyncratic volatility', 76, cmpY + 70);
-  ctx.fillText('via stochastic beta optimization and cross-asset', 76, cmpY + 96);
-  ctx.fillText('variance-covariance matrix diversification."', 76, cmpY + 122);
-
-  // Right: Plain English
-  const rX = 52 + colW + 40;
-  ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
-  drawRoundRect(ctx, rX, cmpY, colW, 180, 18, true, true, '#10B981', 1.5);
-
-  ctx.fillStyle = '#10B981';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('THE TO DIRECT PLAIN ENGLISH REALITY', rX + 24, cmpY + 34);
-
-  ctx.fillStyle = '#E2E8F0';
-  ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('"Don’t put all your eggs in one basket.', rX + 24, cmpY + 70);
-  ctx.fillText('If you own 50 companies instead of 1,', rX + 24, cmpY + 96);
-  ctx.fillText('a single fraud cannot wipe out your savings."', rX + 24, cmpY + 122);
-
-  // Mental Model Formula Card
-  const fY = 350;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, 52, fY, w - 104, 116, 18, true, true, 'rgba(56, 189, 248, 0.35)', 1.5);
+  // ── LEFT COLUMN: Wall Street vs Plain English Translation Matrix ──
+  drawGlassPanel(ctx, 88, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
 
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('INSTANT MENTAL MATH // THE RULE OF 72 FORMULA', 76, fY + 34);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('WALL STREET TRANSLATION MATRIX', 128, topY + 54);
+
+  const pairs = [
+    {
+      jargon: 'Alpha Generation',
+      trans: 'Beating the average market index through repeatable skill rather than pure gambling luck.'
+    },
+    {
+      jargon: 'Liquidity Risk',
+      trans: 'Needing your money right now, but having it trapped in an illiquid asset that takes months to cash out.'
+    },
+    {
+      jargon: 'Expense Ratio Compounding',
+      trans: 'The silent 1% annual fee that secretly cuts away 25% of your final wealth over a 30-year investing horizon.'
+    }
+  ];
+
+  pairs.forEach((p, idx) => {
+    const py = topY + 90 + idx * 186;
+    drawGlassPanel(ctx, 128, py, colW - 80, 160, 20, 'rgba(15, 23, 42, 0.85)', 'rgba(255, 255, 255, 0.08)');
+
+    ctx.fillStyle = '#EF4444';
+    ctx.font = '800 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(`WALL STREET TERM // ${p.jargon.toUpperCase()}`, 156, py + 42);
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(`Plain English: "${p.trans}"`, 156, py + 86);
+  });
+
+  // ── RIGHT COLUMN: Intuitive Mental Model Graphic (Rule of 72) ──
+  const rX = 88 + colW + 40;
+  drawGlassPanel(ctx, rX, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
+
+  ctx.fillStyle = '#F59E0B';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('MENTAL MODEL SPOTLIGHT: THE RULE OF 72', rX + 40, topY + 54);
+
+  const mY = topY + 90;
+  const mW = colW - 80;
+  drawGlassPanel(ctx, rX + 40, mY, mW, 280, 24, 'rgba(15, 23, 42, 0.9)', 'rgba(245, 158, 11, 0.3)');
+
+  ctx.fillStyle = '#FDE68A';
+  ctx.font = '800 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Years to Double = 72 ÷ Annual Return (%)', rX + 68, mY + 60);
+
+  ctx.fillStyle = '#CBD5E1';
+  ctx.font = '500 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Calculate exponential compounding in your head in seconds:', rX + 68, mY + 110);
+  ctx.fillText('• At 6% Return: 72 ÷ 6 = 12 Years to double your money', rX + 68, mY + 154);
+  ctx.fillText('• At 12% Return: 72 ÷ 12 = 6 Years to double your money', rX + 68, mY + 196);
+  ctx.fillText('• At 18% Hype: Claims 4 years (Look for hidden hazard!)', rX + 68, mY + 238);
+
+  // Bottom Takeaway Card
+  const bY = topY + 396;
+  drawGlassPanel(ctx, rX + 40, bY, mW, 250, 24, 'rgba(15, 23, 42, 0.9)', 'rgba(56, 189, 248, 0.2)');
+
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('THE TODIRECT PROMISE', rX + 68, bY + 54);
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 28px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Doubling Time (Years) = 72 ÷ Annual Return Rate %', 76, fY + 72);
+  ctx.font = '500 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Every finance concept is explained through visual physics,', rX + 68, bY + 104);
+  ctx.fillText('practical analogies, and real-world math anyone can calculate', rX + 68, bY + 144);
+  ctx.fillText('on a napkin without prior background.', rX + 68, bY + 184);
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('At 12% returns, money doubles in 6 years. At 6% returns, it takes 12 years. Mastered in 3 minutes.', 76, fY + 98);
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('No academic jargon. Pure first-principles financial mechanics.', 88, 1134);
 
-  ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Bite-sized visual lectures designed specifically for Indian youth', 52, 574);
-
-  renderBottomButton(ctx, w, h, 'Explore Concepts →');
+  renderBottomButton(ctx, w, h, 'Explore 7-Topic Syllabus →');
 }
 
-// ─── 07. Baseline Knowledge Diagnostic (Where You Stand) ──────────────────────
+// ─── 07. Understanding Where You Stand (Baseline Diagnostic) ──────────────────
 
 function renderBaselineDiagnosticDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
-    'Entry Calibration', '07',
+    'Entry Calibration', '7',
     'Understanding Where You Stand',
-    '5-Minute Diagnostic Upon Login That Maps Blindspots & Literacy Baseline',
-    'CALIBRATED', '#10B981'
+    '5-minute adaptive calibration upon signup that charts your cognitive blindspots and customized roadmap.',
+    'Calibrated', '#10B981'
   );
 
-  // Left Column: Big Composite Mastery Score
-  const cardW = 340;
-  const topY = 150;
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, 52, topY, cardW, 310, 18, true, true, 'rgba(56, 189, 248, 0.35)', 1.5);
+  const topY = 320;
+  const colW = (w - 176 - 40) / 2;
+  const colH = 690;
 
-  ctx.fillStyle = '#93C5FD';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('BASELINE MASTERY SCORE', 76, topY + 38);
-
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 64px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('84', 76, topY + 110);
-  ctx.font = '800 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillStyle = '#64748B';
-  ctx.fillText('/ 100', 160, topY + 110);
-
-  ctx.fillStyle = 'rgba(16, 185, 129, 0.2)';
-  drawRoundRect(ctx, 76, topY + 130, 200, 32, 16, true, true, '#10B981', 1);
-  ctx.fillStyle = '#34D399';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('TOP 8% OF STUDENT COHORT', 90, topY + 151);
-
-  ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Diagnostic administered on Day 1.', 76, topY + 195);
-  ctx.fillText('Zero penalty for wrong answers.', 76, topY + 218);
-  ctx.fillText('Used to curate custom learning queue.', 76, topY + 241);
-
-  // Right Column: 5 Competency Radar Bars
-  const rX = 52 + cardW + 24;
-  const rW = w - 104 - cardW - 24;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, rX, topY, rW, 310, 18, true, true, 'rgba(56, 189, 248, 0.25)', 1.5);
+  // ── LEFT COLUMN: Diagnostic Literacy Score ──
+  drawGlassPanel(ctx, 88, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
 
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('COMPETENCY BREAKDOWN ACROSS 5 DISCIPLINES', rX + 24, topY + 34);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('BASELINE FINANCIAL LITERACY INDEX', 128, topY + 54);
+
+  // Big Score Circle
+  const sW = colW - 80;
+  drawGlassPanel(ctx, 128, topY + 90, sW, 340, 24, 'rgba(15, 23, 42, 0.9)', 'rgba(56, 189, 248, 0.3)');
+
+  ctx.fillStyle = '#10B981';
+  ctx.font = '900 110px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('84 / 100', 168, topY + 230);
+
+  ctx.fillStyle = 'rgba(16, 185, 129, 0.2)';
+  drawRoundRect(ctx, 168, topY + 266, 310, 48, 24, true, false);
+  ctx.fillStyle = '#34D399';
+  ctx.font = '800 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('TOP 8% OF NEW ENTRANTS', 196, topY + 298);
+
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '500 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Strong mental grasp of compounding math.', 168, topY + 360);
+  ctx.fillText('Vulnerable to illiquidity and unhedged bond yields.', 168, topY + 392);
+
+  // Customized Path Recommendation
+  drawGlassPanel(ctx, 128, topY + 456, sW, 190, 20, 'rgba(15, 23, 42, 0.9)', 'rgba(255, 255, 255, 0.08)');
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('RECOMMENDED ENROLLMENT PATH', 156, topY + 498);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '700 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Skip Beginner Basics ➔ Start at Module 03', 156, topY + 542);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '500 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Saves you 2.5 hours of repetitive introductory theory.', 156, topY + 584);
+
+  // ── RIGHT COLUMN: Competency Breakdown Progress Meters ──
+  const rX = 88 + colW + 40;
+  drawGlassPanel(ctx, rX, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
+
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('COMPETENCY BREAKDOWN RADAR', rX + 40, topY + 54);
 
   const skills = [
-    { name: 'Compounding Math & Time Horizons', pct: 94, color: '#38BDF8' },
-    { name: 'Inflation & Purchasing Power Hedging', pct: 68, color: '#F59E0B' },
-    { name: 'Asset Allocation & Portfolio Guardrails', pct: 88, color: '#10B981' },
-    { name: 'Fundamental Equity Valuation', pct: 76, color: '#60A5FA' },
-    { name: 'Psychological Bias Resistance', pct: 90, color: '#A855F7' }
+    { name: 'Compound Interest & Exponential Math', pct: 96, tier: 'Advanced' },
+    { name: 'Asset Allocation & Diversification', pct: 88, tier: 'Proficient' },
+    { name: 'Inflation Drag & Real Purchasing Power', pct: 82, tier: 'Proficient' },
+    { name: 'Risk vs Volatility Discrimination', pct: 70, tier: 'Needs Review' }
   ];
 
   skills.forEach((sk, idx) => {
-    const sy = topY + 60 + idx * 48;
-    ctx.fillStyle = '#E2E8F0';
-    ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(sk.name, rX + 24, sy);
+    const sy = topY + 90 + idx * 136;
+    drawGlassPanel(ctx, rX + 40, sy, colW - 80, 116, 20, 'rgba(15, 23, 42, 0.85)', 'rgba(255, 255, 255, 0.08)');
 
-    ctx.fillStyle = sk.color;
-    ctx.font = '800 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(`${sk.pct}%`, rX + rW - 24, sy);
-    ctx.textAlign = 'left';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '700 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(sk.name, rX + 68, sy + 44);
 
-    // Track
-    const barW = rW - 48;
+    ctx.fillStyle = sk.pct >= 85 ? '#34D399' : sk.pct >= 75 ? '#38BDF8' : '#F59E0B';
+    ctx.font = '800 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(`${sk.pct}%  (${sk.tier})`, rX + colW - 240, sy + 44);
+
+    // Progress bar
     ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-    drawRoundRect(ctx, rX + 24, sy + 8, barW, 8, 4, true, false);
-    ctx.fillStyle = sk.color;
-    drawRoundRect(ctx, rX + 24, sy + 8, barW * (sk.pct / 100), 8, 4, true, false);
+    drawRoundRect(ctx, rX + 68, sy + 68, colW - 136, 12, 6, true, false);
+
+    ctx.fillStyle = sk.pct >= 85 ? '#10B981' : sk.pct >= 75 ? '#38BDF8' : '#F59E0B';
+    drawRoundRect(ctx, rX + 68, sy + 68, (colW - 136) * (sk.pct / 100), 12, 6, true, false);
   });
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Take the diagnostic to discover your personal risk profile and blindspots', 52, 574);
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Calibrate your baseline in 5 minutes without feeling intimidated.', 88, 1134);
 
-  renderBottomButton(ctx, w, h, 'Test Your Baseline →');
+  renderBottomButton(ctx, w, h, 'Start Baseline Diagnostic →');
 }
 
-// ─── 08. Badges & Reflection Certificates ─────────────────────────────────────
+// ─── 08. Badges & Verified Certificates ──────────────────────────────────────
 
 function renderBadgesCertificateDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
-    'Verified Credentials', '08',
-    'Badges & Verified Certificates',
-    'Earn Cryptographically Verified Competence Proofs Linked to Your Profile',
-    'VERIFIED ON-CHAIN', '#F59E0B'
+    'Verified Credentials', '8',
+    'Badges & Cryptographic Certificates',
+    'Earn verifiable credentials that prove practical financial literacy on your resume and LinkedIn.',
+    'Verified On-Chain', '#F59E0B'
   );
 
-  // Left: Luxury Gold Certificate Plaque
-  const certW = 420;
-  const topY = 150;
-  ctx.fillStyle = 'rgba(245, 158, 11, 0.08)';
-  drawRoundRect(ctx, 52, topY, certW, 310, 18, true, true, '#F59E0B', 2);
+  const topY = 320;
+  const colW = (w - 176 - 40) / 2;
+  const colH = 690;
+
+  // ── LEFT COLUMN: Luxury Plaque Digital Certificate ──
+  drawGlassPanel(ctx, 88, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(245, 158, 11, 0.3)');
 
   ctx.fillStyle = '#F59E0B';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('OFFICIAL CERTIFICATE OF MASTERY', 76, topY + 36);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('CERTIFICATE OF PRACTICAL FINANCIAL MASTERY', 128, topY + 54);
+
+  // Digital Plaque
+  const pY = topY + 90;
+  const pW = colW - 80;
+  drawGlassPanel(ctx, 128, pY, pW, 460, 24, 'rgba(15, 23, 42, 0.95)', 'rgba(245, 158, 11, 0.5)');
+
+  ctx.fillStyle = '#FDE68A';
+  ctx.font = '900 36px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('TODIRECT ACCREDITATION', 168, pY + 80);
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '800 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Foundations of Wealth', 76, topY + 74);
-  ctx.fillText('& Risk Management', 76, topY + 104);
+  ctx.font = '700 26px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Foundational Capital Allocation & Risk Management', 168, pY + 140);
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Awarded to Learner: Govardhan', 76, topY + 144);
-  ctx.fillText('Curriculum: 28 Lessons • 14 Concept Checks', 76, topY + 168);
-  ctx.fillText('Issued: October 2026 Batch', 76, topY + 192);
+  ctx.font = '500 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Issued to candidate upon verifying 100% Socratic drill fidelity,', 168, pY + 200);
+  ctx.fillText('completing the ₹10,000 sandbox portfolio, and auditing paper companies.', 168, pY + 236);
 
-  // Cryptographic Hash Pill
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
-  drawRoundRect(ctx, 76, topY + 220, certW - 48, 38, 10, true, true, 'rgba(245, 158, 11, 0.3)', 1);
-  ctx.fillStyle = '#FDE68A';
-  ctx.font = '700 11px monospace';
-  ctx.fillText('HASH: 0x9f81...7c42 // VERIFIED SEBI COMPLIANT', 90, topY + 244);
+  ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
+  drawRoundRect(ctx, 168, pY + 286, pW - 80, 70, 16, true, true, 'rgba(245, 158, 11, 0.4)', 1);
+  ctx.fillStyle = '#FCD34D';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('SERIAL HASH: TOD-CERT-2026-9842-X7', 196, pY + 330);
 
-  // Right: 3 Metallic Mastery Badges
-  const rX = 52 + certW + 24;
-  const rW = w - 104 - certW - 24;
+  // ── RIGHT COLUMN: 3 Achievement Tier Badges ──
+  const rX = 88 + colW + 40;
+  drawGlassPanel(ctx, rX, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
+
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('UNLOCKED MILESTONE BADGES', rX + 40, topY + 54);
 
   const badges = [
-    { title: 'LIQUID SENTINEL', desc: 'Maintained 20% liquid cash buffer under all market scenarios', tag: 'GOLD TIER', color: '#F59E0B' },
-    { title: 'DEBIASING MASTER', desc: 'Successfully identified and resolved 5 cognitive money traps', tag: 'PLATINUM TIER', color: '#38BDF8' },
-    { title: 'COMPOUND STRATEGIST', desc: 'Correctly modeled 15-year exponential compounding curves', tag: 'EMERALD TIER', color: '#10B981' }
+    { name: 'Liquid Sentinel', icon: '🛡️', desc: 'Maintained 20% liquid cash buffer throughout 6 simulated market cycles.' },
+    { name: 'Debiasing Champion', icon: '🎯', desc: 'Identified and rejected 25 cognitive trap scenarios with Finn AI.' },
+    { name: 'Compound Strategist', icon: '⚡', desc: 'Successfully mapped a 30-year SIP with inflation drag calculations.' }
   ];
 
-  badges.forEach((bdg, idx) => {
-    const by = topY + idx * 105;
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-    drawRoundRect(ctx, rX, by, rW, 95, 16, true, true, bdg.color, 1.5);
+  badges.forEach((b, idx) => {
+    const by = topY + 90 + idx * 186;
+    drawGlassPanel(ctx, rX + 40, by, colW - 80, 160, 20, 'rgba(15, 23, 42, 0.85)', 'rgba(255, 255, 255, 0.08)');
 
-    ctx.fillStyle = bdg.color;
-    ctx.font = '800 11px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(bdg.tag, rX + 20, by + 28);
+    ctx.font = '40px -apple-system';
+    ctx.fillText(b.icon, rX + 68, by + 68);
 
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(bdg.title, rX + 20, by + 52);
+    ctx.font = '800 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(b.name, rX + 130, by + 56);
 
     ctx.fillStyle = '#94A3B8';
-    ctx.font = '500 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(bdg.desc, rX + 20, by + 76);
+    ctx.font = '500 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(b.desc, rX + 130, by + 100);
   });
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Badges awarded strictly through proven understanding, never passive clicks', 52, 574);
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Cryptographically verifiable credentials linkable directly to your profile.', 88, 1134);
 
   renderBottomButton(ctx, w, h, 'View All Badges →');
 }
 
-// ─── 09. Live Interactive Masterclasses (200m) ────────────────────────────────
+// ─── 09. Live Sessions & Masterclasses ───────────────────────────────────────
 
 function renderLiveSessionsDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
-    'Live Cohort Broadcast', '09',
-    'Live Sessions & Masterclasses',
-    'Interactive 200-Minute Weekend Deep Dives with Real-Time Q&A with Mentors',
-    'BROADCAST LIVE', '#EF4444'
+    'Live Cohort Broadcast', '9',
+    'Interactive Weekend Masterclasses',
+    '200-minute interactive live streams with industry research analysts dissecting live market mechanics.',
+    'Broadcast Live', '#EF4444'
   );
 
-  // Live Broadcast Stage HUD
-  const topY = 150;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, 52, topY, w - 104, 180, 18, true, true, 'rgba(239, 68, 68, 0.4)', 1.5);
+  const topY = 320;
+  const colW = (w - 176 - 40) / 2;
+  const colH = 690;
 
-  // Pulsing live indicator
+  // ── LEFT COLUMN: Active Live Broadcast Tile ──
+  drawGlassPanel(ctx, 88, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(239, 68, 68, 0.3)');
+
+  // Live Pill
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.2)';
+  drawRoundRect(ctx, 128, topY + 40, 150, 40, 20, true, true, '#EF4444', 1.5);
   ctx.fillStyle = '#EF4444';
   ctx.beginPath();
-  ctx.arc(76, topY + 34, 6, 0, Math.PI * 2);
+  ctx.arc(150, topY + 60, 6, 0, Math.PI * 2);
   ctx.fill();
-
-  ctx.fillStyle = '#F87171';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('LIVE STREAMING // 200M REACH COHORT AUDIENCE', 92, topY + 38);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '800 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('LIVE NOW', 168, topY + 66);
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 26px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Market Cycles & Behavioral Traps: How to Survive a Bear Market', 76, topY + 80);
+  ctx.font = '900 36px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Forensic Balance Sheet Teardown', 128, topY + 130);
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 14px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Hosted by Lead Pedagogical Educators • 14,820 Students currently participating in live poll', 76, topY + 112);
+  ctx.font = '500 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('How institutional investors spot hidden credit risk before earnings.', 128, topY + 172);
 
-  // Live Telemetry bar
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-  drawRoundRect(ctx, 76, topY + 130, w - 152, 34, 10, true, false);
+  // Stats Card
+  const stY = topY + 220;
+  const stW = colW - 80;
+  drawGlassPanel(ctx, 128, stY, stW, 200, 20, 'rgba(15, 23, 42, 0.9)', 'rgba(255, 255, 255, 0.08)');
+
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '700 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('LIVE POLL: "At what Nifty P/E ratio do you consider broad equities overbought?" (A: >24x | B: >30x)', 92, topY + 152);
+  ctx.font = '900 52px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('1,420', 160, stY + 80);
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Active Learners in Stream', 160, stY + 120);
 
-  // Live Q&A Stream Ticker
-  const qY = 345;
-  const colW = (w - 104 - 24) / 2;
+  ctx.fillStyle = '#10B981';
+  ctx.font = '900 52px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('2h 40m', 160 + stW / 2, stY + 80);
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Deep-Dive Duration', 160 + stW / 2, stY + 120);
 
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, 52, qY, colW, 115, 16, true, true, 'rgba(56, 189, 248, 0.3)', 1.5);
+  // ── RIGHT COLUMN: Student Live Q&A Feed ──
+  const rX = 88 + colW + 40;
+  drawGlassPanel(ctx, rX, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
+
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('COMMUNITY LIVE QUESTION', 72, qY + 28);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('"Should I stop my SIP when markets fall 15%?"', 72, qY + 54);
-  ctx.fillStyle = '#34D399';
-  ctx.font = '500 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Mentor Answer: No! Market dips allow purchasing units at lower NAV.', 72, qY + 82);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('REAL-TIME STUDENT Q&A STREAM', rX + 40, topY + 54);
 
-  const rX = 52 + colW + 24;
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, rX, qY, colW, 115, 16, true, true, 'rgba(56, 189, 248, 0.3)', 1.5);
-  ctx.fillStyle = '#F59E0B';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('UPCOMING WEEKEND MASTERCLASS', rX + 24, qY + 28);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('"Forensic Analysis of IPO Red-Herring Prospectus"', rX + 24, qY + 54);
+  const qs = [
+    {
+      q: 'How do we distinguish between goodwill impairments and real asset writedowns?',
+      a: 'Mentor: Look at footnote 14 in the notes to accounts to evaluate cash-generating units.'
+    },
+    {
+      q: 'Can a company show positive net profit while burning cash?',
+      a: 'Mentor: Yes! That is why we track Operating Cash Flow rather than accounting PAT.'
+    }
+  ];
+
+  qs.forEach((item, idx) => {
+    const qy = topY + 90 + idx * 240;
+    drawGlassPanel(ctx, rX + 40, qy, colW - 80, 210, 20, 'rgba(15, 23, 42, 0.85)', 'rgba(255, 255, 255, 0.08)');
+
+    ctx.fillStyle = '#93C5FD';
+    ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(`Q: "${item.q}"`, rX + 68, qy + 48);
+
+    ctx.fillStyle = '#34D399';
+    ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(item.a, rX + 68, qy + 114);
+  });
+
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Saturday 5:00 PM IST • 200 min duration • Replay available', rX + 24, qY + 82);
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Interactive masterclasses every weekend with mentor Q&A.', 88, 1134);
 
-  ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Interactive sessions included free with all verified learner accounts', 52, 574);
-
-  renderBottomButton(ctx, w, h, 'Join Live Cohort →');
+  renderBottomButton(ctx, w, h, 'Join Masterclass →');
 }
 
-// ─── 10. Financial Playground (Calculators) ───────────────────────────────────
+// ─── 10. Financial Playground & Calculators ───────────────────────────────────
 
 function renderPlaygroundDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
     'Simulation Engine', '10',
     'Financial Playground & Calculators',
-    'Simulate EMI Amortization, SIP Wealth Growth, Stock CAGR & Dividend Yields',
-    'INTERACTIVE ENGINE', '#38BDF8'
+    'Tactile scenario simulators for SIP compound growth, EMI amortization, and inflation erosion.',
+    'Simulator Active', '#38BDF8'
   );
 
-  // Left: Calculator Inputs
-  const leftW = 440;
-  const topY = 150;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, 52, topY, leftW, 310, 18, true, true, 'rgba(56, 189, 248, 0.35)', 1.5);
+  const topY = 320;
+  const colW = (w - 176 - 40) / 2;
+  const colH = 690;
+
+  // ── LEFT COLUMN: Interactive Parameter Inputs ──
+  drawGlassPanel(ctx, 88, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
 
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('MUTUAL FUND SIP COMPOUNDING SIMULATOR', 76, topY + 34);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('COMPOUND SIP PARAMETERS', 128, topY + 54);
 
-  // Slider 1: Monthly Investment
-  ctx.fillStyle = '#E2E8F0';
-  ctx.font = '700 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Monthly SIP Amount: ₹10,000 / month', 76, topY + 70);
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-  drawRoundRect(ctx, 76, topY + 82, leftW - 48, 10, 5, true, false);
-  ctx.fillStyle = '#38BDF8';
-  drawRoundRect(ctx, 76, topY + 82, (leftW - 48) * 0.65, 10, 5, true, false);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.beginPath();
-  ctx.arc(76 + (leftW - 48) * 0.65, topY + 87, 8, 0, Math.PI * 2);
-  ctx.fill();
+  const sliders = [
+    { label: 'MONTHLY SIP CONTRIBUTION', val: '₹10,000 / month', sub: 'Baseline capital allocation' },
+    { label: 'INVESTMENT HORIZON', val: '15 Years (180 Months)', sub: 'Allows compound engine to accelerate' },
+    { label: 'EXPECTED CAGR (EQUITY INDEX)', val: '12.0% Annualized', sub: 'Historical Nifty 50 rolling average' }
+  ];
 
-  // Slider 2: Investment Horizon
-  ctx.fillStyle = '#E2E8F0';
-  ctx.font = '700 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Investment Time Horizon: 15 Years', 76, topY + 130);
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-  drawRoundRect(ctx, 76, topY + 142, leftW - 48, 10, 5, true, false);
-  ctx.fillStyle = '#F59E0B';
-  drawRoundRect(ctx, 76, topY + 142, (leftW - 48) * 0.5, 10, 5, true, false);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.beginPath();
-  ctx.arc(76 + (leftW - 48) * 0.5, topY + 147, 8, 0, Math.PI * 2);
-  ctx.fill();
+  sliders.forEach((sl, idx) => {
+    const sy = topY + 90 + idx * 186;
+    drawGlassPanel(ctx, 128, sy, colW - 80, 160, 20, 'rgba(15, 23, 42, 0.85)', 'rgba(255, 255, 255, 0.08)');
 
-  // Slider 3: Expected Return Rate
-  ctx.fillStyle = '#E2E8F0';
-  ctx.font = '700 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Expected CAGR: 12.0% p.a.', 76, topY + 190);
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-  drawRoundRect(ctx, 76, topY + 202, leftW - 48, 10, 5, true, false);
-  ctx.fillStyle = '#10B981';
-  drawRoundRect(ctx, 76, topY + 202, (leftW - 48) * 0.6, 10, 5, true, false);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.beginPath();
-  ctx.arc(76 + (leftW - 48) * 0.6, topY + 207, 8, 0, Math.PI * 2);
-  ctx.fill();
+    ctx.fillStyle = '#94A3B8';
+    ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(sl.label, 156, sy + 44);
 
-  ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('4 Calibrated Modes: Loan EMI, SIP, Stock CAGR & Dividend DRIP', 76, topY + 270);
+    ctx.fillStyle = '#38BDF8';
+    ctx.font = '900 36px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(sl.val, 156, sy + 94);
 
-  // Right: Massive Output Wealth Display
-  const rX = 52 + leftW + 24;
-  const rW = w - 104 - leftW - 24;
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, rX, topY, rW, 310, 18, true, true, 'rgba(16, 185, 129, 0.35)', 1.5);
+    // Simulated slider track
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    drawRoundRect(ctx, 156, sy + 120, colW - 136, 8, 4, true, false);
+    ctx.fillStyle = '#38BDF8';
+    drawRoundRect(ctx, 156, sy + 120, (colW - 136) * 0.65, 8, 4, true, false);
+  });
 
-  ctx.fillStyle = '#6EE7B7';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('PROJECTED ACCUMULATED WEALTH', rX + 24, topY + 38);
+  // ── RIGHT COLUMN: Projected Wealth Outcome ──
+  const rX = 88 + colW + 40;
+  drawGlassPanel(ctx, rX, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
 
   ctx.fillStyle = '#10B981';
-  ctx.font = '900 52px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('₹50,45,760', rX + 24, topY + 104);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('PROJECTED MATURITY WEALTH', rX + 40, topY + 54);
+
+  const pY = topY + 90;
+  const pW = colW - 80;
+  drawGlassPanel(ctx, rX + 40, pY, pW, 260, 24, 'rgba(15, 23, 42, 0.9)', 'rgba(16, 185, 129, 0.3)');
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Total Invested Capital: ₹18,00,000 (35.6%)', rX + 24, topY + 145);
+  ctx.font = '900 84px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('₹50,45,760', rX + 68, pY + 110);
 
   ctx.fillStyle = '#34D399';
-  ctx.font = '800 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Pure Compound Wealth Created: +₹32,45,760 (64.4%)', rX + 24, topY + 175);
-
-  // Visual Exponential Hockey Stick Curve (Canvas vector)
-  ctx.strokeStyle = '#10B981';
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  const cStartX = rX + 24;
-  const cStartY = topY + 270;
-  ctx.moveTo(cStartX, cStartY);
-  ctx.bezierCurveTo(cStartX + 180, cStartY - 10, cStartX + 320, cStartY - 40, cStartX + rW - 48, cStartY - 80);
-  ctx.stroke();
-
-  ctx.fillStyle = '#38BDF8';
-  ctx.font = '700 11px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('EXPONENTIAL TIME ACCELERATION CURVE', rX + 24, topY + 292);
+  ctx.font = '700 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Compounded Wealth Generated: ₹32,45,760 (64.3%)', rX + 68, pY + 168);
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Interactive mathematical playgrounds that prove the power of starting early', 52, 574);
+  ctx.font = '500 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Your Total Invested Capital: ₹18,00,000 (35.7%)', rX + 68, pY + 210);
 
-  renderBottomButton(ctx, w, h, 'Launch Playground →');
+  // Exponential Compounding Curve Callout
+  const cY = topY + 380;
+  drawGlassPanel(ctx, rX + 40, cY, pW, 260, 24, 'rgba(15, 23, 42, 0.9)', 'rgba(255, 255, 255, 0.08)');
+
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('THE COMPOUND INFLECTION EFFECT', rX + 68, cY + 54);
+
+  ctx.fillStyle = '#CBD5E1';
+  ctx.font = '500 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Over the first 5 years, invested capital accounts for 70% of', rX + 68, cY + 104);
+  ctx.fillText('your corpus. By year 15, interest generates over 64% of', rX + 68, cY + 144);
+  ctx.fillText('your total net worth automatically.', rX + 68, cY + 184);
+
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Simulate SIPs, EMIs, and dividend compounding with zero guesswork.', 88, 1134);
+
+  renderBottomButton(ctx, w, h, 'Launch Simulator →');
 }
 
-// ─── 11. Smart Revision System (SRS) ──────────────────────────────────────────
+// ─── 11. Smart Revision System (SRS) ─────────────────────────────────────────
 
 function renderSmartReviewDashboard(ctx, w, h) {
   renderCardFrame(
     ctx, w, h,
     'Memory Retention Engine', '11',
     'Smart Revision System (SRS)',
-    'Spaced Repetition Flashcards & Instant AI Doubt Clarification',
-    'DOUBT ENGINE READY', '#38BDF8'
+    'Spaced repetition flashcards, concept short notes, and instant Socratic doubt clarification.',
+    'Retention Active', '#38BDF8'
   );
 
-  // Top Status Bar: Due Concepts
-  const topY = 150;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, 52, topY, w - 104, 76, 16, true, true, 'rgba(56, 189, 248, 0.35)', 1.5);
+  const topY = 320;
+  const colW = (w - 176 - 40) / 2;
+  const colH = 690;
+
+  // ── LEFT COLUMN: Ebbinghaus Forgetting Curve Graph ──
+  drawGlassPanel(ctx, 88, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
 
   ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('ACTIVE SPACED REPETITION QUEUE', 76, topY + 30);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('EBBINGHAUS RETENTION CURVE OPTIMIZATION', 128, topY + 54);
 
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('3 Concepts Ready for Recall Drill Today • 94% Long-Term Retention Target', 76, topY + 56);
+  const gY = topY + 90;
+  const gW = colW - 80;
+  drawGlassPanel(ctx, 128, gY, gW, 360, 24, 'rgba(15, 23, 42, 0.9)', 'rgba(56, 189, 248, 0.25)');
 
-  // Spaced Repetition Forgetting Curve Chart (Left)
-  const cW = 440;
-  const cY = 240;
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.75)';
-  drawRoundRect(ctx, 52, cY, cW, 220, 18, true, true, 'rgba(56, 189, 248, 0.3)', 1.5);
+  // Curve labels
+  ctx.fillStyle = '#EF4444';
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('WITHOUT SRS: Dips to 20% in 7 days', 160, gY + 50);
 
-  ctx.fillStyle = '#38BDF8';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('EBBINGHAUS MEMORY REINFORCEMENT CURVE', 76, cY + 34);
+  ctx.fillStyle = '#10B981';
+  ctx.font = '800 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('WITH TODIRECT SRS: Resets to 100% via Day 1, 3, 7 touches', 160, gY + 84);
 
-  // Curve drawing
-  ctx.strokeStyle = '#60A5FA';
-  ctx.lineWidth = 2.5;
-  ctx.beginPath();
-  ctx.moveTo(76, cY + 70);
-  ctx.quadraticCurveTo(150, cY + 160, 200, cY + 110);
-  ctx.quadraticCurveTo(270, cY + 150, 320, cY + 100);
-  ctx.quadraticCurveTo(390, cY + 130, 440, cY + 90);
-  ctx.stroke();
+  // Interval touch markers
+  const intervals = [
+    { label: 'Day 1', status: 'Touch 1: Complete' },
+    { label: 'Day 3', status: 'Touch 2: Complete' },
+    { label: 'Day 7', status: 'Touch 3: Active Today' },
+    { label: 'Day 30', status: 'Touch 4: Permanent Memory' }
+  ];
 
-  // Nodes
-  [
-    { x: 76, y: cY + 70, l: 'Day 1' },
-    { x: 200, y: cY + 110, l: 'Day 3' },
-    { x: 320, y: cY + 100, l: 'Day 7' },
-    { x: 440, y: cY + 90, l: 'Day 30' }
-  ].forEach(nd => {
+  intervals.forEach((it, idx) => {
+    const iy = gY + 130 + idx * 52;
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+    drawRoundRect(ctx, 160, iy, gW - 64, 40, 12, true, false);
+
     ctx.fillStyle = '#38BDF8';
-    ctx.beginPath();
-    ctx.arc(nd.x, nd.y, 5, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#94A3B8';
-    ctx.font = '600 11px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    ctx.fillText(nd.l, nd.x - 12, nd.y + 22);
+    ctx.font = '800 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(it.label, 180, iy + 26);
+
+    ctx.fillStyle = '#E2E8F0';
+    ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(it.status, 280, iy + 26);
   });
 
-  ctx.fillStyle = '#E2E8F0';
-  ctx.font = '500 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Timed reviews prevent 80% natural memory decay permanently.', 76, cY + 195);
+  // ── RIGHT COLUMN: Active Review Card & Socratic Clarifier ──
+  const rX = 88 + colW + 40;
+  drawGlassPanel(ctx, rX, topY, colW, colH, 28, 'rgba(10, 18, 36, 0.75)', 'rgba(255, 255, 255, 0.09)');
 
-  // Right: Interactive AI Doubt Clarifier Prompt
-  const rX = 52 + cW + 24;
-  const rW = w - 104 - cW - 24;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  drawRoundRect(ctx, rX, cY, rW, 220, 18, true, true, 'rgba(56, 189, 248, 0.35)', 1.5);
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('TODAY\'S FLASHCARD REVISION QUEUE', rX + 40, topY + 54);
 
-  ctx.fillStyle = '#F59E0B';
-  ctx.font = '800 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('INSTANT AI CONCEPT CLARIFIER', rX + 24, cY + 34);
+  const cY = topY + 90;
+  const cW = colW - 80;
+  drawGlassPanel(ctx, rX + 40, cY, cW, 300, 24, 'rgba(15, 23, 42, 0.9)', 'rgba(255, 255, 255, 0.08)');
+
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('MODULE 02 FLASHCARD: EXPENSE RATIOS', rX + 68, cY + 50);
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Ask Finn to re-explain any completed module:', rX + 24, cY + 68);
+  ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('"Why does a 1% higher expense ratio cost you ~25% of your final wealth over 30 years?"', rX + 68, cY + 98);
 
-  ctx.fillStyle = 'rgba(10, 25, 60, 0.9)';
-  drawRoundRect(ctx, rX + 24, cY + 88, rW - 48, 44, 12, true, true, 'rgba(56, 189, 248, 0.3)', 1);
-  ctx.fillStyle = '#93C5FD';
-  ctx.font = '500 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('"Clarify why Dividend Yield is not Total Return..."', rX + 38, cY + 115);
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+  drawRoundRect(ctx, rX + 68, cY + 190, cW - 56, 70, 18, true, true, '#38BDF8', 1.5);
+  ctx.fillStyle = '#38BDF8';
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('✦ ASK FINN FOR MATHEMATICAL PROOF →', rX + 100, cY + 234);
+
+  // Short Notes Available Box
+  const snY = topY + 416;
+  drawGlassPanel(ctx, rX + 40, snY, cW, 230, 20, 'rgba(15, 23, 42, 0.9)', 'rgba(255, 255, 255, 0.08)');
 
   ctx.fillStyle = '#34D399';
-  ctx.font = '600 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('✓ Immediate Socratic explanation with zero wait time', rX + 24, cY + 160);
+  ctx.font = '800 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('✓ 7 MODULE SHORT NOTES READY', rX + 68, snY + 50);
+
+  ctx.fillStyle = '#CBD5E1';
+  ctx.font = '500 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Access 2-minute formula cheat sheets, mental models, and', rX + 68, snY + 94);
+  ctx.fillText('core definitions anytime directly from your dashboard.', rX + 68, snY + 130);
 
   ctx.fillStyle = '#94A3B8';
-  ctx.font = '500 12px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Full short-notes cheat sheets available for all 7 completed topics', rX + 24, cY + 185);
-
-  ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText('Quick-recall cheat sheets and doubt clarification available 24/7 on Home', 52, 574);
+  ctx.font = '600 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Spaced repetition turns theoretical knowledge into permanent financial instincts.', 88, 1134);
 
   renderBottomButton(ctx, w, h, 'Open Revision System →');
 }
@@ -1078,9 +1360,10 @@ function renderSmartReviewDashboard(ctx, w, h) {
 function createFeatureDashboardTexture(projectNumber) {
   if (typeof document === 'undefined') return null;
 
+  // 2320 x 1240: 2X RETINA RESOLUTION FOR ULTRA-CRISP 3D CLARITY
   const canvas = document.createElement('canvas');
-  canvas.width = 1160;
-  canvas.height = 620;
+  canvas.width = 2320;
+  canvas.height = 1240;
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
 
@@ -1126,6 +1409,7 @@ function createFeatureDashboardTexture(projectNumber) {
   texture.minFilter = THREE.LinearMipmapLinearFilter;
   texture.magFilter = THREE.LinearFilter;
   texture.generateMipmaps = true;
+  texture.anisotropy = 16;
   return texture;
 }
 
@@ -1140,7 +1424,7 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
     return createFeatureDashboardTexture(project.number || '01');
   }, [project.number]);
 
-  // Card Dimensions (Matching 1160x620 aspect ratio: 1.87 : 1)
+  // Card Dimensions (Matching 2320x1240 aspect ratio: 1.87 : 1)
   const cardWidth = isMobile ? 8.2 : 12.8;
   const cardHeight = isMobile ? 4.38 : 6.84;
   const cardRadius = isMobile ? 0.35 : 0.45;
@@ -1184,13 +1468,13 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
         position={[0, 0, -0.08]}
       >
         <meshStandardMaterial
-          color="#060e24"
+          color="#040b1a"
           roughness={0.2}
-          metalness={0.7}
+          metalness={0.8}
         />
       </RoundedBox>
 
-      {/* Front Face with High-Fidelity Blue Premium Gradient UI Texture */}
+      {/* Front Face with Ultra-Crisp 4K Retina Texture */}
       <mesh position={[0, 0, 0.005]}>
         <planeGeometry args={[cardWidth, cardHeight]} />
         {texture && <meshBasicMaterial map={texture} toneMapped={false} />}

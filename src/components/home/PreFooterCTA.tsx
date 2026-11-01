@@ -11,12 +11,17 @@ export function PreFooterCTA() {
     <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Borderless Seamless Container (Zero borders) */}
       <div className="relative p-4 sm:p-8 lg:p-12 border-0 shadow-none overflow-visible transition-colors">
-        {/* Soft Ambient Warm Glow Behind Coin Area on Right */}
-        <div className="absolute top-1/2 -translate-y-1/2 -right-10 w-96 h-96 bg-amber-400/15 dark:bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -top-16 left-1/4 w-72 h-72 bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Soft Ambient Warm Glow Behind Coin Area on Left */}
+        <div className="absolute top-1/2 -translate-y-1/2 -left-10 w-96 h-96 bg-amber-400/15 dark:bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-16 right-1/4 w-72 h-72 bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-          {/* Left Column: Left-Aligned Text Content & Actions */}
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column: 3D Interactive Hover-Responsive Gold Coin */}
+          <div className="lg:col-span-5 xl:col-span-5 flex items-center justify-center lg:justify-start">
+            <InteractiveGoldCoin />
+          </div>
+
+          {/* Right Column: Text Content & Actions */}
           <div className="lg:col-span-7 xl:col-span-7 text-left space-y-6">
             {/* Eyebrow Pill */}
             <BlurIn
@@ -56,7 +61,7 @@ export function PreFooterCTA() {
               Join thousands of students and young professionals who learn the mechanics of wealth, asset allocation, and market psychology risk-free.
             </BlurIn>
 
-            {/* Action Buttons (Left-Aligned) */}
+            {/* Action Buttons (Left-Aligned within Right Column) */}
             <BlurIn
               delay={0.32}
               duration={0.75}
@@ -82,7 +87,7 @@ export function PreFooterCTA() {
               </Link>
             </BlurIn>
 
-            {/* Trust Badges (Left-Aligned) */}
+            {/* Trust Badges */}
             <BlurIn
               delay={0.42}
               duration={0.7}
@@ -102,11 +107,6 @@ export function PreFooterCTA() {
                 <span>Zero speculative stock tips</span>
               </span>
             </BlurIn>
-          </div>
-
-          {/* Right Column: 3D Interactive Hover-Responsive Gold Coin */}
-          <div className="lg:col-span-5 xl:col-span-5 flex items-center justify-center lg:justify-end">
-            <InteractiveGoldCoin />
           </div>
         </div>
       </div>

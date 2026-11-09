@@ -5,9 +5,9 @@ import { RoundedBox } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-// ─── Precision 2D Vector Drawing Utilities ───────────────────────────────────
+// ─── Precision 2D Vector Drawing Primitives ──────────────────────────────────
 
-function drawRoundRect(ctx, x, y, w, h, r, fill = true, stroke = false, strokeColor = '#E2E8F0', lineWidth = 1) {
+function drawRoundRect(ctx, x, y, w, h, r, fill = true, stroke = false, strokeColor = 'rgba(15, 23, 42, 0.1)', lineWidth = 1) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
   ctx.lineTo(x + w - r, y);
@@ -27,38 +27,9 @@ function drawRoundRect(ctx, x, y, w, h, r, fill = true, stroke = false, strokeCo
   }
 }
 
-// 4-point sparkle star (matching reference design)
-function drawFourPointStar(ctx, cx, cy, outerRadius, innerRadius, color = '#0F172A') {
-  ctx.save();
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  let rot = (Math.PI / 2) * 3;
-  let x = cx;
-  let y = cy;
-  const step = Math.PI / 4;
-
-  ctx.moveTo(cx, cy - outerRadius);
-  for (let i = 0; i < 4; i++) {
-    x = cx + Math.cos(rot) * outerRadius;
-    y = cy + Math.sin(rot) * outerRadius;
-    ctx.lineTo(x, y);
-    rot += step;
-
-    x = cx + Math.cos(rot) * innerRadius;
-    y = cy + Math.sin(rot) * innerRadius;
-    ctx.lineTo(x, y);
-    rot += step;
-  }
-  ctx.lineTo(cx, cy - outerRadius);
-  ctx.closePath();
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawStarCluster(ctx, baseX, baseY) {
-  drawFourPointStar(ctx, baseX, baseY, 68, 24, '#0F172A');
-  drawFourPointStar(ctx, baseX + 90, baseY - 60, 42, 14, '#0F172A');
-  drawFourPointStar(ctx, baseX + 130, baseY + 20, 52, 18, '#0F172A');
+function drawPanel(ctx, x, y, w, h, r = 16, bg = '#F8FAFC', border = 'rgba(15, 23, 42, 0.08)', borderWidth = 1.5) {
+  ctx.fillStyle = bg;
+  drawRoundRect(ctx, x, y, w, h, r, true, true, border, borderWidth);
 }
 
 // ─── 3D Rounded Rectangle Geometry Generator ─────────────────────────────────
@@ -93,751 +64,1284 @@ function createRoundedRectGeometry(width, height, radius, segments = 24) {
   return geometry;
 }
 
-// ─── Master High-Impact White Card Framework (2320 x 1240 Retina) ────────────
+// ─── Crisp White Card Frame with Bold Black Typography (2320 x 1240 Native) ───
 
-function renderFeatureCard(ctx, w, h, {
-  number,
-  category,
-  title,
-  description,
-  tags = [],
-  buttonLabel = 'LIVE DEMO ↗',
-  drawVisual
-}) {
-  // 1. Clear entire canvas
+function renderCardFrame(ctx, w, h, categoryTag, cardNumber, title, subtitle, statusText = 'ONLINE', statusColor = '#059669') {
+  // 1. Clear entire canvas (zero alpha outside boundary)
   ctx.clearRect(0, 0, w, h);
 
-  const cornerRadius = 56;
+  const cornerRadius = 64;
 
-  // 2. Strict rounded rectangle clipping
+  // 2. Strict clip boundary
   ctx.save();
   drawRoundRect(ctx, 0, 0, w, h, cornerRadius, false, false);
   ctx.clip();
 
-  // 3. Crisp Solid White Background
+  // 3. Pristine Pure White Card Background
   ctx.fillStyle = '#FFFFFF';
   ctx.fillRect(0, 0, w, h);
 
-  // 4. Subtle Outer Hairline Border
-  drawRoundRect(ctx, 2, 2, w - 4, h - 4, cornerRadius - 2, false, true, '#E2E8F0', 3);
+  // Subtle top highlight border for tactile physical card depth
+  const topHairline = ctx.createLinearGradient(0, 0, w, 0);
+  topHairline.addColorStop(0, 'rgba(15, 23, 42, 0.02)');
+  topHairline.addColorStop(0.5, 'rgba(15, 23, 42, 0.08)');
+  topHairline.addColorStop(1, 'rgba(15, 23, 42, 0.02)');
+  ctx.fillStyle = topHairline;
+  ctx.fillRect(0, 0, w, 3);
 
-  // ── LEFT SIDE: Feature Representation Visual (~40% width) ──
-  const visualX = 80;
-  const visualY = 80;
-  const visualW = 860;
-  const visualH = h - 160;
+  // 4. Clean Graphite Hairline Perimeter Border
+  const borderOffset = 3;
+  const bW = w - borderOffset * 2;
+  const bH = h - borderOffset * 2;
+  const bRadius = cornerRadius - borderOffset;
+  drawRoundRect(ctx, borderOffset, borderOffset, bW, bH, bRadius, false, true, 'rgba(15, 23, 42, 0.12)', 1.5);
 
-  ctx.save();
-  drawVisual(ctx, visualX, visualY, visualW, visualH);
   ctx.restore();
 
-  // ── RIGHT SIDE: Bold Typography & Action Area (~60% width) ──
-  const contentX = 1040;
-  const contentW = w - contentX - 100;
-
-  // Top Index Number (Right Aligned)
-  ctx.fillStyle = '#94A3B8';
-  ctx.font = '700 36px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.textAlign = 'right';
-  ctx.fillText(number, w - 100, 160);
-  ctx.textAlign = 'left';
-
-  // Category Eyebrow
+  // 5. Header Telemetry Bar
+  // Left: Monospace Index Notation
   ctx.fillStyle = '#64748B';
-  ctx.font = '800 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText(category.toUpperCase(), contentX, 160);
+  ctx.font = '700 16px "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace';
+  ctx.fillText(`INDEX : 0${cardNumber} / 11`, 88, 76);
 
-  // Massive Bold Title (Black 900)
+  ctx.fillStyle = '#CBD5E1';
+  ctx.fillText('//', 264, 76);
+
   ctx.fillStyle = '#0F172A';
-  ctx.font = '900 80px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.fillText(title, contentX, 260);
+  ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText(categoryTag, 294, 76);
 
-  // Punchy 2-Line Description (Readable 500 weight, dark slate)
+  // Right: Technical status code
+  ctx.fillStyle = statusColor;
+  ctx.beginPath();
+  ctx.arc(w - 230, 71, 4.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = statusColor;
+  ctx.font = '700 15px "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace';
+  ctx.fillText(statusText, w - 214, 76);
+
+  // 6. Black Bold Hero Title & Context
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 42px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText(title, 88, 148);
+
   ctx.fillStyle = '#475569';
-  ctx.font = '500 28px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  const descWords = description.split(' ');
-  let line1 = '';
-  let line2 = '';
-  let line3 = '';
-  descWords.forEach((word) => {
-    if ((line1 + word).length < 52) {
-      line1 += `${word} `;
-    } else if ((line2 + word).length < 52) {
-      line2 += `${word} `;
-    } else {
-      line3 += `${word} `;
-    }
-  });
+  ctx.font = '600 21px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText(subtitle, 88, 186);
 
-  ctx.fillText(line1.trim(), contentX, 350);
-  if (line2) ctx.fillText(line2.trim(), contentX, 396);
-  if (line3) ctx.fillText(line3.trim(), contentX, 442);
+  // Clean hairline divider under header
+  ctx.strokeStyle = 'rgba(15, 23, 42, 0.08)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(88, 218);
+  ctx.lineTo(w - 88, 218);
+  ctx.stroke();
 
-  // Feature Capability Tags
-  const tagY = line3 ? 530 : 490;
-  let curTagX = contentX;
-  tags.forEach((tag) => {
-    ctx.font = '700 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-    const tagTextW = ctx.measureText(tag).width;
-    const pillW = tagTextW + 36;
-    const pillH = 46;
-
-    ctx.fillStyle = '#F1F5F9';
-    drawRoundRect(ctx, curTagX, tagY, pillW, pillH, 8, true, true, '#E2E8F0', 1);
-
-    ctx.fillStyle = '#334155';
-    ctx.fillText(tag, curTagX + 18, tagY + 29);
-
-    curTagX += pillW + 14;
-  });
-
-  // High-Impact Solid Black Action Button
-  const btnY = tagY + 110;
-  const btnW = 520;
-  const btnH = 88;
-
-  ctx.fillStyle = '#0F172A';
-  drawRoundRect(ctx, contentX, btnY, btnW, btnH, 16, true, false);
-
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '800 26px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText(buttonLabel, contentX + btnW / 2, btnY + 54);
-  ctx.textAlign = 'left';
-
-  ctx.restore();
+  // Bottom hairline divider
+  ctx.beginPath();
+  ctx.moveTo(88, 1076);
+  ctx.lineTo(w - 88, 1076);
+  ctx.stroke();
 }
 
-// ─── 01. Finn AI Financial Avatar ───────────────────────────────────────────
+function renderBottomButton(ctx, w, h, label = 'Explore module') {
+  const btnW = 280;
+  const btnH = 54;
+  const bx = w - 88 - btnW;
+  const by = 1110;
 
-function renderAvatarCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '01',
-    category: 'AI System • Socratic Triage',
-    title: 'FINN AI AVATAR',
-    description: 'Autonomous voice & dialogue coach that interrogates high-yield promises using first-principles financial mechanics without stock picks.',
-    tags: ['SOCRATIC DIALOGUE', 'ZERO STOCK TIPS', 'BIAS DEBIASED', 'VOICE & AUDIO'],
-    buttonLabel: 'TALK TO FINN AI ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      // 3 Black Sparkle Stars
-      drawStarCluster(ctx, x + 80, y + 140);
+  // Solid Black Bold Action Button (Commands immediate attention on white card)
+  ctx.fillStyle = '#090D16';
+  drawRoundRect(ctx, bx, by, btnW, btnH, 10, true, false);
 
-      // Central Socratic Orb Illustration
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 60;
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${label}  →`, bx + btnW / 2, by + 34);
+  ctx.textAlign = 'left';
+}
 
-      // Outer radiant ring
-      const grad = ctx.createLinearGradient(cx - 180, cy - 180, cx + 180, cy + 180);
-      grad.addColorStop(0, '#2563EB');
-      grad.addColorStop(0.5, '#06B6D4');
-      grad.addColorStop(1, '#10B981');
+// ─── 01. AI Financial Avatar (Finn Socratic Coach) ───────────────────────────
 
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 180, 0, Math.PI * 2);
-      ctx.fill();
+function renderAvatarDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Socratic reasoning companion', '1',
+    'Finn — Socratic Financial Avatar',
+    'Interactive dialogue that probes high-yield promises using first-principles financial mechanics without stock picks.',
+    'ACTIVE DIALOGUE', '#059669'
+  );
 
-      // Inner white disc
-      ctx.fillStyle = '#FFFFFF';
-      ctx.beginPath();
-      ctx.arc(cx, cy, 140, 0, Math.PI * 2);
-      ctx.fill();
+  const colW = (w - 176 - 32) / 2;
+  const topY = 252;
+  const colH = 788;
 
-      // Dynamic Audio Voice Waveform Bars
-      const bars = [16, 28, 44, 76, 110, 68, 92, 110, 84, 46, 24];
-      const barW = 12;
-      const barGap = 10;
-      const totalW = bars.length * barW + (bars.length - 1) * barGap;
-      const startX = cx - totalW / 2;
+  // ── LEFT PANE: Socratic Transcript ──
+  drawPanel(ctx, 88, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      ctx.fillStyle = '#0F172A';
-      bars.forEach((bh, i) => {
-        const bx = startX + i * (barW + barGap);
-        const by = cy - bh / 2;
-        drawRoundRect(ctx, bx, by, barW, bh, 6, true, false);
-      });
+  // Pane Sub-header
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('SESSION TRANSCRIPT  •  10:42 IST', 120, topY + 44);
 
-      // Floating verified tag
-      ctx.fillStyle = '#10B981';
-      drawRoundRect(ctx, cx - 140, cy + 190, 280, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('SOCRATIC PROBE ACTIVE', cx, cy + 221);
-      ctx.textAlign = 'left';
-    }
+  // Student Query Box
+  const bW = colW - 64;
+  drawPanel(ctx, 120, topY + 70, bW, 136, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('STUDENT QUERY', 144, topY + 104);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('"A private fund promises 18% guaranteed annual yield.', 144, topY + 140);
+  ctx.fillText('Should I park my emergency savings here?"', 144, topY + 172);
+
+  // Finn AI Response Box
+  const fY = topY + 230;
+  drawPanel(ctx, 120, fY, bW, 396, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#059669';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('FINN AI  //  COUNTER-PROBE', 144, fY + 40);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Where does that 18% cashflow originate?', 144, fY + 82);
+
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 19px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('1. The sovereign risk-free rate (RBI 10Y G-Sec) benchmark is ~7.1%.', 144, fY + 128);
+  ctx.fillText('2. Any scheme offering +10.9% spread without volatility is carrying', 144, fY + 168);
+  ctx.fillText('   severe hidden credit default risk or complete lock-in illiquidity.', 144, fY + 204);
+  ctx.fillText('3. Emergency funds require zero capital loss risk and instant T+0 exit.', 144, fY + 244);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '700 19px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('What specific liquid collateral secures your principal if defaults occur?', 144, fY + 300);
+
+  // Action Prompt Box
+  drawPanel(ctx, 120, topY + 650, bW, 64, 10, '#F1F5F9', 'rgba(15, 23, 42, 0.12)');
+  ctx.fillStyle = '#090D16';
+  ctx.font = '700 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Probe collateral backing with Finn  →', 144, topY + 689);
+
+  // ── RIGHT PANE: Yield Telemetry & Bias Breakdown ──
+  const rX = 88 + colW + 32;
+  drawPanel(ctx, rX, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('YIELD DISPERSION & RISK DECOMPOSITION', rX + 32, topY + 44);
+
+  // Yield Comparison Block
+  const cY = topY + 70;
+  const cW = colW - 64;
+  drawPanel(ctx, rX + 32, cY, cW, 230, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  // Benchmark Row 1
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Sovereign 10Y G-Sec (Risk-free benchmark)', rX + 56, cY + 42);
+  ctx.fillStyle = '#059669';
+  ctx.font = '700 17px "JetBrains Mono", monospace';
+  ctx.fillText('7.10%', rX + cW - 80, cY + 42);
+
+  ctx.fillStyle = '#E2E8F0';
+  drawRoundRect(ctx, rX + 56, cY + 56, cW - 48, 8, 4, true, false);
+  ctx.fillStyle = '#059669';
+  drawRoundRect(ctx, rX + 56, cY + 56, (cW - 48) * 0.394, 8, 4, true, false);
+
+  // Benchmark Row 2
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Promised private fund yield', rX + 56, cY + 110);
+  ctx.fillStyle = '#DC2626';
+  ctx.font = '700 17px "JetBrains Mono", monospace';
+  ctx.fillText('18.00%', rX + cW - 90, cY + 110);
+
+  ctx.fillStyle = '#E2E8F0';
+  drawRoundRect(ctx, rX + 56, cY + 124, cW - 48, 8, 4, true, false);
+  ctx.fillStyle = '#DC2626';
+  drawRoundRect(ctx, rX + 56, cY + 124, cW - 48, 8, 4, true, false);
+
+  // Spread Notice
+  drawPanel(ctx, rX + 56, cY + 154, cW - 48, 48, 8, '#FEF2F2', 'rgba(220, 38, 38, 0.25)');
+  ctx.fillStyle = '#B91C1C';
+  ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Spread: +10.90% unhedged credit risk premium', rX + 76, cY + 184);
+
+  // Dual Telemetry Metrics
+  const tY = topY + 324;
+  const tileW = (cW - 16) / 2;
+
+  drawPanel(ctx, rX + 32, tY, tileW, 140, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('TIPS GIVEN', rX + 52, tY + 36);
+  ctx.fillStyle = '#059669';
+  ctx.font = '800 44px "JetBrains Mono", monospace';
+  ctx.fillText('0.00', rX + 52, tY + 92);
+  ctx.fillStyle = '#475569';
+  ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Strictly Socratic pedagogy', rX + 52, tY + 120);
+
+  drawPanel(ctx, rX + 32 + tileW + 16, tY, tileW, 140, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('SOCRATIC FIDELITY', rX + 52 + tileW + 16, tY + 36);
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 44px "JetBrains Mono", monospace';
+  ctx.fillText('99.8%', rX + 52 + tileW + 16, tY + 92);
+  ctx.fillStyle = '#475569';
+  ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('SEBI investor framework', rX + 52 + tileW + 16, tY + 120);
+
+  // Behavioral Traps Flagged Table
+  const trY = topY + 488;
+  drawPanel(ctx, rX + 32, trY, cW, 226, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('BEHAVIORAL BIASES DETECTED', rX + 52, trY + 36);
+
+  const traps = [
+    { code: '01', name: 'Yield illusion (ignoring capital default risk)', tag: 'FLAGGED' },
+    { code: '02', name: 'Emergency fund misallocation (duration mismatch)', tag: 'FLAGGED' },
+    { code: '03', name: 'Illiquidity lock-in blindspot', tag: 'FLAGGED' }
+  ];
+
+  traps.forEach((tr, idx) => {
+    const rowY = trY + 70 + idx * 48;
+    ctx.fillStyle = '#64748B';
+    ctx.font = '700 15px "JetBrains Mono", monospace';
+    ctx.fillText(tr.code, rX + 52, rowY + 18);
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '600 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(tr.name, rX + 88, rowY + 18);
+
+    ctx.fillStyle = '#D97706';
+    ctx.font = '700 13px "JetBrains Mono", monospace';
+    ctx.fillText(tr.tag, rX + cW - 88, rowY + 18);
   });
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Standard: SEBI Investor Education & Protection Fund guidelines', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Chat with Finn AI');
 }
 
 // ─── 02. Personal Learning Dashboard ──────────────────────────────────────────
 
-function renderDashboardCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '02',
-    category: 'Telemetry • Command Cockpit',
-    title: 'LEARNING DASHBOARD',
-    description: 'Centralized cockpit tracking syllabus progression, concept mastery rings, weekly study consistency, and active learning queues.',
-    tags: ['SYLLABUS PROGRESS', 'STREAK MECHANICS', 'RETENTION RADAR', 'COHORT SYNC'],
-    buttonLabel: 'OPEN DASHBOARD ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderDashboardDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Telemetry & mastery tracking', '2',
+    'Personal Learning Dashboard',
+    'Syllabus progression, daily study consistency, and spaced-retention indicators.',
+    'SYNCED', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
 
-      // Circular Mastery Progress Dial
-      ctx.strokeStyle = '#F1F5F9';
-      ctx.lineWidth = 32;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 160, 0, Math.PI * 2);
-      ctx.stroke();
+  // ── Top Row: 3 Metric Cards ──
+  const kpiW = (w - 176 - 32) / 3;
+  const kpiH = 260;
 
-      // Active Arc (68%)
-      const arcGrad = ctx.createLinearGradient(cx - 160, cy - 160, cx + 160, cy + 160);
-      arcGrad.addColorStop(0, '#2563EB');
-      arcGrad.addColorStop(1, '#38BDF8');
+  // Card 1: Syllabus Mastery
+  drawPanel(ctx, 88, topY, kpiW, kpiH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('SYLLABUS MASTERY', 116, topY + 44);
 
-      ctx.strokeStyle = arcGrad;
-      ctx.lineWidth = 32;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.arc(cx, cy, 160, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * 0.68);
-      ctx.stroke();
-      ctx.lineCap = 'butt';
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 68px "JetBrains Mono", monospace';
+  ctx.fillText('68%', 116, topY + 130);
 
-      // Inner Center Score
-      ctx.fillStyle = '#0F172A';
-      ctx.font = '900 76px "JetBrains Mono", monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText('68%', cx, cy + 18);
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('19 of 28 modules verified', 116, topY + 172);
 
-      ctx.fillStyle = '#64748B';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.fillText('SYLLABUS MASTERY', cx, cy + 56);
+  ctx.fillStyle = '#E2E8F0';
+  drawRoundRect(ctx, 116, topY + 200, kpiW - 56, 8, 4, true, false);
+  ctx.fillStyle = '#2563EB';
+  drawRoundRect(ctx, 116, topY + 200, (kpiW - 56) * 0.68, 8, 4, true, false);
 
-      // Streak Pill Below
-      ctx.fillStyle = '#F59E0B';
-      drawRoundRect(ctx, cx - 130, cy + 200, 260, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.fillText('🔥 14-DAY STUDY STREAK', cx, cy + 231);
-      ctx.textAlign = 'left';
-    }
+  // Card 2: Study Consistency
+  const k2X = 88 + kpiW + 16;
+  drawPanel(ctx, k2X, topY, kpiW, kpiH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('DAILY CONSISTENCY', k2X + 28, topY + 44);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 68px "JetBrains Mono", monospace';
+  ctx.fillText('14d', k2X + 28, topY + 130);
+
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Top 5% cohort discipline', k2X + 28, topY + 172);
+
+  const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  const dayStep = (kpiW - 56) / 7;
+  days.forEach((day, idx) => {
+    const dx = k2X + 28 + idx * dayStep;
+    ctx.fillStyle = idx < 5 ? '#E2E8F0' : '#F1F5F9';
+    drawRoundRect(ctx, dx, topY + 200, dayStep - 6, 26, 4, true, false);
+    ctx.fillStyle = idx < 5 ? '#090D16' : '#94A3B8';
+    ctx.font = '700 13px "JetBrains Mono", monospace';
+    ctx.fillText(day, dx + (dayStep - 6) / 2 - 4, topY + 218);
   });
+
+  // Card 3: Concept Retention
+  const k3X = k2X + kpiW + 16;
+  drawPanel(ctx, k3X, topY, kpiW, kpiH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('RETENTION STABILITY', k3X + 28, topY + 44);
+
+  ctx.fillStyle = '#059669';
+  ctx.font = '800 68px "JetBrains Mono", monospace';
+  ctx.fillText('92%', k3X + 28, topY + 130);
+
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Verified by adaptive drills', k3X + 28, topY + 172);
+
+  ctx.fillStyle = '#ECFDF5';
+  drawRoundRect(ctx, k3X + 28, topY + 200, kpiW - 56, 26, 4, true, false);
+  ctx.fillStyle = '#059669';
+  ctx.font = '700 13px "JetBrains Mono", monospace';
+  ctx.fillText('DECAY CURVE PROTECTED', k3X + 42, topY + 218);
+
+  // ── Bottom Section: Active Queue ──
+  const activeY = topY + 292;
+  const activeW = w - 176;
+  drawPanel(ctx, 88, activeY, activeW, 496, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('ACTIVE LEARNING QUEUE  //  NEXT READY LESSON', 120, activeY + 48);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 32px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Module 03 — The physics of compound interest and inflation drag', 120, activeY + 104);
+
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Deconstruct how the Rule of 72 computes doubling periods and why inflation functions as a hidden tax.', 120, activeY + 148);
+  ctx.fillText('Estimated completion: 8 minutes • Includes 3 interactive debiasing scenarios with Finn AI.', 120, activeY + 182);
+
+  // Focus Area Cards
+  const focusY = activeY + 224;
+  const focusW = (activeW - 64 - 32) / 2;
+
+  drawPanel(ctx, 120, focusY, focusW, 216, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('COMPETENCY BREAKDOWN', 144, focusY + 36);
+
+  const compList = [
+    { label: 'Inflation drag on fixed deposits', val: '82% clarity', ok: true },
+    { label: 'Expense ratio compounding cost', val: 'Needs review', ok: false },
+    { label: 'Emergency fund sizing rules', val: 'Mastered', ok: true }
+  ];
+  compList.forEach((c, idx) => {
+    const cy = focusY + 68 + idx * 44;
+    ctx.fillStyle = '#090D16';
+    ctx.font = '600 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(c.label, 144, cy + 16);
+
+    ctx.fillStyle = c.ok ? '#059669' : '#D97706';
+    ctx.font = '700 14px "JetBrains Mono", monospace';
+    ctx.fillText(c.val, 144 + focusW - 170, cy + 16);
+  });
+
+  drawPanel(ctx, 120 + focusW + 32, focusY, focusW, 216, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('LESSON ACTIONS', 120 + focusW + 56, focusY + 36);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Resume Topic 03.1: Rule of 72  →', 120 + focusW + 56, focusY + 84);
+
+  ctx.fillStyle = '#475569';
+  ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Review formula cheat sheet  →', 120 + focusW + 56, focusY + 130);
+  ctx.fillText('Take diagnostic spot check  →', 120 + focusW + 56, focusY + 174);
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Cohort 2026 • Verified concept path', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Open dashboard');
 }
 
 // ─── 03. Virtual ₹10,000 Sandbox ─────────────────────────────────────────────
 
-function renderSandboxCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '03',
-    category: 'Zero-Risk • Practice Terminal',
-    title: '₹10,000 SANDBOX',
-    description: 'Realistic simulated trading terminal to practice allocating across equity index ETFs, sovereign gold, and liquid cash with zero capital risk.',
-    tags: ['₹10,000 BALANCE', 'INDEX ETFS', 'SOVEREIGN GOLD', 'ZERO RISK'],
-    buttonLabel: 'START TRADING ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderSandboxDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Simulation terminal', '3',
+    'Virtual ₹10,000 Practice Sandbox',
+    'Realistic asset allocation across equity index ETFs, sovereign gold, and liquid debt with mandatory trade rationales.',
+    'PORTFOLIO BALANCED', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
+  const totalW = w - 176;
 
-      // 3D Metallic Golden Rupee Medallion
-      const coinGrad = ctx.createRadialGradient(cx - 40, cy - 40, 20, cx, cy, 180);
-      coinGrad.addColorStop(0, '#FDE68A');
-      coinGrad.addColorStop(0.4, '#F59E0B');
-      coinGrad.addColorStop(0.85, '#D97706');
-      coinGrad.addColorStop(1, '#B45309');
+  // ── Hero Valuation Card ──
+  drawPanel(ctx, 88, topY, totalW, 180, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      ctx.fillStyle = coinGrad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 180, 0, Math.PI * 2);
-      ctx.fill();
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('SIMULATED PORTFOLIO VALUATION', 120, topY + 44);
 
-      // Outer Coin Bezel
-      ctx.strokeStyle = '#FCD34D';
-      ctx.lineWidth = 14;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 168, 0, Math.PI * 2);
-      ctx.stroke();
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 72px "JetBrains Mono", monospace';
+  ctx.fillText('₹10,480.00', 120, topY + 132);
 
-      // Engraved ₹ Symbol
-      ctx.fillStyle = '#78350F';
-      ctx.font = '900 150px -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('₹', cx + 4, cy + 54);
+  ctx.fillStyle = '#059669';
+  ctx.font = '700 20px "JetBrains Mono", monospace';
+  ctx.fillText('+4.80%  (+₹480.00)', 620, topY + 116);
 
-      // Profit Badge Below
-      ctx.fillStyle = '#10B981';
-      drawRoundRect(ctx, cx - 140, cy + 200, 280, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.fillText('+4.80% SIMULATED PROFIT', cx, cy + 231);
-      ctx.textAlign = 'left';
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Cash buffer available: ₹2,000.00 (20.0%)', 980, topY + 98);
+  ctx.fillText('Initial capital seed: ₹10,000.00', 980, topY + 128);
+
+  // ── Allocation Ribbon ──
+  const barY = topY + 214;
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('ASSET ALLOCATION SPECTRUM  //  EQUITY 50%  •  GOLD 30%  •  LIQUID CASH 20%', 88, barY + 14);
+
+  const w1 = totalW * 0.5;
+  const w2 = totalW * 0.3;
+  const w3 = totalW * 0.2;
+
+  ctx.fillStyle = '#2563EB';
+  drawRoundRect(ctx, 88, barY + 28, w1 - 4, 12, 4, true, false);
+  ctx.fillStyle = '#D97706';
+  drawRoundRect(ctx, 88 + w1, barY + 28, w2 - 4, 12, 4, true, false);
+  ctx.fillStyle = '#059669';
+  drawRoundRect(ctx, 88 + w1 + w2, barY + 28, w3, 12, 4, true, false);
+
+  // ── 3 Active Holding Position Cards ──
+  const holdY = barY + 68;
+  const holdW = (totalW - 32) / 3;
+
+  const holdings = [
+    {
+      title: 'NIFTY 50 INDEX ETF',
+      sub: 'Equity Growth Core (50%)',
+      amount: '₹5,000.00',
+      pnl: '+3.4%  (+₹170)',
+      rationale: 'Broad-market index beta with low tracking error'
+    },
+    {
+      title: 'SOVEREIGN GOLD ETF',
+      sub: 'Inflation Hedge (30%)',
+      amount: '₹3,000.00',
+      pnl: '+2.1%  (+₹63)',
+      rationale: 'Long-term rupee purchasing power hedge'
+    },
+    {
+      title: 'OVERNIGHT LIQUID FUND',
+      sub: 'Emergency Buffer (20%)',
+      amount: '₹2,000.00',
+      pnl: '+0.7%  (+₹14)',
+      rationale: 'Zero volatility instant liquidity reserve'
     }
+  ];
+
+  holdings.forEach((hld, idx) => {
+    const hx = 88 + idx * (holdW + 16);
+    drawPanel(ctx, hx, holdY, holdW, 474, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(hld.title, hx + 28, holdY + 44);
+
+    ctx.fillStyle = '#64748B';
+    ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(hld.sub, hx + 28, holdY + 74);
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '800 44px "JetBrains Mono", monospace';
+    ctx.fillText(hld.amount, hx + 28, holdY + 154);
+
+    ctx.fillStyle = '#059669';
+    ctx.font = '700 20px "JetBrains Mono", monospace';
+    ctx.fillText(hld.pnl, hx + 28, holdY + 204);
+
+    // Rationale Block
+    drawPanel(ctx, hx + 28, holdY + 248, holdW - 56, 180, 10, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+    ctx.fillStyle = '#64748B';
+    ctx.font = '700 13px "JetBrains Mono", monospace';
+    ctx.fillText('MANDATORY TRADE RATIONALE', hx + 48, holdY + 286);
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '600 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(hld.rationale, hx + 48, holdY + 328);
+
+    ctx.fillStyle = '#059669';
+    ctx.font = '700 14px "JetBrains Mono", monospace';
+    ctx.fillText('STATUS: VALIDATED', hx + 48, holdY + 392);
   });
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Zero capital risk • Mandatory investment rationale on every order', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Launch sandbox');
 }
 
-// ─── 04. Adaptive Quizzes & Debiasing Drills ──────────────────────────────────
+// ─── 04. Quizzes & Gamified Drills ───────────────────────────────────────────
 
-function renderQuizzesCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '04',
-    category: 'Diagnostic Engine • Debiasing',
-    title: 'ADAPTIVE QUIZZES',
-    description: 'Scenario challenges that test concept understanding and interrogate cognitive biases before awarding XP and maintaining multipliers.',
-    tags: ['SCENARIO PROBES', 'MONEY ILLUSION', 'XP MULTIPLIERS', 'DEBIASED'],
-    buttonLabel: 'START DAILY QUIZ ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderQuizzesDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Adaptive diagnostic engine', '4',
+    'Adaptive Quizzes & Debiasing Drills',
+    'Scenario challenges that test concept understanding and interrogate cognitive biases before awarding XP.',
+    'ADAPTIVE ACTIVE', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
+  const boxW = w - 176;
 
-      // Faceted Quiz Diamond Badge
-      const dGrad = ctx.createLinearGradient(cx - 160, cy - 160, cx + 160, cy + 160);
-      dGrad.addColorStop(0, '#6366F1');
-      dGrad.addColorStop(0.5, '#8B5CF6');
-      dGrad.addColorStop(1, '#A855F7');
+  // Scenario Question Box
+  drawPanel(ctx, 88, topY, boxW, 190, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      ctx.fillStyle = dGrad;
-      ctx.beginPath();
-      ctx.moveTo(cx, cy - 170);
-      ctx.lineTo(cx + 170, cy);
-      ctx.lineTo(cx, cy + 170);
-      ctx.lineTo(cx - 170, cy);
-      ctx.closePath();
-      ctx.fill();
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('SCENARIO 04 OF 10  •  PURCHASING POWER EROSION', 120, topY + 44);
 
-      // Lightning bolt icon inside
-      ctx.fillStyle = '#FFFFFF';
-      ctx.beginPath();
-      ctx.moveTo(cx + 10, cy - 90);
-      ctx.lineTo(cx - 50, cy + 10);
-      ctx.lineTo(cx, cy + 10);
-      ctx.lineTo(cx - 10, cy + 90);
-      ctx.lineTo(cx + 50, cy - 10);
-      ctx.lineTo(cx, cy - 10);
-      ctx.closePath();
-      ctx.fill();
+  ctx.fillStyle = '#090D16';
+  ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('You lock ₹1,00,000 into a fixed deposit earning 5.0% annual interest while inflation runs at 7.0%.', 120, topY + 98);
+  ctx.fillText('After 3 years, what has happened to your real purchasing capacity?', 120, topY + 138);
 
-      // Reward Pill
-      ctx.fillStyle = '#0F172A';
-      drawRoundRect(ctx, cx - 140, cy + 200, 280, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('+50 XP • 2.5X MULTIPLIER', cx, cy + 231);
-      ctx.textAlign = 'left';
-    }
-  });
+  // Option A (The Cognitive Trap)
+  const o1Y = topY + 222;
+  drawPanel(ctx, 88, o1Y, boxW, 140, 12, '#FEF2F2', 'rgba(220, 38, 38, 0.3)');
+
+  ctx.fillStyle = '#991B1B';
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('A) My wealth increased because 5% annual interest produces guaranteed positive rupees.', 120, o1Y + 54);
+
+  ctx.fillStyle = '#DC2626';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('TRAP DETECTED: MONEY ILLUSION BIAS', 120, o1Y + 98);
+
+  // Option B (The Verified Answer)
+  const o2Y = o1Y + 164;
+  drawPanel(ctx, 88, o2Y, boxW, 140, 12, '#ECFDF5', 'rgba(5, 150, 105, 0.3)');
+
+  ctx.fillStyle = '#065F46';
+  ctx.font = '700 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('B) My purchasing power declined by ~2% annually. Real return = 5% Nominal - 7% Inflation.', 120, o2Y + 54);
+
+  ctx.fillStyle = '#059669';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('VERIFIED FIRST PRINCIPLES  (+50 XP)', 120, o2Y + 98);
+
+  // Socratic Follow-Up Probe
+  const sY = o2Y + 164;
+  drawPanel(ctx, 88, sY, boxW, 230, 12, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('SOCRATIC COUNTER-PROBE ENGINE', 120, sY + 44);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '700 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Every answer requires you to state your investment premise before submission.', 120, sY + 92);
+
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('The system questions your logic to verify concept mastery rather than lucky guessing.', 120, sY + 130);
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Adaptive drill calibration • Socratic follow-up active', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Take diagnostic drill');
 }
 
 // ─── 05. Paper Company Analysis ──────────────────────────────────────────────
 
-function renderPaperCompanyCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '05',
-    category: 'Equity Research • Forensic Moat',
-    title: 'COMPANY ANALYSIS',
-    description: 'Deconstruct real corporate statements, cashflow quality, and balance sheet moats without Wall Street jargon or accounting confusion.',
-    tags: ['BALANCE SHEETS', 'P/E RATIOS', 'FREE CASH FLOW', 'GRADE A+ MOAT'],
-    buttonLabel: 'ANALYZE COMPANY ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderPaperCompanyDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Institutional teardown', '5',
+    'Paper Company Forensic Analysis',
+    'Deconstruct corporate statements, cashflow quality, and balance sheet moats without Wall Street jargon.',
+    'DOSSIER LOADED', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
+  const colW = (w - 176 - 32) / 2;
+  const colH = 788;
 
-      // Institutional Document Clipboard Card
-      drawRoundRect(ctx, cx - 170, cy - 180, 340, 360, 20, true, true, '#CBD5E1', 3);
-      ctx.fillStyle = '#F8FAFC';
-      ctx.fill();
+  // ── LEFT PANE: 4 Financial Health Ratios ──
+  drawPanel(ctx, 88, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      // Document Top Clip
-      ctx.fillStyle = '#0F172A';
-      drawRoundRect(ctx, cx - 70, cy - 195, 140, 30, 8, true, false);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('DOSSIER: APEX CONSUMER BRANDS LTD  [NSE : APEX]', 120, topY + 44);
 
-      // Ticker Header
-      ctx.fillStyle = '#2563EB';
-      ctx.font = '800 18px "JetBrains Mono", monospace';
-      ctx.fillText('NSE : APEX', cx - 140, cy - 120);
+  const ratios = [
+    { label: 'PRICE TO EARNINGS (P/E)', val: '16.4x', note: 'Sector median: 24.2x (32% discount)' },
+    { label: 'RETURN ON EQUITY (ROE)', val: '24.8%', note: 'High capital productivity and moat' },
+    { label: 'DEBT TO EQUITY RATIO', val: '0.14', note: 'Virtually debt-free balance sheet' },
+    { label: 'FREE CASH FLOW (FCF)', val: '₹840 Cr', note: 'Operating cash conversion is 96%' }
+  ];
 
-      // 4 Metric Rows
-      const metrics = [
-        { l: 'P/E RATIO', v: '16.4x' },
-        { l: 'ROE %', v: '24.8%' },
-        { l: 'DEBT/EQ', v: '0.14' },
-        { l: 'FCF CR', v: '₹840 Cr' }
-      ];
-      metrics.forEach((m, i) => {
-        const my = cy - 80 + i * 44;
-        ctx.fillStyle = '#E2E8F0';
-        drawRoundRect(ctx, cx - 140, my, 280, 36, 6, true, false);
+  const rGridW = (colW - 64 - 16) / 2;
+  ratios.forEach((r, idx) => {
+    const rx = 120 + (idx % 2) * (rGridW + 16);
+    const ry = topY + 74 + Math.floor(idx / 2) * 336;
 
-        ctx.fillStyle = '#64748B';
-        ctx.font = '700 13px -apple-system, sans-serif';
-        ctx.fillText(m.l, cx - 126, my + 23);
+    drawPanel(ctx, rx, ry, rGridW, 310, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
 
-        ctx.fillStyle = '#0F172A';
-        ctx.font = '800 15px "JetBrains Mono", monospace';
-        ctx.textAlign = 'right';
-        ctx.fillText(m.v, cx + 126, my + 24);
-        ctx.textAlign = 'left';
-      });
+    ctx.fillStyle = '#64748B';
+    ctx.font = '700 14px "JetBrains Mono", monospace';
+    ctx.fillText(r.label, rx + 24, ry + 44);
 
-      // Grade A+ Stamp Seal
-      ctx.fillStyle = '#10B981';
-      drawRoundRect(ctx, cx - 130, cy + 200, 260, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('GRADE A+ FORENSIC MOAT', cx, cy + 231);
-      ctx.textAlign = 'left';
-    }
+    ctx.fillStyle = '#090D16';
+    ctx.font = '800 48px "JetBrains Mono", monospace';
+    ctx.fillText(r.val, rx + 24, ry + 128);
+
+    ctx.fillStyle = '#334155';
+    ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(r.note, rx + 24, ry + 180);
   });
+
+  // ── RIGHT PANE: Forensic Auditor Checklist ──
+  const rX = 88 + colW + 32;
+  drawPanel(ctx, rX, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('QUALITY OF EARNINGS AUDIT', rX + 32, topY + 44);
+
+  // Grade Card
+  drawPanel(ctx, rX + 32, topY + 70, colW - 64, 180, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+  ctx.fillStyle = '#059669';
+  ctx.font = '800 72px "JetBrains Mono", monospace';
+  ctx.fillText('GRADE A+', rX + 56, topY + 158);
+
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('High earnings quality • Zero aggressive revenue recognition', rX + 56, topY + 204);
+
+  // Checklist Block
+  const ckY = topY + 276;
+  drawPanel(ctx, rX + 32, ckY, colW - 64, 480, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('AUDIT VERIFICATION STEPS', rX + 56, ckY + 44);
+
+  const checks = [
+    { title: 'Receivable days steady at 28 days', sub: 'Industry average is 45 days (No channel stuffing)' },
+    { title: 'Operating cash fully funds capex', sub: 'No equity dilution or debt required for expansion' },
+    { title: '0.00% promoter share pledging', sub: 'Zero collateral default hazard for equity holders' },
+    { title: 'Clean related-party transactions', sub: 'Audited notes to accounts reveal no unlisted leakages' }
+  ];
+
+  checks.forEach((c, idx) => {
+    const cy = ckY + 84 + idx * 96;
+    ctx.fillStyle = '#059669';
+    ctx.font = '700 15px "JetBrains Mono", monospace';
+    ctx.fillText('[OK]', rX + 56, cy + 20);
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(c.title, rX + 104, cy + 20);
+
+    ctx.fillStyle = '#64748B';
+    ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(c.sub, rX + 104, cy + 46);
+  });
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Deconstructing annual reports without financial jargon', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Analyze paper dossier');
 }
 
 // ─── 06. Jargon-Free Financial Topics ─────────────────────────────────────────
 
-function renderSimpleTopicsCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '06',
-    category: 'Pedagogy • Plain English',
-    title: 'JARGON-FREE TOPICS',
-    description: 'Complex financial mechanics translated into intuitive mental models, visual analogies, and Rule of 72 napkin math anyone can calculate.',
-    tags: ['RULE OF 72', 'PLAIN ENGLISH', 'VISUAL PHYSICS', 'ZERO JARGON'],
-    buttonLabel: 'EXPLORE TOPICS ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderSimpleTopicsDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Plain English translation', '6',
+    'Jargon-Free Financial Topics',
+    'Complex Wall Street vocabulary translated into clean, intuitive real-world mental models.',
+    'ZERO JARGON', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
+  const colW = (w - 176 - 32) / 2;
+  const colH = 788;
 
-      // Formula Plaque
-      ctx.fillStyle = '#0F172A';
-      drawRoundRect(ctx, cx - 170, cy - 140, 340, 280, 24, true, false);
+  // ── LEFT PANE: Translation Matrix ──
+  drawPanel(ctx, 88, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      ctx.fillStyle = '#F59E0B';
-      ctx.font = '900 48px "JetBrains Mono", monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText('72 ÷ R', cx, cy - 20);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('WALL STREET TRANSLATION MATRIX', 120, topY + 44);
 
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '700 24px -apple-system, sans-serif';
-      ctx.fillText('= YEARS TO DOUBLE', cx, cy + 30);
-
-      ctx.fillStyle = '#94A3B8';
-      ctx.font = '500 16px -apple-system, sans-serif';
-      ctx.fillText('Napkin math in seconds', cx, cy + 74);
-
-      // Translation Pill
-      ctx.fillStyle = '#2563EB';
-      drawRoundRect(ctx, cx - 140, cy + 180, 280, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 15px -apple-system, sans-serif';
-      ctx.fillText('WALL ST ➔ PLAIN ENGLISH', cx, cy + 211);
-      ctx.textAlign = 'left';
+  const pairs = [
+    {
+      jargon: 'ALPHA GENERATION',
+      trans: 'Beating the average market index through repeatable skill rather than luck.'
+    },
+    {
+      jargon: 'LIQUIDITY RISK',
+      trans: 'Needing your money right now, but having it trapped in an illiquid asset that takes months to sell.'
+    },
+    {
+      jargon: 'EXPENSE RATIO COMPOUNDING',
+      trans: 'The silent 1% annual fee that cuts away 25% of your final wealth over a 30-year investing horizon.'
     }
+  ];
+
+  pairs.forEach((p, idx) => {
+    const py = topY + 70 + idx * 224;
+    drawPanel(ctx, 120, py, colW - 64, 196, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+    ctx.fillStyle = '#64748B';
+    ctx.font = '700 14px "JetBrains Mono", monospace';
+    ctx.fillText(`WALL STREET TERM : ${p.jargon}`, 144, py + 40);
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(`"${p.trans}"`, 144, py + 88);
   });
+
+  // ── RIGHT PANE: Rule of 72 Mental Model ──
+  const rX = 88 + colW + 32;
+  drawPanel(ctx, rX, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('MENTAL MODEL SPOTLIGHT', rX + 32, topY + 44);
+
+  const mY = topY + 70;
+  const mW = colW - 64;
+  drawPanel(ctx, rX + 32, mY, mW, 320, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 28px "JetBrains Mono", monospace';
+  ctx.fillText('Years to double = 72 ÷ Return (%)', rX + 56, mY + 60);
+
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 19px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Calculate exponential doubling in your head:', rX + 56, mY + 116);
+  ctx.fillText('• At 6% return: 72 ÷ 6 = 12 years to double capital', rX + 56, mY + 162);
+  ctx.fillText('• At 12% return: 72 ÷ 12 = 6 years to double capital', rX + 56, mY + 208);
+  ctx.fillText('• At 18% promised return: Claims 4 years (Look for hidden default risk)', rX + 56, mY + 254);
+
+  // Takeaway Card
+  const bY = topY + 422;
+  drawPanel(ctx, rX + 32, bY, mW, 334, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('FIRST PRINCIPLES PEDAGOGY', rX + 56, bY + 44);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Every finance concept is grounded in practical math,', rX + 56, bY + 98);
+  ctx.fillText('concrete analogies, and real-world mechanisms that', rX + 56, bY + 138);
+  ctx.fillText('anyone can evaluate on a napkin without prior background.', rX + 56, bY + 178);
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Pure first-principles financial mechanics', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Explore syllabus');
 }
 
 // ─── 07. Understanding Where You Stand (Baseline Diagnostic) ──────────────────
 
-function renderBaselineDiagnosticCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '07',
-    category: 'Initial Snapshot • Calibration',
-    title: 'BASELINE DIAGNOSTIC',
-    description: '5-minute adaptive calibration upon signup that charts your cognitive blindspots and maps an optimized curriculum route.',
-    tags: ['5-MIN TEST', 'BLINDSPOT RADAR', '84/100 INDEX', 'CUSTOM PATH'],
-    buttonLabel: 'TEST YOUR BASELINE ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderBaselineDiagnosticDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Entry calibration', '7',
+    'Understanding Where You Stand',
+    '5-minute adaptive calibration upon signup that charts your cognitive blindspots and tailored roadmap.',
+    'CALIBRATED', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
+  const colW = (w - 176 - 32) / 2;
+  const colH = 788;
 
-      // Gauge Arc
-      ctx.strokeStyle = '#F1F5F9';
-      ctx.lineWidth = 32;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.arc(cx, cy, 160, Math.PI * 0.8, Math.PI * 2.2);
-      ctx.stroke();
+  // ── LEFT PANE: Literacy Score ──
+  drawPanel(ctx, 88, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      const gGrad = ctx.createLinearGradient(cx - 160, cy, cx + 160, cy);
-      gGrad.addColorStop(0, '#EF4444');
-      gGrad.addColorStop(0.5, '#F59E0B');
-      gGrad.addColorStop(1, '#10B981');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('BASELINE LITERACY INDEX', 120, topY + 44);
 
-      ctx.strokeStyle = gGrad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 160, Math.PI * 0.8, Math.PI * 0.8 + (Math.PI * 1.4) * 0.84);
-      ctx.stroke();
-      ctx.lineCap = 'butt';
+  const sW = colW - 64;
+  drawPanel(ctx, 120, topY + 70, sW, 360, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
 
-      // Big Score Text
-      ctx.fillStyle = '#0F172A';
-      ctx.font = '900 80px "JetBrains Mono", monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText('84', cx, cy + 15);
+  ctx.fillStyle = '#059669';
+  ctx.font = '800 100px "JetBrains Mono", monospace';
+  ctx.fillText('84 / 100', 144, topY + 200);
 
-      ctx.fillStyle = '#64748B';
-      ctx.font = '700 18px -apple-system, sans-serif';
-      ctx.fillText('OUT OF 100', cx, cy + 54);
+  ctx.fillStyle = '#090D16';
+  ctx.font = '700 18px "JetBrains Mono", monospace';
+  ctx.fillText('TOP 8% OF COHORT ENTRANTS', 144, topY + 252);
 
-      // Percentile Pill Below
-      ctx.fillStyle = '#10B981';
-      drawRoundRect(ctx, cx - 130, cy + 200, 260, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.fillText('TOP 8% OF ENTRANTS', cx, cy + 231);
-      ctx.textAlign = 'left';
-    }
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Strong grasp of compounding math.', 144, topY + 310);
+  ctx.fillText('Vulnerable to unhedged bond yields and illiquidity traps.', 144, topY + 342);
+
+  // Recommendation Card
+  drawPanel(ctx, 120, topY + 462, sW, 290, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('RECOMMENDED CURRICULUM ROUTE', 144, topY + 504);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '700 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Skip beginner theory  →  Begin at Module 03', 144, topY + 550);
+
+  ctx.fillStyle = '#475569';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Saves 2.5 hours of repetitive introductory theory.', 144, topY + 596);
+
+  // ── RIGHT PANE: Competency Progress Meters ──
+  const rX = 88 + colW + 32;
+  drawPanel(ctx, rX, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('COMPETENCY BREAKDOWN', rX + 32, topY + 44);
+
+  const skills = [
+    { name: 'Compound interest & exponential math', pct: 96, tier: 'Advanced' },
+    { name: 'Asset allocation & diversification', pct: 88, tier: 'Proficient' },
+    { name: 'Inflation drag & purchasing power', pct: 82, tier: 'Proficient' },
+    { name: 'Risk vs volatility discrimination', pct: 70, tier: 'Review' }
+  ];
+
+  skills.forEach((sk, idx) => {
+    const sy = topY + 70 + idx * 168;
+    drawPanel(ctx, rX + 32, sy, colW - 64, 144, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '700 19px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(sk.name, rX + 56, sy + 44);
+
+    ctx.fillStyle = '#64748B';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(`${sk.pct}%  [${sk.tier}]`, rX + colW - 190, sy + 44);
+
+    ctx.fillStyle = '#E2E8F0';
+    drawRoundRect(ctx, rX + 56, sy + 76, colW - 120, 8, 4, true, false);
+
+    ctx.fillStyle = sk.pct >= 85 ? '#059669' : sk.pct >= 75 ? '#2563EB' : '#D97706';
+    drawRoundRect(ctx, rX + 56, sy + 76, (colW - 120) * (sk.pct / 100), 8, 4, true, false);
   });
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Adaptive 5-minute calibration', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Start diagnostic');
 }
 
 // ─── 08. Badges & Verified Certificates ──────────────────────────────────────
 
-function renderBadgesCertificateCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '08',
-    category: 'Credentials • Verified Proof',
-    title: 'VERIFIED CREDENTIALS',
-    description: 'Earn cryptographic proof-of-competence badges and reflection certificates to showcase practical financial literacy on your resume and LinkedIn.',
-    tags: ['VERIFIED SERIAL', 'LINKEDIN READY', 'MILESTONE CREST', 'SEBI ALIGNED'],
-    buttonLabel: 'VIEW CREDENTIALS ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderBadgesCertificateDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Verified credentials', '8',
+    'Badges & Verifiable Certificates',
+    'Verifiable credentials that prove practical financial literacy on your resume and professional profiles.',
+    'VERIFIED', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
+  const colW = (w - 176 - 32) / 2;
+  const colH = 788;
 
-      // Golden Medal Ribbon
-      ctx.fillStyle = '#1D4ED8';
-      ctx.beginPath();
-      ctx.moveTo(cx - 50, cy - 180);
-      ctx.lineTo(cx - 100, cy - 20);
-      ctx.lineTo(cx - 50, cy - 50);
-      ctx.lineTo(cx, cy - 20);
-      ctx.closePath();
-      ctx.fill();
+  // ── LEFT PANE: Digital Certificate Dossier ──
+  drawPanel(ctx, 88, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      ctx.fillStyle = '#2563EB';
-      ctx.beginPath();
-      ctx.moveTo(cx + 50, cy - 180);
-      ctx.lineTo(cx + 100, cy - 20);
-      ctx.lineTo(cx + 50, cy - 50);
-      ctx.lineTo(cx, cy - 20);
-      ctx.closePath();
-      ctx.fill();
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('CERTIFICATE OF PRACTICAL MASTERY', 120, topY + 44);
 
-      // Gold Medal Body
-      const mGrad = ctx.createRadialGradient(cx - 30, cy + 10, 20, cx, cy + 30, 140);
-      mGrad.addColorStop(0, '#FEF08A');
-      mGrad.addColorStop(0.5, '#F59E0B');
-      mGrad.addColorStop(1, '#B45309');
+  const pY = topY + 70;
+  const pW = colW - 64;
+  drawPanel(ctx, 120, pY, pW, 680, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
 
-      ctx.fillStyle = mGrad;
-      ctx.beginPath();
-      ctx.arc(cx, cy + 30, 130, 0, Math.PI * 2);
-      ctx.fill();
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('ISSUER : TODIRECT PEDAGOGICAL ENGINE', 144, pY + 54);
 
-      ctx.strokeStyle = '#FEF08A';
-      ctx.lineWidth = 10;
-      ctx.beginPath();
-      ctx.arc(cx, cy + 30, 118, 0, Math.PI * 2);
-      ctx.stroke();
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 32px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Foundational Capital Allocation', 144, pY + 114);
 
-      // Shield Crest in center
-      drawFourPointStar(ctx, cx, cy + 30, 60, 22, '#78350F');
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 19px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Awarded upon verifying 100% Socratic drill fidelity,', 144, pY + 168);
+  ctx.fillText('completing the ₹10,000 practice sandbox portfolio,', 144, pY + 204);
+  ctx.fillText('and successfully auditing paper company financial statements.', 144, pY + 240);
 
-      // Serial Pill
-      ctx.fillStyle = '#0F172A';
-      drawRoundRect(ctx, cx - 140, cy + 200, 280, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 15px "JetBrains Mono", monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText('TOD-CERT-2026-X7', cx, cy + 231);
-      ctx.textAlign = 'left';
-    }
+  // Serial Tag
+  drawPanel(ctx, 144, pY + 310, pW - 48, 80, 8, '#F1F5F9', 'rgba(15, 23, 42, 0.12)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 13px "JetBrains Mono", monospace';
+  ctx.fillText('CRYPTOGRAPHIC SERIAL HASH', 168, pY + 342);
+  ctx.fillStyle = '#059669';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('TOD-CERT-2026-9842-X7', 168, pY + 370);
+
+  // ── RIGHT PANE: Milestone Badges ──
+  const rX = 88 + colW + 32;
+  drawPanel(ctx, rX, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('UNLOCKED MILESTONE BADGES', rX + 32, topY + 44);
+
+  const badges = [
+    { code: 'B-01', name: 'Liquid Sentinel', desc: 'Maintained 20% liquid cash buffer throughout 6 simulated market cycles' },
+    { code: 'B-02', name: 'Debiasing Champion', desc: 'Identified and rejected 25 cognitive trap scenarios with Finn AI' },
+    { code: 'B-03', name: 'Compound Strategist', desc: 'Successfully mapped a 30-year SIP with inflation drag calculations' }
+  ];
+
+  badges.forEach((b, idx) => {
+    const by = topY + 70 + idx * 224;
+    drawPanel(ctx, rX + 32, by, colW - 64, 196, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+    ctx.fillStyle = '#64748B';
+    ctx.font = '700 15px "JetBrains Mono", monospace';
+    ctx.fillText(b.code, rX + 56, by + 42);
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '700 22px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(b.name, rX + 116, by + 42);
+
+    ctx.fillStyle = '#334155';
+    ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(b.desc, rX + 56, by + 94);
   });
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Verifiable credentials linkable directly to profile', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'View credentials');
 }
 
 // ─── 09. Live Sessions & Masterclasses ───────────────────────────────────────
 
-function renderLiveSessionsCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '09',
-    category: 'Live Cohort • Weekend Deep Dives',
-    title: 'LIVE MASTERCLASSES',
-    description: 'Interactive 200-minute live masterclasses dissecting actual balance sheets and IPO prospectuses with real-time mentor Q&A.',
-    tags: ['200-MIN SESSIONS', 'LIVE MENTOR Q&A', 'BALANCE SHEETS', '1,420 LEARNERS'],
-    buttonLabel: 'JOIN LIVE COHORT ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderLiveSessionsDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Cohort broadcasts', '9',
+    'Interactive Weekend Masterclasses',
+    '200-minute deep dives with industry research analysts dissecting actual financial statements and corporate filings.',
+    'BROADCAST SCHEDULED', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
+  const colW = (w - 176 - 32) / 2;
+  const colH = 788;
 
-      // Broadcast Screen Monitor
-      ctx.fillStyle = '#0F172A';
-      drawRoundRect(ctx, cx - 180, cy - 140, 360, 260, 20, true, false);
+  // ── LEFT PANE: Broadcast Session Details ──
+  drawPanel(ctx, 88, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      // Video Window Header
-      ctx.fillStyle = '#EF4444';
-      ctx.beginPath();
-      ctx.arc(cx - 140, cy - 100, 8, 0, Math.PI * 2);
-      ctx.fill();
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('MASTERCLASS SESSION', 120, topY + 44);
 
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 15px -apple-system, sans-serif';
-      ctx.fillText('LIVE BROADCAST', cx - 120, cy - 95);
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 32px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Forensic Balance Sheet Teardown', 120, topY + 114);
 
-      // Play Icon in Screen
-      ctx.fillStyle = '#38BDF8';
-      ctx.beginPath();
-      ctx.moveTo(cx - 20, cy - 30);
-      ctx.lineTo(cx + 35, cy);
-      ctx.lineTo(cx - 20, cy + 30);
-      ctx.closePath();
-      ctx.fill();
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 19px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('How institutional investors spot hidden credit risk before earnings reports.', 120, topY + 160);
 
-      // Audio Frequency visualizer bars
-      const bars = [14, 26, 40, 56, 32, 48, 20];
-      ctx.fillStyle = '#94A3B8';
-      bars.forEach((b, i) => {
-        drawRoundRect(ctx, cx - 70 + i * 20, cy + 70 - b, 10, b, 4, true, false);
-      });
+  // Telemetry Block
+  const stY = topY + 220;
+  const stW = colW - 64;
+  drawPanel(ctx, 120, stY, stW, 190, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
 
-      // Attendee Pill
-      ctx.fillStyle = '#10B981';
-      drawRoundRect(ctx, cx - 140, cy + 180, 280, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('1,420 ACTIVE LEARNERS', cx, cy + 211);
-      ctx.textAlign = 'left';
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 52px "JetBrains Mono", monospace';
+  ctx.fillText('1,420', 144, stY + 84);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('ACTIVE LEARNERS', 144, stY + 124);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 52px "JetBrains Mono", monospace';
+  ctx.fillText('2h 40m', 144 + stW / 2, stY + 84);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('DURATION', 144 + stW / 2, stY + 124);
+
+  // ── RIGHT PANE: Student Q&A Stream ──
+  const rX = 88 + colW + 32;
+  drawPanel(ctx, rX, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('Q&A STREAM', rX + 32, topY + 44);
+
+  const qs = [
+    {
+      q: 'How do we distinguish between goodwill impairments and real asset writedowns?',
+      a: 'Mentor: Look at footnote 14 in notes to accounts to evaluate cash-generating units.'
+    },
+    {
+      q: 'Can a company show positive net profit while burning cash?',
+      a: 'Mentor: Yes. That is why we track Operating Cash Flow rather than accounting PAT.'
     }
+  ];
+
+  qs.forEach((item, idx) => {
+    const qy = topY + 70 + idx * 240;
+    drawPanel(ctx, rX + 32, qy, colW - 64, 216, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '700 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(`Q: "${item.q}"`, rX + 56, qy + 44);
+
+    ctx.fillStyle = '#334155';
+    ctx.font = '600 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(item.a, rX + 56, qy + 110);
   });
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Interactive weekend masterclasses with mentor Q&A', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Join masterclass');
 }
 
 // ─── 10. Financial Playground & Calculators ───────────────────────────────────
 
-function renderPlaygroundCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '10',
-    category: 'Simulation Lab • Wealth Engine',
-    title: 'WEALTH PLAYGROUND',
-    description: 'Tactile scenario simulators for SIP compound growth, EMI amortization schedules, and real inflation time machines.',
-    tags: ['COMPOUND SIP', 'INFLATION SIM', 'EXPONENTIAL CURVE', 'EMI ANALYZER'],
-    buttonLabel: 'LAUNCH PLAYGROUND ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderPlaygroundDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Simulation playground', '10',
+    'Financial Playground & Calculators',
+    'Tactile scenario simulators for SIP compound growth, EMI amortization, and inflation erosion.',
+    'SIMULATOR ACTIVE', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
+  const colW = (w - 176 - 32) / 2;
+  const colH = 788;
 
-      // Exponential Compounding Hockey Stick Graph Box
-      ctx.fillStyle = '#F8FAFC';
-      drawRoundRect(ctx, cx - 180, cy - 140, 360, 280, 20, true, true, '#E2E8F0', 2);
+  // ── LEFT PANE: Input Parameters ──
+  drawPanel(ctx, 88, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      // Exponential Curve Area Gradient
-      const curveGrad = ctx.createLinearGradient(cx - 150, cy + 100, cx + 150, cy - 100);
-      curveGrad.addColorStop(0, 'rgba(56, 189, 248, 0.2)');
-      curveGrad.addColorStop(1, 'rgba(16, 185, 129, 0.4)');
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('COMPOUND SIP PARAMETERS', 120, topY + 44);
 
-      ctx.fillStyle = curveGrad;
-      ctx.beginPath();
-      ctx.moveTo(cx - 150, cy + 100);
-      ctx.bezierCurveTo(cx - 50, cy + 90, cx + 50, cy + 40, cx + 150, cy - 90);
-      ctx.lineTo(cx + 150, cy + 100);
-      ctx.closePath();
-      ctx.fill();
+  const sliders = [
+    { label: 'MONTHLY SIP CONTRIBUTION', val: '₹10,000 / mo', sub: 'Baseline capital allocation' },
+    { label: 'INVESTMENT HORIZON', val: '15 Years (180 mo)', sub: 'Allows compound engine to accelerate' },
+    { label: 'EXPECTED CAGR (EQUITY INDEX)', val: '12.0% Annualized', sub: 'Historical Nifty 50 rolling average' }
+  ];
 
-      // Stroke Line
-      ctx.strokeStyle = '#2563EB';
-      ctx.lineWidth = 10;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(cx - 150, cy + 100);
-      ctx.bezierCurveTo(cx - 50, cy + 90, cx + 50, cy + 40, cx + 150, cy - 90);
-      ctx.stroke();
+  sliders.forEach((sl, idx) => {
+    const sy = topY + 70 + idx * 224;
+    drawPanel(ctx, 120, sy, colW - 64, 196, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
 
-      // Terminal Wealth Pin
-      ctx.fillStyle = '#10B981';
-      ctx.beginPath();
-      ctx.arc(cx + 150, cy - 90, 14, 0, Math.PI * 2);
-      ctx.fill();
+    ctx.fillStyle = '#64748B';
+    ctx.font = '700 14px "JetBrains Mono", monospace';
+    ctx.fillText(sl.label, 144, sy + 40);
 
-      // Big Maturity Pill
-      ctx.fillStyle = '#0F172A';
-      drawRoundRect(ctx, cx - 140, cy + 180, 280, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('₹50.45 LAKHS CORPUS', cx, cy + 211);
-      ctx.textAlign = 'left';
-    }
+    ctx.fillStyle = '#090D16';
+    ctx.font = '800 36px "JetBrains Mono", monospace';
+    ctx.fillText(sl.val, 144, sy + 94);
+
+    // Track
+    ctx.fillStyle = '#E2E8F0';
+    drawRoundRect(ctx, 144, sy + 130, colW - 112, 6, 3, true, false);
+    ctx.fillStyle = '#2563EB';
+    drawRoundRect(ctx, 144, sy + 130, (colW - 112) * 0.65, 6, 3, true, false);
   });
+
+  // ── RIGHT PANE: Maturity Projection ──
+  const rX = 88 + colW + 32;
+  drawPanel(ctx, rX, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('PROJECTED MATURITY WEALTH', rX + 32, topY + 44);
+
+  const pY = topY + 70;
+  const pW = colW - 64;
+  drawPanel(ctx, rX + 32, pY, pW, 260, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '800 76px "JetBrains Mono", monospace';
+  ctx.fillText('₹50,45,760', rX + 56, pY + 104);
+
+  ctx.fillStyle = '#059669';
+  ctx.font = '700 20px "JetBrains Mono", monospace';
+  ctx.fillText('Compounded gains: ₹32,45,760 (64.3%)', rX + 56, pY + 162);
+
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Invested capital: ₹18,00,000 (35.7%)', rX + 56, pY + 204);
+
+  // Inflection Note Card
+  const cY = topY + 362;
+  drawPanel(ctx, rX + 32, cY, pW, 394, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('COMPOUNDING INFLECTION DYNAMICS', rX + 56, cY + 44);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('During the initial 5 years, invested capital accounts', rX + 56, cY + 98);
+  ctx.fillText('for over 70% of your total corpus.', rX + 56, cY + 138);
+
+  ctx.fillStyle = '#334155';
+  ctx.font = '600 19px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('By year 15, interest compounding generates over 64% of', rX + 56, cY + 198);
+  ctx.fillText('your total net worth automatically.', rX + 56, cY + 238);
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Simulate SIPs, EMIs, and compounding mechanics', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Launch simulator');
 }
 
 // ─── 11. Smart Revision System (SRS) ─────────────────────────────────────────
 
-function renderSmartReviewCard(ctx, w, h) {
-  renderFeatureCard(ctx, w, h, {
-    number: '11',
-    category: 'Retention Engine • Spaced Recall',
-    title: 'SMART REVISION (SRS)',
-    description: 'Spaced repetition engine that revisits weak concepts, triggers 2-minute formula cheat sheets, and locks in permanent financial instincts.',
-    tags: ['EBBINGHAUS CURVE', 'DAY 1/3/7/30 RECALL', 'SHORT NOTES', '2-MIN CHEATS'],
-    buttonLabel: 'OPEN REVISION ↗',
-    drawVisual: (ctx, x, y, w, h) => {
-      drawStarCluster(ctx, x + 80, y + 140);
+function renderSmartReviewDashboard(ctx, w, h) {
+  renderCardFrame(
+    ctx, w, h,
+    'Memory retention engine', '11',
+    'Smart Revision System (SRS)',
+    'Spaced repetition flashcards, concept short notes, and instant Socratic doubt clarification.',
+    'RETENTION ACTIVE', '#059669'
+  );
 
-      const cx = x + w / 2;
-      const cy = y + h / 2 + 50;
+  const topY = 252;
+  const colW = (w - 176 - 32) / 2;
+  const colH = 788;
 
-      // Spaced Repetition Stepped Loops
-      ctx.fillStyle = '#0F172A';
-      drawRoundRect(ctx, cx - 170, cy - 140, 340, 280, 20, true, false);
+  // ── LEFT PANE: Spaced Repetition Schedule ──
+  drawPanel(ctx, 88, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      // Memory Retention Staircase
-      const steps = [
-        { label: 'DAY 1', p: 100 },
-        { label: 'DAY 3', p: 95 },
-        { label: 'DAY 7', p: 92 },
-        { label: 'DAY 30', p: 90 }
-      ];
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('SPACED REPETITION SCHEDULE', 120, topY + 44);
 
-      steps.forEach((s, idx) => {
-        const sy = cy - 90 + idx * 56;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-        drawRoundRect(ctx, cx - 130, sy, 260, 40, 8, true, false);
+  const gY = topY + 70;
+  const gW = colW - 64;
+  drawPanel(ctx, 120, gY, gW, 680, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
 
-        ctx.fillStyle = '#38BDF8';
-        drawRoundRect(ctx, cx - 130, sy, (260 * s.p) / 100, 40, 8, true, false);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('EBBINGHAUS DECAY COUNTERMEASURE', 144, gY + 44);
 
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = '800 15px "JetBrains Mono", monospace';
-        ctx.fillText(s.label, cx - 116, sy + 26);
+  const intervals = [
+    { label: 'Day 1 touch', status: 'Immediate recap after lesson', done: true },
+    { label: 'Day 3 touch', status: 'Scenario-based retrieval check', done: true },
+    { label: 'Day 7 touch', status: 'Adaptive debiasing drill', done: true },
+    { label: 'Day 30 touch', status: 'Permanent memory consolidation', done: false }
+  ];
 
-        ctx.textAlign = 'right';
-        ctx.fillText(`${s.p}%`, cx + 116, sy + 26);
-        ctx.textAlign = 'left';
-      });
+  intervals.forEach((it, idx) => {
+    const iy = gY + 80 + idx * 128;
+    drawPanel(ctx, 144, iy, gW - 48, 100, 8, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
 
-      // Retention Lock Pill
-      ctx.fillStyle = '#10B981';
-      drawRoundRect(ctx, cx - 140, cy + 180, 280, 48, 24, true, false);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '800 16px -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('PERMANENT MEMORY LOCK', cx, cy + 211);
-      ctx.textAlign = 'left';
-    }
+    ctx.fillStyle = it.done ? '#059669' : '#64748B';
+    ctx.font = '700 15px "JetBrains Mono", monospace';
+    ctx.fillText(it.label, 168, iy + 38);
+
+    ctx.fillStyle = '#090D16';
+    ctx.font = '600 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    ctx.fillText(it.status, 168, iy + 72);
   });
+
+  // ── RIGHT PANE: Flashcard Review Queue ──
+  const rX = 88 + colW + 32;
+  drawPanel(ctx, rX, topY, colW, colH, 16, '#F8FAFC', 'rgba(15, 23, 42, 0.08)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillText('ACTIVE REVISION FLASHCARD', rX + 32, topY + 44);
+
+  const cY = topY + 70;
+  const cW = colW - 64;
+  drawPanel(ctx, rX + 32, cY, cW, 360, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('MODULE 02 FLASHCARD : EXPENSE RATIOS', rX + 56, cY + 44);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('"Why does a 1% higher expense ratio cost you ~25% of your final wealth over 30 years?"', rX + 56, cY + 104);
+
+  drawPanel(ctx, rX + 56, cY + 228, cW - 48, 64, 8, '#F1F5F9', 'rgba(15, 23, 42, 0.12)');
+  ctx.fillStyle = '#090D16';
+  ctx.font = '700 17px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('Ask Finn for mathematical proof  →', rX + 80, cY + 267);
+
+  // Short Notes Ready Block
+  const snY = topY + 462;
+  drawPanel(ctx, rX + 32, snY, cW, 288, 12, '#FFFFFF', 'rgba(15, 23, 42, 0.1)');
+
+  ctx.fillStyle = '#64748B';
+  ctx.font = '700 14px "JetBrains Mono", monospace';
+  ctx.fillText('SHORT-NOTES REPOSITORY', rX + 56, snY + 44);
+
+  ctx.fillStyle = '#090D16';
+  ctx.font = '600 19px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+  ctx.fillText('7 module formula summaries and core definitions', rX + 56, snY + 98);
+  ctx.fillText('available anytime directly from your dashboard.', rX + 56, snY + 138);
+
+  // Footer Metadata
+  ctx.fillStyle = '#64748B';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.fillText('Spaced repetition turns theory into permanent instincts', 88, 1144);
+
+  renderBottomButton(ctx, w, h, 'Open revision system');
 }
 
 // ─── Master Texture Generator Dispatcher ─────────────────────────────────────
@@ -845,66 +1349,79 @@ function renderSmartReviewCard(ctx, w, h) {
 function createFeatureDashboardTexture(projectNumber) {
   if (typeof document === 'undefined') return null;
 
-  // 2320 x 1240: 2X RETINA RESOLUTION FOR ULTRA-CRISP 3D CLARITY
+  // 3480 x 1860 Native 4K Canvas Oversampling
+  // Ensures text remains razor-sharp with ZERO blurriness or pixelation even on extreme 3D camera zoom
+  const BASE_W = 2320;
+  const BASE_H = 1240;
+  const SCALE = 1.5;
+
   const canvas = document.createElement('canvas');
-  canvas.width = 2320;
-  canvas.height = 1240;
-  const ctx = canvas.getContext('2d');
+  canvas.width = Math.round(BASE_W * SCALE);   // 3480 px
+  canvas.height = Math.round(BASE_H * SCALE);  // 1860 px
+  const ctx = canvas.getContext('2d', { alpha: true });
   if (!ctx) return null;
+
+  // High-performance subpixel text anti-aliasing
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.scale(SCALE, SCALE);
 
   switch (projectNumber) {
     case '01':
-      renderAvatarCard(ctx, canvas.width, canvas.height);
+      renderAvatarDashboard(ctx, BASE_W, BASE_H);
       break;
     case '02':
-      renderDashboardCard(ctx, canvas.width, canvas.height);
+      renderDashboardDashboard(ctx, BASE_W, BASE_H);
       break;
     case '03':
-      renderSandboxCard(ctx, canvas.width, canvas.height);
+      renderSandboxDashboard(ctx, BASE_W, BASE_H);
       break;
     case '04':
-      renderQuizzesCard(ctx, canvas.width, canvas.height);
+      renderQuizzesDashboard(ctx, BASE_W, BASE_H);
       break;
     case '05':
-      renderPaperCompanyCard(ctx, canvas.width, canvas.height);
+      renderPaperCompanyDashboard(ctx, BASE_W, BASE_H);
       break;
     case '06':
-      renderSimpleTopicsCard(ctx, canvas.width, canvas.height);
+      renderSimpleTopicsDashboard(ctx, BASE_W, BASE_H);
       break;
     case '07':
-      renderBaselineDiagnosticCard(ctx, canvas.width, canvas.height);
+      renderBaselineDiagnosticDashboard(ctx, BASE_W, BASE_H);
       break;
     case '08':
-      renderBadgesCertificateCard(ctx, canvas.width, canvas.height);
+      renderBadgesCertificateDashboard(ctx, BASE_W, BASE_H);
       break;
     case '09':
-      renderLiveSessionsCard(ctx, canvas.width, canvas.height);
+      renderLiveSessionsDashboard(ctx, BASE_W, BASE_H);
       break;
     case '10':
-      renderPlaygroundCard(ctx, canvas.width, canvas.height);
+      renderPlaygroundDashboard(ctx, BASE_W, BASE_H);
       break;
     case '11':
     default:
-      renderSmartReviewCard(ctx, canvas.width, canvas.height);
+      renderSmartReviewDashboard(ctx, BASE_W, BASE_H);
       break;
   }
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.minFilter = THREE.LinearMipmapLinearFilter;
+
+  // Use LinearFilter and disable mipmaps to completely eliminate zoom blurriness
+  texture.minFilter = THREE.LinearFilter;
   texture.magFilter = THREE.LinearFilter;
-  texture.generateMipmaps = true;
+  texture.generateMipmaps = false;
   texture.anisotropy = 16;
+  texture.needsUpdate = true;
   return texture;
 }
 
 // ─── Main 3D Project Display Component ───────────────────────────────────────
 
-export default function ProjectDisplay({ project, position, rotation = [0, 0, 0], isMobile = false, isLight = false }) {
+export default function ProjectDisplay({ project, position, rotation = [0, 0, 0], isMobile = false, isDark = true }) {
   const [hovered, setHovered] = useState(false);
   const groupRef = useRef(null);
 
-  // Generate crisp procedural card texture matching the Fisherbowl luxury reference
+  // Generate crisp procedural instrument texture
   const texture = useMemo(() => {
     return createFeatureDashboardTexture(project.number || '01');
   }, [project.number]);
@@ -921,7 +1438,7 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
 
   useFrame((_, delta) => {
     if (groupRef.current) {
-      const targetScale = hovered ? 1.025 : 1.0;
+      const targetScale = hovered ? 1.015 : 1.0;
       groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, 1), 8 * delta);
     }
   });
@@ -950,7 +1467,7 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
         }
       }}
     >
-      {/* 3D Beveled Backplate with Depth (adapts to light/dark theme) */}
+      {/* 3D Premium Beveled Backplate with Subtle Edge Depth */}
       <RoundedBox
         args={[cardWidth, cardHeight, 0.16]}
         radius={cardRadius}
@@ -958,13 +1475,13 @@ export default function ProjectDisplay({ project, position, rotation = [0, 0, 0]
         position={[0, 0, -0.08]}
       >
         <meshStandardMaterial
-          color={isLight ? "#CBD5E1" : "#0A0F1D"}
-          roughness={0.4}
-          metalness={0.2}
+          color={isDark ? "#1E293B" : "#CBD5E1"}
+          roughness={0.25}
+          metalness={0.15}
         />
       </RoundedBox>
 
-      {/* Front Face with Ultra-Crisp White Card and Curved Corners */}
+      {/* Front Face with Ultra-Crisp Native 4K Retina Texture and Exact Curved Corners */}
       <mesh geometry={frontGeometry} position={[0, 0, 0.005]}>
         {texture && (
           <meshBasicMaterial

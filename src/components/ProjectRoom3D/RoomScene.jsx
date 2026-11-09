@@ -98,10 +98,18 @@ export const HOW_YOU_LEARN_DATA = [
 ];
 
 // ─── 3D Negative / Inverted Color Title Component ─────────────────────────────
-export function ScrollRoomTitle({ isMobile = false, titleRef, isLight = false }) {
-  const invertMaterial = useMemo(() => {
+export function ScrollRoomTitle({ isMobile = false, titleRef, isDark = true }) {
+  const titleMaterial = useMemo(() => {
+    if (!isDark) {
+      return new THREE.MeshBasicMaterial({
+        color: '#0F172A',
+        transparent: true,
+        depthTest: false,
+        depthWrite: false,
+      });
+    }
     return new THREE.MeshBasicMaterial({
-      color: isLight ? '#0F172A' : '#ffffff',
+      color: '#ffffff',
       transparent: true,
       depthTest: false,
       depthWrite: false,
@@ -110,7 +118,7 @@ export function ScrollRoomTitle({ isMobile = false, titleRef, isLight = false })
       blendSrc: THREE.OneMinusDstColorFactor,
       blendDst: THREE.OneMinusSrcColorFactor,
     });
-  }, [isLight]);
+  }, [isDark]);
 
   return (
     <group
@@ -124,22 +132,15 @@ export function ScrollRoomTitle({ isMobile = false, titleRef, isLight = false })
         fontSize={isMobile ? 0.68 : 1.05}
         lineHeight={1.05}
         textAlign="center"
-        color={isLight ? "#0F172A" : "#FFFFFF"}
+        color={isDark ? "#FFFFFF" : "#0F172A"}
         anchorX="center"
         anchorY="middle"
         letterSpacing={-0.02}
-        fontWeight={800}
+        fontWeight={700}
         outlineWidth={0}
         sdfGlyphSize={128}
         renderOrder={999}
-        material={invertMaterial}
-        material-transparent={true}
-        material-depthTest={false}
-        material-depthWrite={false}
-        material-blending={THREE.CustomBlending}
-        material-blendEquation={THREE.AddEquation}
-        material-blendSrc={THREE.OneMinusDstColorFactor}
-        material-blendDst={THREE.OneMinusSrcColorFactor}
+        material={titleMaterial}
       >
         {"HOW YOU\nWILL LEARN"}
       </Text>
@@ -147,7 +148,7 @@ export function ScrollRoomTitle({ isMobile = false, titleRef, isLight = false })
   );
 }
 
-export default function RoomScene({ scrollYProgress, isMobile, isLight = false }) {
+export default function RoomScene({ scrollYProgress, isMobile, isDark = true }) {
   // 3D S-curve flight corridor across all 11 feature cards
   const flightPath = useMemo(() => {
     const waypoints = isMobile ? [
@@ -240,81 +241,81 @@ export default function RoomScene({ scrollYProgress, isMobile, isLight = false }
         position={isMobile ? [-1.8, 0.4, -18] : [-4.8, 0.4, -22]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[1]}
         position={isMobile ? [1.8, 1.8, -38] : [4.8, 2.0, -52]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[2]}
         position={isMobile ? [-1.8, -0.4, -58] : [-4.8, -0.4, -82]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[3]}
         position={isMobile ? [1.8, 1.4, -78] : [4.8, 1.4, -112]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[4]}
         position={isMobile ? [-1.8, 2.2, -98] : [-4.8, 2.2, -142]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[5]}
         position={isMobile ? [1.8, 0.4, -118] : [4.8, 0.4, -172]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[6]}
         position={isMobile ? [-1.8, 1.8, -138] : [-4.8, 1.8, -202]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[7]}
         position={isMobile ? [1.8, -0.4, -158] : [4.8, -0.4, -232]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[8]}
         position={isMobile ? [-1.8, 1.4, -178] : [-4.8, 1.4, -262]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[9]}
         position={isMobile ? [1.8, 2.2, -198] : [4.8, 2.2, -292]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[10]}
         position={isMobile ? [0, 0.5, -224] : [0, 0.6, -325]}
         rotation={[0, 0, 0]}
         isMobile={isMobile}
-        isLight={isLight}
+        isDark={isDark}
       />
 
       {/* 3D Negative / Inverted Color Title (Inside WebGL Pipeline) */}
-      <ScrollRoomTitle isMobile={isMobile} titleRef={titleRef} isLight={isLight} />
+      <ScrollRoomTitle isMobile={isMobile} titleRef={titleRef} isDark={isDark} />
     </group>
   );
 }

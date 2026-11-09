@@ -69,9 +69,9 @@ export function AppShell({ children }: AppShellProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#070A11] text-[#0A1629] dark:text-[#F8FAFC] flex antialiased transition-colors duration-200">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0B0E14] text-slate-900 dark:text-slate-100 flex antialiased transition-colors duration-200">
       {/* Desktop Left Sidebar */}
-      <aside className="hidden lg:flex w-64 flex-col justify-between border-r border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0B0F19] p-5 sticky top-0 h-screen shrink-0 transition-colors">
+      <aside className="hidden lg:flex w-64 flex-col justify-between border-r border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#111620] p-5 sticky top-0 h-screen shrink-0 transition-colors">
         <div className="space-y-6">
           {/* Logo & Theme Toggle Header */}
           <div className="flex items-center justify-between px-1 pt-1">
@@ -79,19 +79,19 @@ export function AppShell({ children }: AppShellProps) {
             <ThemeToggle />
           </div>
 
-          {/* Current Stage Capsule */}
-          <div className="p-3 rounded-2xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 flex items-center justify-between">
+          {/* Current Stage Card */}
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#2563FF] animate-pulse" />
-              <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">Stage: {state.profile.stage}</span>
+              <span className="w-2 h-2 rounded-full bg-[#2563EB]" />
+              <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Stage: {state.profile.stage}</span>
             </div>
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-200 dark:bg-blue-900/80 text-blue-800 dark:text-blue-300 uppercase">
-              {state.profile.overallMastery}% Mastery
+            <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+              {state.profile.overallMastery}% mastery
             </span>
           </div>
 
           {/* Navigation Links */}
-          <nav className="space-y-1.5">
+          <nav className="space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href || (item.href !== '/app' && pathname.startsWith(item.href));
@@ -99,17 +99,17 @@ export function AppShell({ children }: AppShellProps) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                  className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
                     isActive
-                      ? 'bg-[#0A1629] dark:bg-white text-white dark:text-[#0A1629] shadow-xs'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/60'
+                      ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/60'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <Icon className="w-4 h-4" />
+                  <div className="flex items-center gap-2.5">
+                    <Icon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                     <span>{item.label}</span>
                   </div>
-                  {isActive && <ChevronRight className="w-3.5 h-3.5 opacity-70" />}
+                  {isActive && <ChevronRight className="w-3.5 h-3.5 opacity-60" />}
                 </Link>
               );
             })}
@@ -117,31 +117,31 @@ export function AppShell({ children }: AppShellProps) {
         </div>
 
         {/* Bottom Profile & Finn Quick Launcher */}
-        <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+        <div className="space-y-3 pt-4 border-t border-slate-200/70 dark:border-slate-800/80">
           {/* Mini Finn Trigger Card */}
           <button
             onClick={() => setFinnOpen(true)}
-            className="w-full p-3 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-100 dark:border-blue-900/40 flex items-center gap-3 text-left hover:border-blue-300 dark:hover:border-blue-700 transition-colors"
+            className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-2.5 text-left hover:border-slate-300 dark:hover:border-slate-700 transition-colors cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-xl bg-[#2563FF] text-white flex items-center justify-center font-bold shrink-0">
-              <Bot className="w-4 h-4" />
+            <div className="w-7 h-7 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 flex items-center justify-center shrink-0">
+              <Bot className="w-3.5 h-3.5" />
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-[#0A1629] dark:text-white truncate">Ask Finn Coach</p>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">Concept clarity in 1 click</p>
+              <p className="text-xs font-medium text-slate-900 dark:text-slate-100 truncate">Ask Finn Coach</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">Concept clarity in 1 click</p>
             </div>
           </button>
 
           {/* Learner Profile Capsule */}
-          <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#2563FF] text-white font-bold flex items-center justify-center text-xs">
+              <div className="w-7 h-7 rounded-full bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 font-medium flex items-center justify-center text-xs">
                 {state.profile.name.charAt(0)}
               </div>
               <div>
-                <p className="text-xs font-semibold text-[#0A1629] dark:text-white">{state.profile.name}</p>
-                <div className="flex items-center gap-1 text-[10px] text-amber-600 dark:text-amber-400 font-medium">
-                  <Flame className="w-3 h-3 fill-amber-500 text-amber-500" />
+                <p className="text-xs font-medium text-slate-900 dark:text-slate-100">{state.profile.name}</p>
+                <div className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400">
+                  <Flame className="w-3 h-3 text-amber-500" />
                   <span>{state.profile.streakDays} day streak</span>
                 </div>
               </div>

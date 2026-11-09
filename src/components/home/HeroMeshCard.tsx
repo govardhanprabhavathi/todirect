@@ -103,18 +103,18 @@ export function HeroMeshCard() {
             India&apos;s First Youth Focused Financial Investment Learning Platform.
           </BlurIn>
 
-          {/* Dual Social Pills */}
+          {/* Dual Social Auth Controls */}
           <BlurIn
             delay={0.25}
             duration={0.55}
             blurAmount="3px"
             yOffset={6}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-3.5"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3.5"
           >
             <Link href="/sign-in" className="w-full sm:w-auto">
               <button
                 type="button"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-[#0A1629] dark:bg-white hover:bg-[#1E293B] dark:hover:bg-slate-100 text-white dark:text-[#0A1629] text-sm font-medium transition-all shadow-xs cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-2.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-sm font-medium transition-colors shadow-xs cursor-pointer"
               >
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                   <path
@@ -141,7 +141,7 @@ export function HeroMeshCard() {
             <Link href="/sign-in" className="w-full sm:w-auto">
               <button
                 type="button"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-[#0A1629] dark:bg-white hover:bg-[#1E293B] dark:hover:bg-slate-100 text-white dark:text-[#0A1629] text-sm font-medium transition-all shadow-xs cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-2.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-sm font-medium transition-colors shadow-xs cursor-pointer"
               >
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="1" y="1" width="10" height="10" fill="#f25022" />
@@ -154,47 +154,47 @@ export function HeroMeshCard() {
             </Link>
           </BlurIn>
 
-          {/* Microcopy below auth pills with Skiper40 animated link */}
+          {/* Microcopy below auth actions */}
           <BlurIn
             as="p"
             delay={0.32}
             duration={0.5}
             blurAmount="2px"
             yOffset={4}
-            className="text-xs font-normal text-[#64748B] dark:text-slate-400 mb-10 sm:mb-12"
+            className="text-xs font-normal text-slate-500 dark:text-slate-400 mb-10 sm:mb-12"
           >
-            <Link000 href="/sign-in" className="hover:text-[#0A1629] dark:hover:text-white transition-colors">
+            <Link000 href="/sign-in" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               Sign up with email
             </Link000>{" "}
             • No credit card required
           </BlurIn>
 
         {/* ─── TWO PERSPECTIVE COMPARISON CARDS ─── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 max-w-5xl mx-auto text-left">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto text-left">
           {/* Card 1: Traditional Way */}
           <BlurIn
             delay={0.1}
             duration={0.8}
             blurAmount="8px"
-            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-white/90 via-slate-50/80 to-blue-50/40 dark:from-[#0B152A]/90 dark:via-[#0E1D3B]/80 dark:to-[#081022]/90 backdrop-blur-md border border-slate-200/90 dark:border-blue-900/40 shadow-sm flex flex-col justify-between transition-all hover:border-slate-300 dark:hover:border-blue-700"
+            className="relative rounded-2xl p-6 sm:p-7 bg-white/95 dark:bg-[#111620]/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-xs flex flex-col justify-between transition-colors hover:border-slate-300 dark:hover:border-slate-700"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em]">
-                  Traditional Way
+                <h3 className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+                  Traditional way
                 </h3>
-                <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
-                  High Risk & Confusion
+                <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                  High risk & confusion
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-[#64748B] dark:text-slate-400 leading-relaxed mb-5">
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
                 Unsure where to start, confused by jargon, and forced to risk real money.
               </p>
 
-              <ul className="space-y-3 text-xs sm:text-sm text-[#475569] dark:text-slate-300">
+              <ul className="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
                 <li className="flex items-center gap-2.5">
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
-                  <span><strong>Where to start?</strong> Lost in scattered advice & noise</span>
+                  <span><strong>Where to start:</strong> Lost in scattered advice & noise</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
@@ -202,7 +202,7 @@ export function HeroMeshCard() {
                 </li>
                 <li className="flex items-center gap-2.5">
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
-                  <span><strong>How to invest?</strong> Blind trial & error with real savings</span>
+                  <span><strong>How to invest:</strong> Blind trial & error with real savings</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
@@ -217,63 +217,60 @@ export function HeroMeshCard() {
 
             <div className="pt-5 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
               <span>Outcome: Costly mistakes & doubt</span>
-              <span className="font-semibold text-rose-600 dark:text-rose-400">High Risk</span>
+              <span className="font-medium text-rose-600 dark:text-rose-400">High risk</span>
             </div>
           </BlurIn>
 
-          {/* Card 2: TO DIRECT Way (Blue Premium Gradient) */}
+          {/* Card 2: TO DIRECT Way (Quiet Institutional Craft) */}
           <BlurIn
             delay={0.2}
             duration={0.8}
             blurAmount="8px"
-            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#F0F7FF] via-[#E2F0FE] to-[#D5E9FE] dark:from-[#0E1F42] dark:via-[#132A5C] dark:to-[#091530] backdrop-blur-md border-2 border-[#2563FF]/40 dark:border-[#38BDF8]/50 shadow-xl shadow-blue-500/10 flex flex-col justify-between transition-all hover:border-[#2563FF]/70 relative overflow-hidden"
+            className="relative rounded-2xl p-6 sm:p-7 bg-white/95 dark:bg-[#111620]/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-xs flex flex-col justify-between transition-colors hover:border-slate-300 dark:hover:border-slate-700"
           >
-            {/* Ambient Accent Glow */}
-            <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-blue-500/15 blur-2xl pointer-events-none" />
-
-            <div className="relative z-10">
+            <div>
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-xl sm:text-2xl font-semibold text-[#0A1629] dark:text-white tracking-[-0.02em]">
-                  TO DIRECT Way
+                <h3 className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
+                  TO DIRECT way
                 </h3>
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#2563FF] text-white">
+                <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                   Recommended
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-[#475569] dark:text-slate-300 leading-relaxed mb-5">
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
                 A simple youth roadmap to learn first and practice with zero risk.
               </p>
 
-              <ul className="space-y-3 text-xs sm:text-sm text-[#0A1629] dark:text-slate-200">
+              <ul className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                 <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#2563EB] dark:text-blue-400 shrink-0" />
                   <span><strong>Personalised learning:</strong> Tailored to your pace & goals</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#2563EB] dark:text-blue-400 shrink-0" />
                   <span><strong>Simple lectures:</strong> Bite-sized, visual, and jargon-free</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#2563EB] dark:text-blue-400 shrink-0" />
                   <span><strong>Practical learning:</strong> Safe ₹10,000 practice sandbox</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#2563EB] dark:text-blue-400 shrink-0" />
                   <span><strong>Gamified experience:</strong> Quizzes, streaks, and badges</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] dark:text-blue-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#2563EB] dark:text-blue-400 shrink-0" />
                   <span><strong>Builds confidence:</strong> Real clarity before investing</span>
                 </li>
               </ul>
             </div>
 
-            <div className="pt-5 mt-5 border-t border-slate-100 dark:border-slate-800/80 relative z-10">
+            <div className="pt-5 mt-5 border-t border-slate-100 dark:border-slate-800/80">
               <Link
                 href="/curriculum"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#0A1629] dark:bg-white hover:bg-[#1E293B] dark:hover:bg-slate-100 text-white dark:text-[#0A1629] text-xs sm:text-sm font-semibold transition-all shadow-xs group"
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-xs sm:text-sm font-medium transition-colors shadow-xs group"
               >
-                <span>Start Learning Free</span>
+                <span>Start learning free</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

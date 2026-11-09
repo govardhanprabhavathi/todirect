@@ -103,7 +103,7 @@ export function Navbar() {
             <Link href="/sign-in">
               <button
                 type="button"
-                className="inline-flex items-center justify-center px-5 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#0A1629] dark:text-slate-200 text-sm font-medium transition-all shadow-2xs"
+                className="inline-flex items-center justify-center px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111620] hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs sm:text-sm font-medium transition-colors shadow-2xs cursor-pointer"
               >
                 Log in
               </button>
@@ -111,9 +111,9 @@ export function Navbar() {
             <Link href="/sign-in">
               <button
                 type="button"
-                className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-[#0A1629] dark:bg-white hover:bg-[#1E293B] dark:hover:bg-slate-100 text-white dark:text-[#0A1629] text-sm font-medium transition-all shadow-xs"
+                className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-xs sm:text-sm font-medium transition-colors shadow-xs cursor-pointer"
               >
-                Get started for free
+                Get started free
               </button>
             </Link>
           </div>
@@ -123,7 +123,7 @@ export function Navbar() {
             <ThemeToggle />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               aria-label="Toggle Navigation Menu"
             >
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -138,28 +138,28 @@ export function Navbar() {
               <Link
                 href="/curriculum"
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl"
+                className="px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg"
               >
                 Curriculum
               </Link>
               <Link
                 href="/how-it-works"
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl"
+                className="px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg"
               >
                 How It Works
               </Link>
               <Link
                 href="/practice"
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl"
+                className="px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg"
               >
                 ₹10K Sandbox
               </Link>
               <Link
                 href="/about"
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl"
+                className="px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg"
               >
                 Pedagogy & Ethics
               </Link>
@@ -167,12 +167,12 @@ export function Navbar() {
 
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2.5">
               <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="w-full">
-                <Button variant="outline" size="md" className="w-full rounded-full dark:bg-slate-900 dark:border-slate-700 dark:text-white">
+                <Button variant="outline" size="md" className="w-full rounded-lg dark:bg-[#111620] dark:border-slate-800 dark:text-white">
                   Log in
                 </Button>
               </Link>
               <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="w-full">
-                <Button variant="primaryDark" size="md" className="w-full rounded-full dark:bg-white dark:text-[#0A1629]">
+                <Button variant="primaryDark" size="md" className="w-full rounded-lg dark:bg-white dark:text-[#0A1629]">
                   Get started free &rarr;
                 </Button>
               </Link>

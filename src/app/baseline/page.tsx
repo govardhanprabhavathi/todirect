@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/brand/Logo';
-import { Button } from '@/components/ui/Button';
-import { CheckCircle2, XCircle, Sparkles, ArrowRight, Compass, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useAppState } from '@/lib/store';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
@@ -116,15 +115,17 @@ export default function BaselinePage() {
           <div className="inline-block mb-3">
             <Logo size="md" />
           </div>
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-            Baseline Diagnostic
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] mt-1">
-            Financial Literacy Diagnostic
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Question {currentIdx + 1} of {questions.length} • Calibrating your knowledge baseline
-          </p>
+          <div>
+            <span className="text-xs font-medium text-blue-600 dark:text-blue-400">
+              Baseline diagnostic
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-tight mt-1">
+              Financial Literacy Diagnostic
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Question {currentIdx + 1} of {questions.length} • Calibrating your knowledge baseline
+            </p>
+          </div>
 
           <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full mt-4 overflow-hidden">
             <div
@@ -136,12 +137,12 @@ export default function BaselinePage() {
 
         {/* Question Card */}
         {!completed ? (
-          <div className="bg-white dark:bg-[#111625] rounded-3xl p-7 sm:p-9 border border-slate-200/80 dark:border-slate-800 shadow-lg space-y-6">
-            <h2 className="text-base sm:text-lg font-bold text-[#0A1629] dark:text-[#F8FAFC] leading-relaxed">
+          <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-6">
+            <h2 className="text-base sm:text-lg font-semibold text-[#0A1629] dark:text-[#F8FAFC] leading-relaxed">
               {currentQ.question}
             </h2>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {currentQ.options.map((opt, idx) => {
                 const isSelected = selectedOption === idx;
                 let btnStyle = 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-[#0B0F19] text-slate-800 dark:text-slate-200';
@@ -161,9 +162,9 @@ export default function BaselinePage() {
                     type="button"
                     disabled={hasAnswered}
                     onClick={() => handleSelectOption(idx)}
-                    className={`w-full text-left p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${btnStyle}`}
+                    className={`w-full text-left p-3.5 sm:p-4 rounded-xl border transition-colors flex items-start justify-between gap-3 cursor-pointer ${btnStyle}`}
                   >
-                    <span className="text-sm font-medium leading-relaxed">{opt.text}</span>
+                    <span className="text-xs sm:text-sm font-medium leading-relaxed">{opt.text}</span>
                     {hasAnswered && opt.isCorrect && (
                       <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                     )}
@@ -177,45 +178,43 @@ export default function BaselinePage() {
 
             {/* Explanation box after answer */}
             {hasAnswered && (
-              <div className="p-4 rounded-2xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed animate-fadeIn">
-                <span className="font-bold text-blue-800 dark:text-blue-300 block mb-1">Pedagogical Insight:</span>
+              <div className="p-4 rounded-xl bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/40 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed animate-slideUp">
+                <span className="font-semibold text-blue-900 dark:text-blue-300 block mb-1">Pedagogical insight:</span>
                 {currentQ.options[selectedOption!].feedback}
               </div>
             )}
 
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end">
-              <Button
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex justify-end">
+              <button
                 onClick={handleNext}
                 disabled={!hasAnswered}
-                variant="primaryDark"
-                size="md"
-                className="rounded-full px-7 text-xs font-bold"
+                className="px-6 py-2.5 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer shadow-xs disabled:opacity-50"
               >
-                {currentIdx < questions.length - 1 ? 'Next Question \u2192' : 'View My Score & Recommendations \u2192'}
-              </Button>
+                {currentIdx < questions.length - 1 ? 'Next question →' : 'View score & recommendations →'}
+              </button>
             </div>
           </div>
         ) : (
           /* Assessment Completion Snapshot Card */
-          <div className="bg-white dark:bg-[#111625] rounded-3xl p-8 sm:p-10 border border-slate-200/80 dark:border-slate-800 shadow-lg text-center space-y-6">
-            <div className="w-16 h-16 rounded-full bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold mx-auto">
-              <Sparkles className="w-8 h-8" />
+          <div className="bg-white dark:bg-[#111625] rounded-2xl p-8 sm:p-10 border border-slate-200/80 dark:border-slate-800 shadow-xs text-center space-y-6">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold mx-auto border border-blue-100 dark:border-blue-900/40">
+              <Sparkles className="w-6 h-6" />
             </div>
 
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                Diagnostic Complete
+              <span className="text-xs font-medium text-blue-600 dark:text-blue-400">
+                Diagnostic complete
               </span>
-              <h2 className="text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] mt-1">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] mt-1 font-mono">
                 Your Starting Baseline: {Math.round((score / questions.length) * 100)}%
               </h2>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mt-2 max-w-md mx-auto">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2 max-w-md mx-auto leading-relaxed">
                 You correctly answered {score} of {questions.length} diagnostic scenarios. We have calibrated your customized learning path.
               </p>
             </div>
 
-            <div className="bg-slate-50 dark:bg-[#0B0F19] rounded-2xl p-5 text-left border border-slate-100 dark:border-slate-800 space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+            <div className="bg-slate-50 dark:bg-[#0B0F19] rounded-xl p-5 text-left border border-slate-200/80 dark:border-slate-800 space-y-2">
+              <h3 className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                 Prescribed Next Action
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -223,20 +222,18 @@ export default function BaselinePage() {
               </p>
             </div>
 
-            <Button
+            <button
               onClick={() => router.push('/app')}
-              variant="primaryDark"
-              size="lg"
-              className="w-full rounded-full text-xs font-bold py-3.5 shadow-md"
+              className="w-full py-2.5 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer shadow-xs"
             >
-              Enter Learner Dashboard \u2192
-            </Button>
+              Enter learner dashboard →
+            </button>
           </div>
         )}
       </div>
 
       <div className="text-center text-[11px] text-slate-400 dark:text-slate-600 mt-8">
-        &copy; {new Date().getFullYear()} TO DIRECT. Learn before you invest.
+        © {new Date().getFullYear()} TO DIRECT. Learn before you invest.
       </div>
     </div>
   );

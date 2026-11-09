@@ -27,16 +27,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variantStyles = {
       // Solid dark navy/black pill from reference screenshot
       primaryDark:
-        "bg-[#0A1629] hover:bg-[#1E293B] text-white rounded-full shadow-xs hover:shadow focus-visible:ring-[#0A1629]",
+        "bg-[#0A1629] hover:bg-[#1E293B] dark:bg-slate-800 dark:hover:bg-slate-700 text-white rounded-full shadow-xs hover:shadow focus-visible:ring-[#0A1629]",
       // Precision electric blue pill
       primaryBlue:
         "bg-[#2563FF] hover:bg-[#1748D8] text-white rounded-full shadow-xs hover:shadow focus-visible:ring-[#2563FF]",
-      // White pill with clean dark border
+      // White pill with clean dark border and high contrast dark-mode text
       outline:
-        "bg-white hover:bg-[#FAF8F5] text-[#0A1629] border border-slate-300 rounded-full shadow-2xs focus-visible:ring-[#0A1629]",
+        "bg-white hover:bg-[#FAF8F5] dark:bg-[#111625] dark:hover:bg-slate-800 text-[#0A1629] dark:text-white border border-slate-300 dark:border-slate-700 rounded-full shadow-2xs focus-visible:ring-[#0A1629] dark:focus-visible:ring-slate-400",
       // Ghost button for nav and tertiary actions
       ghost:
-        "bg-transparent hover:bg-[#0A1629]/5 text-slate-700 hover:text-[#0A1629] rounded-full",
+        "bg-transparent hover:bg-[#0A1629]/5 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 hover:text-[#0A1629] dark:hover:text-white rounded-full",
       // Danger pill
       danger:
         "bg-[#DC2626] hover:bg-[#B91C1C] text-white rounded-full shadow-xs focus-visible:ring-[#DC2626]",
@@ -45,7 +45,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         "bg-[#0A1629] hover:bg-[#1E293B] text-white rounded-full shadow-xs px-5 py-3",
       // Pure white pill
       pure:
-        "bg-white hover:bg-slate-50 text-[#0A1629] border border-slate-200/80 rounded-full shadow-xs focus-visible:ring-slate-400",
+        "bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 text-[#0A1629] dark:text-white border border-slate-200/80 dark:border-slate-700 rounded-full shadow-xs focus-visible:ring-slate-400",
     };
 
     const sizeStyles = {

@@ -240,7 +240,7 @@ export default function HomePage() {
           {/* Action Buttons: Sandbox, Financial News (Between), Ask Finn */}
           <div className="flex flex-wrap items-center gap-2.5">
             <Link href="/app/practice">
-              <Button size="sm" variant="outline" className="rounded-full text-xs font-bold bg-white dark:bg-[#111625] dark:border-slate-800 hover:border-blue-400">
+              <Button size="sm" variant="outline" className="rounded-full text-xs font-bold bg-white dark:bg-[#111625] text-[#0A1629] dark:text-white dark:border-slate-800 hover:border-blue-400">
                 <Sliders className="w-3.5 h-3.5 mr-1 text-blue-600 dark:text-blue-400" />
                 ₹10K Sandbox
               </Button>

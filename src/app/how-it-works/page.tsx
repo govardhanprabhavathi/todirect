@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { Button } from '@/components/ui/Button';
 import { 
   Sparkles, 
   ArrowRight, 
@@ -13,7 +12,6 @@ import {
   Target, 
   BrainCircuit, 
   Award, 
-  ShieldCheck, 
   XCircle,
   HelpCircle
 } from 'lucide-react';
@@ -62,8 +60,8 @@ const stages = [
   {
     step: '06',
     name: 'PRACTISE',
-    title: '₹10,000 Portfolio Sandbox',
-    description: 'Deploy ₹10,000 in virtual capital across index funds, debt instruments, and gold with live concentration risk warnings.',
+    title: '₹10,00,000 Portfolio Sandbox',
+    description: 'Deploy capital across index funds, debt instruments, and gold with live concentration risk warnings.',
     icon: Sliders,
     highlight: 'Requires a written trade rationale to cultivate disciplined, intentional investor habits.'
   }
@@ -87,8 +85,8 @@ const comparisons = [
   },
   {
     feature: 'Simulation Sandbox',
-    toDirect: '₹10,000 capital with concentration risk alerts and reflection prompts',
-    tradingApps: 'Gamified ₹10,00,000 day-trading games encouraging reckless leverage'
+    toDirect: 'Virtual capital with concentration risk alerts and reflection prompts',
+    tradingApps: 'Gamified day-trading games encouraging reckless leverage'
   },
   {
     feature: 'Monetization Model',
@@ -102,51 +100,51 @@ export default function HowItWorksPage() {
     <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#070A11] text-[#0A1629] dark:text-[#F8FAFC] antialiased transition-colors duration-300">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
         {/* Hero Section */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            The Proven Pedagogy
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 dark:bg-blue-950/50 border border-blue-200/60 dark:border-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-medium mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            The proven pedagogy
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-tight leading-tight">
             How TO DIRECT turns curiosity into <br />
             <span className="text-blue-600 dark:text-blue-400">financial mastery.</span>
           </h1>
-          <p className="mt-5 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
             A sequenced 6-stage continuum connecting diagnostics, foundational learning, misconception checking, AI guidance, and simulated practice.
           </p>
         </div>
 
         {/* 6 Stages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-20">
           {stages.map((st) => {
             const Icon = st.icon;
             return (
               <div
                 key={st.step}
-                className="bg-white dark:bg-[#111625] rounded-2xl p-7 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-300"
+                className="bg-white dark:bg-[#111625] rounded-xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-xs font-black tracking-widest text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2.5 py-1 rounded-full">
-                      STAGE {st.step}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[11px] font-mono font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 border border-blue-200/60 dark:border-blue-900/50 px-2 py-0.5 rounded-md">
+                      Stage {st.step}
                     </span>
-                    <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold">
-                      <Icon className="w-5 h-5" />
+                    <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold">
+                      <Icon className="w-4 h-4" />
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-bold text-[#0A1629] dark:text-[#F8FAFC] mb-2">
+                  <h3 className="text-base sm:text-lg font-semibold text-[#0A1629] dark:text-[#F8FAFC] mb-1.5">
                     {st.title}
                   </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
                     {st.description}
                   </p>
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-[#0B0F19] rounded-xl p-3 text-xs text-slate-600 dark:text-slate-400 font-medium flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-[#0B0F19] rounded-lg p-2.5 text-xs text-slate-600 dark:text-slate-400 font-medium flex items-start gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span>{st.highlight}</span>
                 </div>
               </div>
@@ -154,38 +152,38 @@ export default function HowItWorksPage() {
           })}
         </div>
 
-        {/* Comparison Table: TO DIRECT vs Typical Trading Platforms */}
-        <div className="mb-24">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+        {/* Comparison Table */}
+        <div className="mb-20">
+          <div className="text-center max-w-2xl mx-auto mb-10">
             <h2 className="text-2xl sm:text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-tight">
               Why We Are Different From Brokerage & Trading Apps
             </h2>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
               We succeed when you build disciplined, lifelong financial competence—not when you trade frequently.
             </p>
           </div>
 
-          <div className="bg-white dark:bg-[#111625] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+          <div className="bg-white dark:bg-[#111625] rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm border-collapse">
+              <table className="w-full text-left text-xs sm:text-sm border-collapse">
                 <thead>
                   <tr className="bg-slate-50 dark:bg-[#0B0F19] border-b border-slate-200 dark:border-slate-800">
-                    <th className="py-4 px-6 font-bold text-slate-700 dark:text-slate-300">Core Dimension</th>
-                    <th className="py-4 px-6 font-bold text-blue-700 dark:text-blue-300 bg-blue-50/60 dark:bg-blue-950/40">TO DIRECT (Educational)</th>
-                    <th className="py-4 px-6 font-bold text-slate-500 dark:text-slate-400">Commercial Trading Apps</th>
+                    <th className="py-3.5 px-5 font-semibold text-slate-700 dark:text-slate-300">Core Dimension</th>
+                    <th className="py-3.5 px-5 font-semibold text-blue-700 dark:text-blue-300 bg-blue-50/60 dark:bg-blue-950/40">TO DIRECT (Educational)</th>
+                    <th className="py-3.5 px-5 font-semibold text-slate-500 dark:text-slate-400">Commercial Trading Apps</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {comparisons.map((row, idx) => (
                     <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-[#0B0F19]/50 transition-colors">
-                      <td className="py-4 px-6 font-semibold text-[#0A1629] dark:text-[#F8FAFC]">{row.feature}</td>
-                      <td className="py-4 px-6 font-medium text-slate-800 dark:text-slate-200 bg-blue-50/30 dark:bg-blue-950/20">
+                      <td className="py-3.5 px-5 font-medium text-[#0A1629] dark:text-[#F8FAFC]">{row.feature}</td>
+                      <td className="py-3.5 px-5 font-medium text-slate-800 dark:text-slate-200 bg-blue-50/30 dark:bg-blue-950/20">
                         <div className="flex items-start gap-2">
                           <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                           <span>{row.toDirect}</span>
                         </div>
                       </td>
-                      <td className="py-4 px-6 text-slate-500 dark:text-slate-400">
+                      <td className="py-3.5 px-5 text-slate-500 dark:text-slate-400">
                         <div className="flex items-start gap-2">
                           <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                           <span>{row.tradingApps}</span>
@@ -200,17 +198,17 @@ export default function HowItWorksPage() {
         </div>
 
         {/* CTA Banner */}
-        <div className="rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-blue-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-900 text-white text-center shadow-xl">
-          <h2 className="text-2xl sm:text-3xl font-semibold mb-3">
+        <div className="rounded-2xl p-6 sm:p-10 bg-[#0B132B] dark:bg-[#080E1E] text-white text-center shadow-lg border border-slate-800">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-2">
             Ready to experience the learning journey firsthand?
           </h2>
-          <p className="text-blue-100 max-w-lg mx-auto text-sm sm:text-base mb-8">
+          <p className="text-slate-300 max-w-lg mx-auto text-xs sm:text-sm mb-6">
             Complete the 5-minute baseline diagnostic and start building real financial confidence today.
           </p>
           <Link href="/sign-in">
-            <Button size="lg" variant="pure" className="rounded-full px-8 text-blue-900 font-bold shadow-md">
-              Start Free Assessment &rarr;
-            </Button>
+            <button className="px-6 py-2.5 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer shadow-xs">
+              Start free assessment &rarr;
+            </button>
           </Link>
         </div>
       </main>

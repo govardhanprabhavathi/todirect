@@ -3,10 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { AppShell } from '@/components/layout/AppShell';
-import { Button } from '@/components/ui/Button';
 import { CURRICULUM_DATA } from '@/lib/data';
 import { useAppState } from '@/lib/store';
-import { BookOpen, Clock, CheckCircle2, ChevronRight, Sparkles } from 'lucide-react';
+import { BookOpen, Clock, CheckCircle2, ChevronRight } from 'lucide-react';
 
 export default function AppLearnCatalog() {
   const { state } = useAppState();
@@ -14,19 +13,22 @@ export default function AppLearnCatalog() {
   return (
     <AppShell>
       <div className="space-y-8">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-            Curriculum Catalog
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-tight mt-1">
+        <div className="pb-2 border-b border-slate-200/80 dark:border-slate-800/80">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 dark:text-blue-400">
+              <BookOpen className="w-3.5 h-3.5" />
+              Curriculum catalog
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-tight">
             7-Topic Learning Path
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-xl">
-            Complete each module in sequence to build a rock-solid foundation from cashflow budgeting to portfolio asset allocation.
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 max-w-xl">
+            Complete each module in sequence to build a rock-solid foundation from cashflow budgeting to portfolio asset allocation
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3.5">
           {CURRICULUM_DATA.map((module) => {
             const completedLessons = module.lessons.filter((l) => state.completedLessonIds.includes(l.id)).length;
             const isCompleted = completedLessons === module.lessons.length;
@@ -35,33 +37,33 @@ export default function AppLearnCatalog() {
             return (
               <div
                 key={module.id}
-                className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-blue-400 dark:hover:border-blue-500 transition-all"
+                className="bg-white dark:bg-[#111625] rounded-xl p-5 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
               >
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
                   <div className="space-y-2 max-w-xl">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 uppercase">
+                      <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-900/50">
                         Topic 0{module.order}
                       </span>
-                      <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+                      <span className="text-xs text-slate-500 dark:text-slate-400">
                         {module.level} • {module.duration}
                       </span>
                       {isQuizPassed && (
-                        <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <span className="text-[11px] font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md border border-emerald-200/60 dark:border-emerald-900/50 flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3" /> Certified
                         </span>
                       )}
                     </div>
 
-                    <h2 className="text-lg sm:text-xl font-bold text-[#0A1629] dark:text-[#F8FAFC]">
+                    <h2 className="text-base sm:text-lg font-semibold text-[#0A1629] dark:text-[#F8FAFC]">
                       {module.title}
                     </h2>
                     <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                       {module.overview}
                     </p>
 
-                    <div className="pt-2 flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-                      <span className="font-semibold text-slate-700 dark:text-slate-300">
+                    <div className="pt-1 flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+                      <span className="font-medium text-slate-700 dark:text-slate-300">
                         {completedLessons} of {module.lessons.length} lessons finished
                       </span>
                     </div>
@@ -69,14 +71,14 @@ export default function AppLearnCatalog() {
 
                   <div className="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
                     <Link href={`/app/learn/${module.id}`}>
-                      <Button variant="primaryDark" size="sm" className="rounded-full px-5 text-xs font-semibold w-full">
-                        View Lessons ({module.lessons.length}) &rarr;
-                      </Button>
+                      <button className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer shadow-xs">
+                        View lessons ({module.lessons.length}) &rarr;
+                      </button>
                     </Link>
                     <Link href={`/app/quiz/${module.id}`}>
-                      <Button variant="outline" size="sm" className="rounded-full px-5 text-xs font-semibold w-full bg-white dark:bg-[#111625] dark:border-slate-800">
-                        Take Module Quiz
-                      </Button>
+                      <button className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                        Take module quiz
+                      </button>
                     </Link>
                   </div>
                 </div>

@@ -2,9 +2,8 @@
 
 import React, { useState } from 'react';
 import { AppShell } from '@/components/layout/AppShell';
-import { Button } from '@/components/ui/Button';
 import { useAppState } from '@/lib/store';
-import { Bot, Send, Sparkles, ShieldCheck, HelpCircle } from 'lucide-react';
+import { Bot, Send, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 const promptPills = [
   'Explain the Rule of 72 with an example',
@@ -53,65 +52,73 @@ export default function FinnCoachPage() {
     <AppShell>
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-slate-800/80">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                Socratic AI Companion
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 dark:text-blue-400">
+                <Bot className="w-3.5 h-3.5" />
+                Socratic AI companion
               </span>
-              <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 font-semibold border border-emerald-100 dark:border-emerald-900/50 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Grounded in Syllabus
+              <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-900/50 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                Grounded in syllabus
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-tight">
               Meet Finn, Your Learning Coach
             </h1>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+              Interactive Socratic dialogue that probes high-yield promises and builds first-principles judgment without stock tips
+            </p>
           </div>
 
-          <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 bg-white dark:bg-[#111625] px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-800">
+          <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-[#111625] px-3 py-1.5 rounded-lg border border-slate-200/80 dark:border-slate-800 self-start sm:self-auto shadow-2xs">
             <ShieldCheck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-            <span>Strict Anti-Speculation Guardrails</span>
+            <span>Anti-speculation guardrails</span>
           </div>
         </div>
 
-        {/* Suggestion Pills */}
-        <div className="flex flex-wrap gap-2">
-          {promptPills.map((pill, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => sendQuestion(pill)}
-              className="text-xs font-medium px-3.5 py-1.5 rounded-full bg-white dark:bg-[#111625] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-blue-400 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all shadow-2xs"
-            >
-              {pill}
-            </button>
-          ))}
+        {/* Suggestion Chips */}
+        <div className="space-y-1.5">
+          <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Suggested discussion probes:</span>
+          <div className="flex flex-wrap gap-2">
+            {promptPills.map((pill, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => sendQuestion(pill)}
+                className="text-xs font-medium px-3 py-1.5 rounded-lg bg-white dark:bg-[#111625] border border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-blue-500 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-2xs cursor-pointer"
+              >
+                {pill}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Chat Window Container */}
-        <div className="bg-white dark:bg-[#111625] rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col h-[540px] overflow-hidden">
+        <div className="bg-white dark:bg-[#111625] rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col h-[540px] overflow-hidden">
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4">
             {state.finnChat.map((msg) => (
               <div
                 key={msg.id}
                 className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl px-5 py-3.5 text-xs sm:text-sm leading-relaxed shadow-xs ${
+                  className={`max-w-[85%] rounded-xl px-4 py-3 text-xs sm:text-sm leading-relaxed shadow-xs ${
                     msg.sender === 'user'
-                      ? 'bg-slate-900 dark:bg-blue-600 text-white rounded-tr-sm'
-                      : 'bg-[#FAF8F5] dark:bg-[#0B0F19] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-sm'
+                      ? 'bg-blue-600 text-white rounded-tr-sm'
+                      : 'bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-sm'
                   }`}
                 >
                   {msg.sender === 'finn' && (
-                    <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-bold text-xs mb-1">
-                      <Sparkles className="w-3.5 h-3.5" />
+                    <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-semibold text-xs mb-1">
+                      <Bot className="w-3.5 h-3.5" />
                       Finn Coach
                     </div>
                   )}
                   {msg.text}
-                  <div className={`text-[10px] mt-1.5 ${msg.sender === 'user' ? 'text-slate-300 dark:text-blue-200' : 'text-slate-400 dark:text-slate-500'}`}>
+                  <div className={`text-[10px] mt-1.5 font-mono ${msg.sender === 'user' ? 'text-blue-100' : 'text-slate-400 dark:text-slate-500'}`}>
                     {msg.timestamp}
                   </div>
                 </div>
@@ -120,23 +127,21 @@ export default function FinnCoachPage() {
           </div>
 
           {/* Chat Input Bar */}
-          <form onSubmit={handleSubmit} className="p-4 border-t border-slate-100 dark:border-slate-800 bg-[#FAF8F5] dark:bg-[#0B0F19] flex gap-3">
+          <form onSubmit={handleSubmit} className="p-3.5 border-t border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 flex gap-2.5">
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Ask Finn about cashflow, compounding, inflation, risk..."
-              className="flex-1 px-5 py-3 rounded-full border border-slate-200 dark:border-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white dark:bg-[#111625] text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600"
+              className="flex-1 px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white dark:bg-[#111625] text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
             />
-            <Button
+            <button
               type="submit"
-              variant="primaryDark"
-              size="md"
-              className="rounded-full px-6 text-xs font-bold shrink-0"
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer shadow-xs shrink-0"
             >
-              <Send className="w-4 h-4 mr-1" />
+              <Send className="w-3.5 h-3.5" />
               Ask Finn
-            </Button>
+            </button>
           </form>
         </div>
       </div>

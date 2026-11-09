@@ -16,7 +16,6 @@ import {
   ArrowDownRight, 
   X, 
   CheckCircle2, 
-  Sparkles,
   PieChart,
   FileText,
   Building2,
@@ -153,12 +152,12 @@ export default function PracticalLearningPage() {
     <AppShell>
       <div className="space-y-8">
         {/* ─── HEADER ─── */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-slate-800/80">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 dark:text-blue-400">
                 <Layers className="w-3.5 h-3.5" />
-                Hands-On Practice
+                Hands-on practice
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-tight">
@@ -170,23 +169,23 @@ export default function PracticalLearningPage() {
           </div>
 
           {/* Section Switcher Tabs */}
-          <div className="flex p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-800">
+          <div className="flex p-1 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 self-start sm:self-auto">
             <button
               onClick={() => setActiveSection('sandbox')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 activeSection === 'sandbox'
-                  ? 'bg-white dark:bg-[#111625] text-[#2563FF] dark:text-white shadow-xs'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-[#0A1629]'
+                  ? 'bg-white dark:bg-[#111625] text-blue-600 dark:text-blue-400 shadow-xs border border-slate-200/60 dark:border-slate-800'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-white'
               }`}
             >
               1. Virtual ₹1,00,000 Sandbox
             </button>
             <button
               onClick={() => setActiveSection('paper_company')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 activeSection === 'paper_company'
-                  ? 'bg-white dark:bg-[#111625] text-[#2563FF] dark:text-white shadow-xs'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-[#0A1629]'
+                  ? 'bg-white dark:bg-[#111625] text-blue-600 dark:text-blue-400 shadow-xs border border-slate-200/60 dark:border-slate-800'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-[#0A1629] dark:hover:text-white'
               }`}
             >
               2. Paper Company Analysis
@@ -200,84 +199,94 @@ export default function PracticalLearningPage() {
         {activeSection === 'sandbox' && (
           <div className="space-y-6">
             {/* Top Metric Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-              <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-1">
-                <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase">
-                  Total Portfolio Value
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-white dark:bg-[#111625] rounded-xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                  Total portfolio value
                 </span>
-                <p className="text-2xl font-bold text-[#0A1629] dark:text-white">
+                <p className="text-2xl font-bold font-mono text-[#0A1629] dark:text-white">
                   ₹{totalPortfolioValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                 </p>
-                <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-                  Initial Capital: ₹1,00,000
+                <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400 block pt-0.5">
+                  Initial capital: ₹1,00,000
                 </span>
               </div>
 
-              <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-1">
-                <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase">
-                  Available Cash Buffer
+              <div className="bg-white dark:bg-[#111625] rounded-xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                  Available cash buffer
                 </span>
-                <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                <p className="text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
                   ₹{(state.portfolio.cashBalance * 10).toLocaleString('en-IN')}
                 </p>
-                <span className="text-[11px] text-slate-500">Unallocated Reserves</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 block pt-0.5">
+                  Unallocated reserves
+                </span>
               </div>
 
-              <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-1">
-                <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase">
-                  Invested Assets Value
+              <div className="bg-white dark:bg-[#111625] rounded-xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                  Invested assets value
                 </span>
-                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                <p className="text-2xl font-bold font-mono text-blue-600 dark:text-blue-400">
                   ₹{holdingsValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                 </p>
-                <span className="text-[11px] text-slate-500">{state.portfolio.holdings.length} Active Positions</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 block pt-0.5">
+                  {state.portfolio.holdings.length} active positions
+                </span>
               </div>
 
-              <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between">
-                <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase">
-                  Execute Simulation Trade
-                </span>
-                <Button
+              <div className="bg-white dark:bg-[#111625] rounded-xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+                <div>
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                    Portfolio actions
+                  </span>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Execute simulated market orders
+                  </p>
+                </div>
+                <button
                   onClick={() => setModalOpen(true)}
-                  size="sm"
-                  variant="primaryDark"
-                  className="rounded-full text-xs font-bold w-full mt-2"
+                  className="mt-3 inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer shadow-xs"
                 >
-                  <Plus className="w-3.5 h-3.5 mr-1" />
-                  Place New Trade
-                </Button>
+                  <Plus className="w-3.5 h-3.5" />
+                  Place new trade
+                </button>
               </div>
             </div>
 
             {/* Instruments Catalog */}
-            <div className="bg-white dark:bg-[#111625] rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100 dark:border-slate-800/80">
                 <div>
-                  <h2 className="text-lg font-bold text-[#0A1629] dark:text-[#F8FAFC]">
+                  <h2 className="text-base font-semibold text-[#0A1629] dark:text-[#F8FAFC]">
                     Available Educational Asset Classes
                   </h2>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     Pre-cleared representative index funds, sovereign bonds, and liquid assets
                   </p>
                 </div>
+                <span className="text-xs font-mono text-slate-500">
+                  {SANDBOX_INSTRUMENTS.length} instruments listed
+                </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {SANDBOX_INSTRUMENTS.map((inst) => (
                   <div
                     key={inst.id}
-                    className="p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 space-y-3 flex flex-col justify-between"
+                    className="p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 space-y-3 flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
                   >
                     <div>
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/60 text-[#2563FF] dark:text-blue-400 uppercase">
+                        <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-900/50">
                           {inst.category}
                         </span>
-                        <span className="text-xs font-bold text-[#0A1629] dark:text-white">
+                        <span className="text-xs font-semibold font-mono text-[#0A1629] dark:text-white">
                           ₹{inst.price} / unit
                         </span>
                       </div>
-                      <h3 className="text-sm font-bold text-[#0A1629] dark:text-white mt-2">
+                      <h3 className="text-sm font-semibold text-[#0A1629] dark:text-white mt-2.5">
                         {inst.name}
                       </h3>
                       <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-1">
@@ -286,19 +295,17 @@ export default function PracticalLearningPage() {
                     </div>
 
                     <div className="pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between">
-                      <span className="text-[11px] text-slate-500">Risk: {inst.riskRating}</span>
-                      <Button
-                        size="sm"
-                        variant="outline"
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Risk: {inst.riskRating}</span>
+                      <button
                         onClick={() => {
                           setSelectedInstrumentId(inst.id);
                           setTradeType('BUY');
                           setModalOpen(true);
                         }}
-                        className="rounded-full text-xs font-bold"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-900/60 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition-colors cursor-pointer"
                       >
                         Trade &rarr;
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -313,69 +320,71 @@ export default function PracticalLearningPage() {
         {activeSection === 'paper_company' && (
           <div className="space-y-6">
             {/* Company Dossier Card */}
-            <div className="bg-white dark:bg-[#111625] rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100 dark:border-slate-800">
-                <div className="flex items-center gap-3.5">
-                  <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
-                    <Building2 className="w-6 h-6" />
+            <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800/80">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold border border-blue-100 dark:border-blue-900/40">
+                    <Building2 className="w-5 h-5" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h2 className="text-xl font-bold text-[#0A1629] dark:text-[#F8FAFC]">
+                      <h2 className="text-lg font-semibold text-[#0A1629] dark:text-[#F8FAFC]">
                         {companyData.name}
                       </h2>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                      <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700">
                         {companyData.ticker}
                       </span>
                     </div>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                      {companyData.sector} • Market Cap: {companyData.marketCap}
+                      {companyData.sector} • Market cap: {companyData.marketCap}
                     </p>
                   </div>
                 </div>
 
-                <div className="text-right">
-                  <span className="text-xs text-slate-400 uppercase font-semibold">CMP (Current Market Price)</span>
-                  <p className="text-2xl font-bold text-[#0A1629] dark:text-white">{companyData.sharePrice}</p>
+                <div className="sm:text-right">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Current market price</span>
+                  <p className="text-2xl font-bold font-mono text-[#0A1629] dark:text-white">{companyData.sharePrice}</p>
                 </div>
               </div>
 
               {/* Financial Metrics Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 text-xs">
-                <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                  <span className="text-[10px] text-slate-400 uppercase font-semibold">P/E Multiple</span>
-                  <p className="text-base font-bold text-[#0A1629] dark:text-white mt-0.5">{companyData.peRatio}</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">P/E multiple</span>
+                  <p className="text-base font-semibold font-mono text-[#0A1629] dark:text-white mt-0.5">{companyData.peRatio}</p>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                  <span className="text-[10px] text-slate-400 uppercase font-semibold">Debt / Equity</span>
-                  <p className="text-base font-bold text-rose-600 dark:text-rose-400 mt-0.5">{companyData.debtToEquity}</p>
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Debt / equity</span>
+                  <p className="text-base font-semibold font-mono text-rose-600 dark:text-rose-400 mt-0.5">{companyData.debtToEquity}</p>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                  <span className="text-[10px] text-slate-400 uppercase font-semibold">3-Yr Revenue CAGR</span>
-                  <p className="text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{companyData.revenue3YrCagr}</p>
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">3-yr revenue CAGR</span>
+                  <p className="text-base font-semibold font-mono text-emerald-600 dark:text-emerald-400 mt-0.5">{companyData.revenue3YrCagr}</p>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                  <span className="text-[10px] text-slate-400 uppercase font-semibold">Free Cash Flow</span>
-                  <p className="text-base font-bold text-[#0A1629] dark:text-white mt-0.5">{companyData.freeCashFlow}</p>
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Free cash flow</span>
+                  <p className="text-base font-semibold font-mono text-[#0A1629] dark:text-white mt-0.5">{companyData.freeCashFlow}</p>
                 </div>
               </div>
 
               {/* Qualitative Moat vs Red Flags */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                <div className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
-                  <span className="font-bold text-emerald-800 dark:text-emerald-300 block mb-1">
-                    🏰 Competitive Moat & Advantages:
+                <div className="p-4 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40">
+                  <span className="font-semibold text-emerald-900 dark:text-emerald-300 flex items-center gap-1.5 mb-1.5">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    Competitive moat and advantages
                   </span>
-                  <p className="text-emerald-700 dark:text-emerald-400 leading-relaxed">
+                  <p className="text-emerald-800/90 dark:text-emerald-300/90 leading-relaxed">
                     {companyData.businessMoat}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900/40">
-                  <span className="font-bold text-rose-800 dark:text-rose-300 block mb-1">
-                    ⚠️ Red Flags & Solvency Headwinds:
+                <div className="p-4 rounded-xl bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/40">
+                  <span className="font-semibold text-rose-900 dark:text-rose-300 flex items-center gap-1.5 mb-1.5">
+                    <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+                    Red flags and solvency headwinds
                   </span>
-                  <p className="text-rose-700 dark:text-rose-400 leading-relaxed">
+                  <p className="text-rose-800/90 dark:text-rose-300/90 leading-relaxed">
                     {companyData.redFlags}
                   </p>
                 </div>
@@ -383,57 +392,57 @@ export default function PracticalLearningPage() {
             </div>
 
             {/* Student Report Submission Form */}
-            <div className="bg-white dark:bg-[#111625] rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
-              <div className="pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-5">
+              <div className="pb-4 border-b border-slate-100 dark:border-slate-800/80">
                 <div className="flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-blue-600" />
-                  <h3 className="text-lg font-bold text-[#0A1629] dark:text-white">
-                    Submit Your Fundamental Analysis Report
+                  <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <h3 className="text-base font-semibold text-[#0A1629] dark:text-white">
+                    Submit Fundamental Analysis Report
                   </h3>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Write your reasoning below. The AI auditor will grade your report, surface missed risks, and guide you to targeted videos.
+                  Write your reasoning below. The AI auditor will evaluate your report, highlight overlooked balance sheet risks, and recommend calibrated lessons.
                 </p>
               </div>
 
               <form onSubmit={handleAuditReport} className="space-y-4 text-xs">
                 <div>
-                  <label className="font-bold text-[#0A1629] dark:text-white block mb-1.5">
-                    1. Business Moat & Revenue Durability Assessment:
+                  <label className="font-medium text-[#0A1629] dark:text-white block mb-1.5">
+                    1. Business moat and revenue durability assessment:
                   </label>
                   <textarea
                     rows={3}
                     value={studentMoatAnalysis}
                     onChange={(e) => setStudentMoatAnalysis(e.target.value)}
                     placeholder="Analyze whether Apex Consumer has pricing power and sustainable customer retention..."
-                    className="w-full p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="w-full p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="font-bold text-[#0A1629] dark:text-white block mb-1.5">
-                    2. Balance Sheet Solvency & Debt Risk Evaluation:
+                  <label className="font-medium text-[#0A1629] dark:text-white block mb-1.5">
+                    2. Balance sheet solvency and debt risk evaluation:
                   </label>
                   <textarea
                     rows={3}
                     value={studentSolvencyAnalysis}
                     onChange={(e) => setStudentSolvencyAnalysis(e.target.value)}
                     placeholder="Examine the 1.45x Debt/Equity ratio and declining interest coverage..."
-                    className="w-full p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="w-full p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                     required
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="font-bold text-[#0A1629] dark:text-white block mb-1.5">
-                      3. Your Investment Verdict:
+                    <label className="font-medium text-[#0A1629] dark:text-white block mb-1.5">
+                      3. Your investment verdict:
                     </label>
                     <select
                       value={studentValuationCall}
                       onChange={(e) => setStudentValuationCall(e.target.value as any)}
-                      className="w-full p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-bold text-[#0A1629] dark:text-white"
+                      className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-medium text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     >
                       <option value="BUY">BUY (Undervalued with strong moat)</option>
                       <option value="HOLD">HOLD (Wait for debt reduction or valuation dip)</option>
@@ -442,44 +451,42 @@ export default function PracticalLearningPage() {
                   </div>
 
                   <div>
-                    <label className="font-bold text-[#0A1629] dark:text-white block mb-1.5">
-                      4. Core Justification Summary:
+                    <label className="font-medium text-[#0A1629] dark:text-white block mb-1.5">
+                      4. Core justification summary:
                     </label>
                     <input
                       type="text"
                       value={studentRationale}
                       onChange={(e) => setStudentRationale(e.target.value)}
                       placeholder="One-sentence conviction summary..."
-                      className="w-full p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-[#0A1629] dark:text-white"
+                      className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       required
                     />
                   </div>
                 </div>
 
-                <Button
+                <button
                   type="submit"
-                  size="lg"
-                  variant="primaryDark"
                   disabled={isAuditing}
-                  className="w-full rounded-full text-xs font-bold mt-2"
+                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer shadow-xs disabled:opacity-60"
                 >
-                  {isAuditing ? 'AI Auditor Examining Balance Sheet & Report...' : 'Submit Report for Socratic AI Audit &rarr;'}
-                </Button>
+                  {isAuditing ? 'AI Auditor examining balance sheet & report...' : 'Submit report for Socratic AI audit &rarr;'}
+                </button>
               </form>
 
               {/* ─── AI REPORT AUDIT RESULTS ─── */}
               {aiReportAudit && (
-                <div className="mt-8 p-6 rounded-3xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-6 animate-slideUp">
-                  <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div className="mt-6 p-5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-5 animate-slideUp">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold">
-                        <Bot className="w-5 h-5" />
+                      <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold">
+                        <Bot className="w-4 h-4" />
                       </div>
                       <div>
-                        <h4 className="text-base font-bold text-[#0A1629] dark:text-white">
+                        <h4 className="text-sm font-semibold text-[#0A1629] dark:text-white">
                           AI Audit Verdict: {aiReportAudit.grade}
                         </h4>
-                        <span className="text-xs text-slate-500 font-semibold">
+                        <span className="text-xs text-slate-500 font-medium">
                           Audit Score: {aiReportAudit.score} / 100
                         </span>
                       </div>
@@ -488,24 +495,24 @@ export default function PracticalLearningPage() {
 
                   {/* What went well & what went wrong */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 space-y-2">
-                      <span className="font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
-                        <CheckCircle2 className="w-4 h-4" />
-                        What You Did Well:
+                    <div className="p-3.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 space-y-2">
+                      <span className="font-semibold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        What you did well:
                       </span>
-                      <ul className="space-y-1.5 text-emerald-700 dark:text-emerald-400">
+                      <ul className="space-y-1 text-emerald-700 dark:text-emerald-400">
                         {aiReportAudit.whatWentWell.map((w, i) => (
                           <li key={i}>• {w}</li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900/50 space-y-2">
-                      <span className="font-bold text-rose-800 dark:text-rose-300 flex items-center gap-1.5">
-                        <AlertTriangle className="w-4 h-4" />
-                        What Went Wrong / Missed Risks:
+                    <div className="p-3.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900/50 space-y-2">
+                      <span className="font-semibold text-rose-800 dark:text-rose-300 flex items-center gap-1.5">
+                        <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+                        What went wrong / missed risks:
                       </span>
-                      <ul className="space-y-1.5 text-rose-700 dark:text-rose-400">
+                      <ul className="space-y-1 text-rose-700 dark:text-rose-400">
                         {aiReportAudit.whatWentWrong.map((w, i) => (
                           <li key={i}>• {w}</li>
                         ))}
@@ -514,25 +521,25 @@ export default function PracticalLearningPage() {
                   </div>
 
                   {/* Directed Videos */}
-                  <div className="p-5 rounded-2xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/40 space-y-3">
-                    <span className="text-xs font-bold text-blue-900 dark:text-blue-200 uppercase tracking-wider block">
-                      Recommended Video Lessons for Your Weak Spots:
+                  <div className="p-4 rounded-lg bg-blue-50/70 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/40 space-y-3">
+                    <span className="text-xs font-semibold text-blue-900 dark:text-blue-200 block">
+                      Recommended video lessons for your weak spots:
                     </span>
                     <div className="space-y-2">
                       {aiReportAudit.recommendedVideos.map((vid, idx) => (
                         <div
                           key={idx}
-                          className="p-3 rounded-xl bg-white dark:bg-[#111625] border border-blue-200/80 dark:border-slate-800 flex items-center justify-between"
+                          className="p-3 rounded-lg bg-white dark:bg-[#111625] border border-blue-200/80 dark:border-slate-800 flex items-center justify-between"
                         >
                           <div>
-                            <p className="text-xs font-bold text-[#0A1629] dark:text-white">{vid.title}</p>
-                            <span className="text-[10px] text-slate-500">Core Principle: {vid.concept}</span>
+                            <p className="text-xs font-medium text-[#0A1629] dark:text-white">{vid.title}</p>
+                            <span className="text-[11px] text-slate-500">Core principle: {vid.concept}</span>
                           </div>
                           <Link href={vid.href}>
-                            <Button size="sm" variant="outline" className="rounded-full text-xs font-bold">
-                              <Play className="w-3 h-3 mr-1 fill-current text-blue-600" />
-                              Watch Lesson &rarr;
-                            </Button>
+                            <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border border-blue-200 dark:border-blue-900/60 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition-colors cursor-pointer">
+                              <Play className="w-3 h-3 mr-0.5 fill-current text-blue-600 dark:text-blue-400" />
+                              Watch lesson &rarr;
+                            </button>
                           </Link>
                         </div>
                       ))}
@@ -548,24 +555,27 @@ export default function PracticalLearningPage() {
       {/* ─── TRADE EXECUTION MODAL ─── */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-center items-center p-4">
-          <div className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-slideUp">
+          <div className="w-full max-w-md bg-white dark:bg-[#0B0F19] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-slideUp">
             <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <h3 className="text-base font-bold text-[#0A1629] dark:text-white">Execute Virtual Order</h3>
+                <h3 className="text-base font-semibold text-[#0A1629] dark:text-white">Execute Virtual Order</h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400">Practicing disciplined asset allocation</p>
               </div>
-              <button onClick={() => setModalOpen(false)} className="p-1 rounded-full text-slate-400 hover:text-slate-600">
+              <button 
+                onClick={() => setModalOpen(false)} 
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleExecuteTrade} className="p-6 space-y-4 text-xs">
+            <form onSubmit={handleExecuteTrade} className="p-5 space-y-4 text-xs">
               <div>
-                <label className="font-bold text-[#0A1629] dark:text-white block mb-1">Asset Instrument</label>
+                <label className="font-medium text-[#0A1629] dark:text-white block mb-1">Asset instrument</label>
                 <select
                   value={selectedInstrumentId}
                   onChange={(e) => setSelectedInstrumentId(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-bold"
+                  className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-medium text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                 >
                   {SANDBOX_INSTRUMENTS.map((inst) => (
                     <option key={inst.id} value={inst.id}>
@@ -577,11 +587,11 @@ export default function PracticalLearningPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="font-bold text-[#0A1629] dark:text-white block mb-1">Order Type</label>
+                  <label className="font-medium text-[#0A1629] dark:text-white block mb-1">Order type</label>
                   <select
                     value={tradeType}
                     onChange={(e) => setTradeType(e.target.value as any)}
-                    className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-bold"
+                    className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-medium text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                   >
                     <option value="BUY">BUY</option>
                     <option value="SELL">SELL</option>
@@ -589,43 +599,46 @@ export default function PracticalLearningPage() {
                 </div>
 
                 <div>
-                  <label className="font-bold text-[#0A1629] dark:text-white block mb-1">Units (Quantity)</label>
+                  <label className="font-medium text-[#0A1629] dark:text-white block mb-1">Units (Quantity)</label>
                   <input
                     type="number"
                     min="1"
                     value={units}
                     onChange={(e) => setUnits(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-bold"
+                    className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono font-medium text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="font-bold text-[#0A1629] dark:text-white block mb-1">Investment Rationale (Required)</label>
+                <label className="font-medium text-[#0A1629] dark:text-white block mb-1">Investment rationale (Required)</label>
                 <input
                   type="text"
                   value={rationale}
                   onChange={(e) => setRationale(e.target.value)}
                   placeholder="Why are you allocating here? (e.g. 5-yr compounding horizon)"
-                  className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs"
+                  className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                   required
                 />
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs">
-                <span className="font-medium text-slate-500">Total Order Cost:</span>
-                <span className="font-bold text-base text-[#0A1629] dark:text-white">₹{totalCost}</span>
+              <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-xs">
+                <span className="font-medium text-slate-500 dark:text-slate-400">Total order cost:</span>
+                <span className="font-bold font-mono text-base text-[#0A1629] dark:text-white">₹{totalCost.toLocaleString('en-IN')}</span>
               </div>
 
               {successMsg && (
-                <div className="p-3 rounded-xl bg-emerald-50 text-emerald-800 text-xs font-semibold">
+                <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 text-xs font-medium border border-emerald-200 dark:border-emerald-900/50">
                   {successMsg}
                 </div>
               )}
 
-              <Button type="submit" size="md" variant="primaryDark" className="w-full rounded-full text-xs font-bold">
-                Confirm & Execute Virtual Order &rarr;
-              </Button>
+              <button 
+                type="submit" 
+                className="w-full py-2.5 px-4 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer shadow-xs"
+              >
+                Confirm & execute virtual order &rarr;
+              </button>
             </form>
           </div>
         </div>

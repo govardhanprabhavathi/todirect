@@ -98,10 +98,10 @@ export const HOW_YOU_LEARN_DATA = [
 ];
 
 // ─── 3D Negative / Inverted Color Title Component ─────────────────────────────
-export function ScrollRoomTitle({ isMobile = false, titleRef }) {
+export function ScrollRoomTitle({ isMobile = false, titleRef, isLight = false }) {
   const invertMaterial = useMemo(() => {
     return new THREE.MeshBasicMaterial({
-      color: '#ffffff',
+      color: isLight ? '#0F172A' : '#ffffff',
       transparent: true,
       depthTest: false,
       depthWrite: false,
@@ -110,7 +110,7 @@ export function ScrollRoomTitle({ isMobile = false, titleRef }) {
       blendSrc: THREE.OneMinusDstColorFactor,
       blendDst: THREE.OneMinusSrcColorFactor,
     });
-  }, []);
+  }, [isLight]);
 
   return (
     <group
@@ -124,11 +124,11 @@ export function ScrollRoomTitle({ isMobile = false, titleRef }) {
         fontSize={isMobile ? 0.68 : 1.05}
         lineHeight={1.05}
         textAlign="center"
-        color="#FFFFFF"
+        color={isLight ? "#0F172A" : "#FFFFFF"}
         anchorX="center"
         anchorY="middle"
         letterSpacing={-0.02}
-        fontWeight={700}
+        fontWeight={800}
         outlineWidth={0}
         sdfGlyphSize={128}
         renderOrder={999}
@@ -147,7 +147,7 @@ export function ScrollRoomTitle({ isMobile = false, titleRef }) {
   );
 }
 
-export default function RoomScene({ scrollYProgress, isMobile }) {
+export default function RoomScene({ scrollYProgress, isMobile, isLight = false }) {
   // 3D S-curve flight corridor across all 11 feature cards
   const flightPath = useMemo(() => {
     const waypoints = isMobile ? [
@@ -240,70 +240,81 @@ export default function RoomScene({ scrollYProgress, isMobile }) {
         position={isMobile ? [-1.8, 0.4, -18] : [-4.8, 0.4, -22]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[1]}
         position={isMobile ? [1.8, 1.8, -38] : [4.8, 2.0, -52]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[2]}
         position={isMobile ? [-1.8, -0.4, -58] : [-4.8, -0.4, -82]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[3]}
         position={isMobile ? [1.8, 1.4, -78] : [4.8, 1.4, -112]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[4]}
         position={isMobile ? [-1.8, 2.2, -98] : [-4.8, 2.2, -142]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[5]}
         position={isMobile ? [1.8, 0.4, -118] : [4.8, 0.4, -172]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[6]}
         position={isMobile ? [-1.8, 1.8, -138] : [-4.8, 1.8, -202]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[7]}
         position={isMobile ? [1.8, -0.4, -158] : [4.8, -0.4, -232]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[8]}
         position={isMobile ? [-1.8, 1.4, -178] : [-4.8, 1.4, -262]}
         rotation={isMobile ? [0, 0.16, 0] : [0, Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[9]}
         position={isMobile ? [1.8, 2.2, -198] : [4.8, 2.2, -292]}
         rotation={isMobile ? [0, -0.16, 0] : [0, -Math.PI / 10, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
       <ProjectDisplay
         project={HOW_YOU_LEARN_DATA[10]}
         position={isMobile ? [0, 0.5, -224] : [0, 0.6, -325]}
         rotation={[0, 0, 0]}
         isMobile={isMobile}
+        isLight={isLight}
       />
 
       {/* 3D Negative / Inverted Color Title (Inside WebGL Pipeline) */}
-      <ScrollRoomTitle isMobile={isMobile} titleRef={titleRef} />
+      <ScrollRoomTitle isMobile={isMobile} titleRef={titleRef} isLight={isLight} />
     </group>
   );
 }

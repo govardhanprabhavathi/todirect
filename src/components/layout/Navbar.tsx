@@ -111,7 +111,7 @@ export function Navbar() {
             <Link href="/sign-in">
               <button
                 type="button"
-                className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-xs sm:text-sm font-medium transition-colors shadow-xs cursor-pointer"
+                className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs sm:text-sm font-medium transition-colors shadow-xs cursor-pointer"
               >
                 Get started free
               </button>

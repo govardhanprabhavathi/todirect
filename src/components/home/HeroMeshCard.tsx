@@ -89,7 +89,7 @@ export function HeroMeshCard() {
             className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-[-0.035em] leading-[1.12] mb-8 sm:mb-10"
           >
             Learn before <br />
-            you Invest.
+            you <span className="text-[#2563EB] dark:text-[#3B82F6]">Invest.</span>
           </BlurIn>
 
           <BlurIn
@@ -268,7 +268,7 @@ export function HeroMeshCard() {
             <div className="pt-5 mt-5 border-t border-slate-100 dark:border-slate-800/80">
               <Link
                 href="/curriculum"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-xs sm:text-sm font-medium transition-colors shadow-xs group"
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs sm:text-sm font-medium transition-colors shadow-xs group"
               >
                 <span>Start learning free</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

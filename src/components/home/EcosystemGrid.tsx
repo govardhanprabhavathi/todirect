@@ -90,7 +90,7 @@ export function EcosystemGrid() {
           className="text-3xl sm:text-5xl md:text-[50px] font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.15] mb-4"
         >
           Built for people who want <br />
-          financial independence, not speculation.
+          <span className="text-[#2563EB] dark:text-[#3B82F6]">financial independence, not speculation.</span>
         </BlurIn>
 
         <BlurIn

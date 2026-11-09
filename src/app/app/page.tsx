@@ -259,7 +259,7 @@ export default function HomePage() {
             </Button>
 
             <Link href="/app/coach">
-              <Button size="sm" variant="primaryDark" className="rounded-lg text-xs font-medium bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200">
+              <Button size="sm" variant="primaryDark" className="rounded-lg text-xs font-medium bg-[#2563EB] hover:bg-[#1D4ED8] text-white">
                 <Bot className="w-3.5 h-3.5 mr-1.5" />
                 Ask Finn
               </Button>
@@ -317,7 +317,7 @@ export default function HomePage() {
 
               <div className="flex flex-col gap-2">
                 <Link href="/app/lesson/sc-2" className="w-full">
-                  <Button size="md" variant="primaryDark" className="rounded-lg text-xs font-medium w-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200">
+                  <Button size="md" variant="primaryDark" className="rounded-lg text-xs font-medium w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white">
                     Resume lesson &rarr;
                   </Button>
                 </Link>

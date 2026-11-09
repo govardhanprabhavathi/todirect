@@ -153,7 +153,7 @@ export function AIAssistantSpotlight() {
             className="text-3xl sm:text-5xl md:text-[50px] font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.15]"
           >
             Meet Finn. <br />
-            The coach that teaches reasoning, not stock tips.
+            The coach that teaches <span className="text-[#2563EB] dark:text-[#3B82F6]">reasoning, not stock tips.</span>
           </BlurIn>
 
           <BlurIn
@@ -202,7 +202,7 @@ export function AIAssistantSpotlight() {
             <Link href="/sign-in">
               <button
                 type="button"
-                className="inline-flex items-center justify-center px-6 py-2.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-xs sm:text-sm font-medium transition-colors shadow-xs cursor-pointer"
+                className="inline-flex items-center justify-center px-6 py-2.5 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs sm:text-sm font-medium transition-colors shadow-xs cursor-pointer"
               >
                 Start learning with Finn &rarr;
               </button>

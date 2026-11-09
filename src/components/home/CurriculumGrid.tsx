@@ -134,7 +134,7 @@ export function CurriculumGrid() {
             className="text-3xl sm:text-5xl md:text-[50px] font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.15]"
           >
             The 7 Core Topics. <br />
-            Zero jargon. 100% clarity.
+            <span className="text-[#2563EB] dark:text-[#3B82F6]">Zero jargon. 100% clarity.</span>
           </BlurIn>
         </div>
         <div className="md:max-w-md">
@@ -227,7 +227,7 @@ export function CurriculumGrid() {
             <Link href="/practice">
               <button
                 type="button"
-                className="w-full inline-flex items-center justify-center px-4 py-2 rounded-lg bg-slate-100 hover:bg-white text-slate-900 text-xs font-medium transition-colors cursor-pointer"
+                className="w-full inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-medium transition-colors cursor-pointer"
               >
                 Explore sandbox features &rarr;
               </button>

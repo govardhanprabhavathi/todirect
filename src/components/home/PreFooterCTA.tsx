@@ -40,7 +40,7 @@ export function PreFooterCTA() {
               className="text-3xl sm:text-5xl md:text-[50px] font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.15]"
             >
               Build financial confidence <br />
-              before you invest a single rupee.
+              <span className="text-[#2563EB] dark:text-[#3B82F6]">before you invest a single rupee.</span>
             </BlurIn>
 
             {/* Description */}
@@ -65,7 +65,7 @@ export function PreFooterCTA() {
               <Link href="/sign-in" className="w-full sm:w-auto">
                 <button
                   type="button"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-sm font-medium transition-colors shadow-xs cursor-pointer group"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-sm font-medium transition-colors shadow-xs cursor-pointer group"
                 >
                   <span>Get started for free</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

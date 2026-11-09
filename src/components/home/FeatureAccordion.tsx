@@ -77,7 +77,7 @@ export function FeatureAccordion() {
           className="text-3xl sm:text-5xl md:text-[50px] font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.15] mb-4"
         >
           A complete learning system. <br className="hidden sm:inline" />
-          Built to reward true understanding.
+          <span className="text-[#2563EB] dark:text-[#3B82F6]">Built to reward true understanding.</span>
         </BlurIn>
 
         <BlurIn
@@ -250,7 +250,7 @@ export function FeatureAccordion() {
               <Link href="/practice">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-xs font-medium transition-colors cursor-pointer"
+                  className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-medium transition-colors cursor-pointer"
                 >
                   Launch full sandbox &rarr;
                 </button>

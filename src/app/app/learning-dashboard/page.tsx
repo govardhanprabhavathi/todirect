@@ -156,85 +156,85 @@ export default function LearningDashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
                 <LayoutDashboard className="w-3.5 h-3.5" />
-                Core Intelligence
+                Intelligence & Progress
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-semibold text-[#0A1629] dark:text-[#F8FAFC] tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
               Learning Dashboard
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-              Comprehensive analytics on videos watched, conceptual mastery, and targeted clarity drills
+              Comprehensive analytics on video retention, conceptual mastery, and targeted clarity drills
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <Button
               size="sm"
               variant="outline"
               onClick={() => setQuizHistoryOpen(true)}
-              className="rounded-full text-xs font-bold bg-white dark:bg-[#111625] dark:border-slate-800"
+              className="rounded-lg text-xs font-medium bg-white dark:bg-[#111620] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
             >
-              <History className="w-3.5 h-3.5 mr-1 text-blue-600 dark:text-blue-400" />
-              Quiz History
+              <History className="w-3.5 h-3.5 mr-1.5 text-slate-500 dark:text-slate-400" />
+              Quiz history
             </Button>
             <Button
               size="sm"
               variant="outline"
               onClick={() => setPrepPlanOpen(true)}
-              className="rounded-full text-xs font-bold bg-white dark:bg-[#111625] dark:border-slate-800"
+              className="rounded-lg text-xs font-medium bg-white dark:bg-[#111620] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
             >
-              <Calendar className="w-3.5 h-3.5 mr-1 text-indigo-600 dark:text-indigo-400" />
-              Prep Plan
+              <Calendar className="w-3.5 h-3.5 mr-1.5 text-slate-500 dark:text-slate-400" />
+              Prep plan
             </Button>
             <Link href="/app/quizzes">
-              <Button size="sm" variant="primaryDark" className="rounded-full text-xs font-bold">
-                <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
-                Take Test
+              <Button size="sm" variant="primaryDark" className="rounded-lg text-xs font-medium bg-[#2563EB] hover:bg-[#1D4ED8] text-white">
+                <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+                Take test
               </Button>
             </Link>
           </div>
         </div>
 
         {/* ─── SECTION 1: VIDEOS COVERED & CONCEPT UNDERSTANDING ─── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
-              <Video className="w-4 h-4 text-blue-600" />
-              Videos Covered
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="bg-white dark:bg-[#111620] rounded-xl p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-xs space-y-2">
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <Video className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+              Videos covered
             </span>
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-semibold text-[#0A1629] dark:text-white">18 / 28</span>
-              <span className="text-xs text-blue-600 dark:text-blue-400 font-semibold">(64% watched)</span>
+              <span className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-slate-100 tabular-nums">18 / 28</span>
+              <span className="text-xs text-[#2563EB] dark:text-blue-400 font-medium tabular-nums">(64% watched)</span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
               Total screen time: 3.8 hours of verified financial curriculum.
             </p>
           </div>
 
-          <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
-              <TrendingUp className="w-4 h-4 text-emerald-600" />
-              Average Concept Mastery
+          <div className="bg-white dark:bg-[#111620] rounded-xl p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-xs space-y-2">
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              Average concept mastery
             </span>
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-semibold text-[#0A1629] dark:text-white">76%</span>
-              <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">Solid Foundation</span>
+              <span className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-slate-100 tabular-nums">76%</span>
+              <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Solid foundation</span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
               Calibrated across cashflow, compounding, debt, and equities.
             </p>
           </div>
 
-          <div className="bg-white dark:bg-[#111625] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
-              <AlertTriangle className="w-4 h-4 text-amber-500" />
-              Pending Clarity Items
+          <div className="bg-white dark:bg-[#111620] rounded-xl p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-xs space-y-2">
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
+              Pending clarity items
             </span>
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-semibold text-amber-600 dark:text-amber-400">2 Concepts</span>
-              <span className="text-xs text-slate-500 font-semibold">Flagged for re-watch</span>
+              <span className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-slate-100 tabular-nums">2 concepts</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Flagged for review</span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
               Inflation after-tax yields and P/E valuation metrics.
@@ -242,19 +242,19 @@ export default function LearningDashboardPage() {
           </div>
         </div>
 
-        {/* ─── SECTION 2: WHERE NEEDS MORE CLARITY ("IT'S BETTER U WATCH AGAIN") ─── */}
-        <div className="bg-amber-50/70 dark:bg-amber-950/30 rounded-3xl p-6 sm:p-7 border border-amber-200 dark:border-amber-900/50 space-y-4">
-          <div className="flex items-center justify-between">
+        {/* ─── SECTION 2: WHERE NEEDS MORE CLARITY ─── */}
+        <div className="bg-white dark:bg-[#111620] rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold">
+              <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
                 <AlertTriangle className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-amber-950 dark:text-amber-200">
-                  Where You Need More Clarity
+                <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+                  Targeted Clarity & Prescribed Revision
                 </h3>
-                <p className="text-xs text-amber-800 dark:text-amber-400">
-                  Based on recent scenario quizzes, our diagnostic engine detected uncertainty here:
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Diagnostic analysis of recent scenario quiz errors recommends reviewing these modules:
                 </p>
               </div>
             </div>
@@ -264,24 +264,24 @@ export default function LearningDashboardPage() {
             {conceptMastery.filter(c => c.clarityNeeded).map((item, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-2xl bg-white dark:bg-[#111625] border border-amber-200 dark:border-amber-900/60 flex items-center justify-between gap-4"
+                className="p-4 rounded-xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between gap-4"
               >
                 <div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
+                  <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50">
                     Mastery: {item.score}%
                   </span>
-                  <h4 className="text-sm font-bold text-[#0A1629] dark:text-white mt-1">
+                  <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mt-1.5">
                     {item.name}
                   </h4>
-                  <p className="text-xs text-amber-700 dark:text-amber-400 font-medium mt-1">
-                    👉 It&apos;s better you watch again: <span className="underline">{item.reviewVideo}</span>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Prescribed review: <span className="font-medium text-slate-700 dark:text-slate-300">{item.reviewVideo}</span>
                   </p>
                 </div>
 
                 <Link href="/app/curriculum">
-                  <Button size="sm" variant="outline" className="rounded-full text-xs font-bold border-amber-300 dark:border-amber-800 shrink-0">
-                    <Play className="w-3.5 h-3.5 mr-1 fill-current" />
-                    Watch Again
+                  <Button size="sm" variant="outline" className="rounded-lg text-xs font-medium bg-white dark:bg-[#111620] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shrink-0">
+                    <Play className="w-3 h-3 mr-1 fill-current text-slate-500" />
+                    Review
                   </Button>
                 </Link>
               </div>
@@ -290,38 +290,38 @@ export default function LearningDashboardPage() {
         </div>
 
         {/* ─── SECTION 3: DETAILED CONCEPT UNDERSTANDING MATRIX ─── */}
-        <div className="bg-white dark:bg-[#111625] rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-5">
+        <div className="bg-white dark:bg-[#111620] rounded-2xl p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800/80 shadow-xs space-y-5">
           <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
             <div>
-              <h2 className="text-lg font-bold text-[#0A1629] dark:text-[#F8FAFC]">
+              <h2 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-slate-100">
                 Concept-by-Concept Understanding
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Calibrated against scenario questions, trade rationales, and video retention
               </p>
             </div>
-            <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">
+            <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
               6 Core Principles
             </span>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {conceptMastery.map((concept, i) => (
-              <div key={i} className="p-4 rounded-2xl bg-slate-50/60 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80">
+              <div key={i} className="p-4 rounded-xl bg-slate-50/50 dark:bg-slate-900/30 border border-slate-100 dark:border-slate-800/70">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm text-[#0A1629] dark:text-white">
+                    <span className="font-medium text-sm text-slate-900 dark:text-slate-100">
                       {concept.name}
                     </span>
-                    <span className="text-[10px] text-slate-400">({concept.videos} videos)</span>
+                    <span className="text-xs text-slate-400">({concept.videos} lessons)</span>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <span className={`text-xs font-bold ${
+                    <span className={`text-xs font-medium tabular-nums ${
                       concept.score >= 80 
                         ? 'text-emerald-600 dark:text-emerald-400' 
                         : concept.score >= 70 
-                        ? 'text-blue-600 dark:text-blue-400' 
+                        ? 'text-[#2563EB] dark:text-blue-400' 
                         : 'text-amber-600 dark:text-amber-400'
                     }`}>
                       {concept.status} ({concept.score}%)
@@ -329,13 +329,13 @@ export default function LearningDashboardPage() {
                   </div>
                 </div>
 
-                <div className="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-slate-200/80 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
                       concept.score >= 80 
                         ? 'bg-emerald-500' 
                         : concept.score >= 70 
-                        ? 'bg-blue-600' 
+                        ? 'bg-[#2563EB]' 
                         : 'bg-amber-500'
                     }`}
                     style={{ width: `${concept.score}%` }}
@@ -347,37 +347,37 @@ export default function LearningDashboardPage() {
         </div>
 
         {/* ─── SECTION 4: MISCONCEPTIONS + SOCRATIC ASK FINN COACH ─── */}
-        <div className="bg-white dark:bg-[#111625] rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-[#111620] rounded-2xl p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800/80 shadow-xs space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
             <div>
-              <h2 className="text-lg font-bold text-[#0A1629] dark:text-[#F8FAFC]">
+              <h2 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-slate-100">
                 Detected Misconceptions & Socratic Verification
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                AI explains the concept, asks you to reflect, and checks if your mental model is accurate
+                Finn explains the root principle, prompts you to reflect, and validates your reasoning model
               </p>
             </div>
-            <span className="text-xs font-bold px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 self-start sm:self-auto">
-              {misconceptionsList.length} Active Misconceptions
+            <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50 self-start sm:self-auto">
+              {misconceptionsList.length} active items
             </span>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3.5">
             {misconceptionsList.map((m) => (
               <div
                 key={m.id}
-                className="p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 space-y-3"
+                className="p-5 rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/30 space-y-3"
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                   <div>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 uppercase">
-                      Bias: {m.concept}
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50">
+                      Topic: {m.concept}
                     </span>
-                    <h3 className="text-sm sm:text-base font-bold text-[#0A1629] dark:text-white mt-1.5">
+                    <h3 className="text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100 mt-2">
                       {m.title}
                     </h3>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                      Recommended Video Lesson: <span className="font-semibold text-blue-600 dark:text-blue-400 underline">{m.video}</span>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                      Recommended syllabus lesson: <span className="font-medium text-slate-700 dark:text-slate-300">{m.video}</span>
                     </p>
                   </div>
 
@@ -389,10 +389,10 @@ export default function LearningDashboardPage() {
                       setUserUnderstandingInput('');
                       setSocraticFeedback(null);
                     }}
-                    className="rounded-full text-xs font-bold shrink-0"
+                    className="rounded-lg text-xs font-medium bg-[#2563EB] hover:bg-[#1D4ED8] text-white shrink-0"
                   >
-                    <Bot className="w-3.5 h-3.5 mr-1" />
-                    Ask Finn to Explain & Verify &rarr;
+                    <Bot className="w-3.5 h-3.5 mr-1.5" />
+                    Verify reasoning with Finn &rarr;
                   </Button>
                 </div>
               </div>
@@ -401,13 +401,13 @@ export default function LearningDashboardPage() {
         </div>
 
         {/* ─── SECTION 5: PRACTICAL USE UNDERSTANDING ─── */}
-        <div className="bg-white dark:bg-[#111625] rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-[#111620] rounded-2xl p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800/80 shadow-xs space-y-5">
           <div className="pb-4 border-b border-slate-100 dark:border-slate-800">
-            <h2 className="text-lg font-bold text-[#0A1629] dark:text-[#F8FAFC]">
+            <h2 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-slate-100">
               Practical Use Understanding
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Review of concepts covered in each simulation investment: what you did right, what went wrong, and recommended video drills
+              Review of simulation trade executions: strengths, common pitfalls, and video recommendations
             </p>
           </div>
 
@@ -415,48 +415,48 @@ export default function LearningDashboardPage() {
             {practicalInvestments.map((inv, idx) => (
               <div
                 key={idx}
-                className="p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 space-y-3.5"
+                className="p-5 rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/30 space-y-3.5"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <h3 className="text-base font-bold text-[#0A1629] dark:text-white flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#2563FF]" />
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#2563EB]" />
                     {inv.instrument}
                   </h3>
                   <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                    Concepts: {inv.conceptsCovered}
+                    Principles: {inv.conceptsCovered}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                  <div className="p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
-                    <span className="font-bold text-emerald-800 dark:text-emerald-300 block mb-1">
-                      ✓ What You Did Right:
+                  <div className="p-3.5 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/40">
+                    <span className="font-medium text-emerald-800 dark:text-emerald-300 block mb-1">
+                      ✓ Sound execution:
                     </span>
-                    <p className="text-emerald-700 dark:text-emerald-400 leading-relaxed">
+                    <p className="text-emerald-700 dark:text-emerald-400 leading-relaxed font-normal">
                       {inv.whatDidRight}
                     </p>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900/40">
-                    <span className="font-bold text-rose-800 dark:text-rose-300 block mb-1">
-                      ✗ What You Did Wrong:
+                  <div className="p-3.5 rounded-lg bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100 dark:border-rose-900/40">
+                    <span className="font-medium text-rose-800 dark:text-rose-300 block mb-1">
+                      ✗ Execution risk flagged:
                     </span>
-                    <p className="text-rose-700 dark:text-rose-400 leading-relaxed">
+                    <p className="text-rose-700 dark:text-rose-400 leading-relaxed font-normal">
                       {inv.whatDidWrong}
                     </p>
                   </div>
                 </div>
 
                 <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-200/60 dark:border-slate-800">
-                  <span className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
-                    <Play className="w-3 h-3 text-blue-600 fill-current" />
-                    Recommended Video: <span className="font-semibold text-blue-600 dark:text-blue-400">{inv.videoRecommendation}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                    <Play className="w-3 h-3 text-slate-400 fill-current" />
+                    Recommended video: <span className="font-medium text-slate-700 dark:text-slate-300">{inv.videoRecommendation}</span>
                   </span>
 
                   <Link href="/app/coach">
-                    <Button size="sm" variant="outline" className="rounded-full text-xs font-bold">
-                      <Bot className="w-3.5 h-3.5 mr-1" />
-                      Ask Finn About This Investment
+                    <Button size="sm" variant="outline" className="rounded-lg text-xs font-medium bg-white dark:bg-[#111620] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700">
+                      <Bot className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
+                      Discuss with Finn
                     </Button>
                   </Link>
                 </div>
@@ -469,45 +469,45 @@ export default function LearningDashboardPage() {
       {/* ─── MODAL 1: SOCRATIC AI FINN EXPLANATION & CHECK MODAL ─── */}
       {activeMisconception && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-center items-center p-4">
-          <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] flex flex-col overflow-hidden animate-slideUp">
+          <div className="w-full max-w-2xl bg-white dark:bg-[#111620] rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 max-h-[90vh] flex flex-col overflow-hidden animate-slideUp">
             {/* Modal Header */}
-            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/60 dark:bg-slate-900/60">
+            <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/60 dark:bg-slate-900/40">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#2563FF] text-white flex items-center justify-center font-bold">
-                  <Bot className="w-5 h-5" />
+                <div className="w-8 h-8 rounded-lg bg-[#2563EB] text-white flex items-center justify-center font-bold">
+                  <Bot className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-[#0A1629] dark:text-white">Finn Socratic Concept Verification</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Explain in your own words to prove true understanding</p>
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">Finn Concept Verification</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Explain in your own words to prove conceptual understanding</p>
                 </div>
               </div>
 
               <button
                 onClick={() => setActiveMisconception(null)}
-                className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 overflow-y-auto space-y-5">
+            <div className="p-6 overflow-y-auto space-y-4">
               {/* Step 1: AI Explains */}
-              <div className="p-4 rounded-2xl bg-blue-50/60 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 space-y-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                  Step 1: Finn&apos;s Clear Explanation
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80 space-y-1.5">
+                <span className="text-[11px] font-medium text-[#2563EB] dark:text-blue-400 block">
+                  Step 1: Conceptual explanation
                 </span>
-                <p className="text-xs sm:text-sm text-[#0A1629] dark:text-slate-200 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
                   {activeMisconception.explanation}
                 </p>
               </div>
 
               {/* Step 2: Finn asks user */}
-              <div className="p-4 rounded-2xl bg-indigo-50/60 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 space-y-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                  Step 2: Finn&apos;s Question to You
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80 space-y-1">
+                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 block">
+                  Step 2: Counter-probe
                 </span>
-                <p className="text-xs sm:text-sm font-semibold text-[#0A1629] dark:text-white">
+                <p className="text-xs sm:text-sm font-medium text-slate-900 dark:text-slate-100">
                   &ldquo;{activeMisconception.socraticQuestion}&rdquo;
                 </p>
               </div>
@@ -515,45 +515,45 @@ export default function LearningDashboardPage() {
               {/* Step 3: User types what they understood */}
               {!socraticFeedback ? (
                 <form onSubmit={handleSubmitSocraticAnswer} className="space-y-3">
-                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                    Your Response: What did you understand?
+                  <label className="text-xs font-medium text-slate-700 dark:text-slate-300 block">
+                    Your reflection: Explain the principle in your words
                   </label>
                   <textarea
                     rows={4}
                     value={userUnderstandingInput}
                     onChange={(e) => setUserUnderstandingInput(e.target.value)}
                     placeholder="Type your explanation here. For example: Inflation erodes real value and taxes eat the nominal interest..."
-                    className="w-full p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm text-[#0A1629] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="w-full p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     required
                   />
 
-                  <Button type="submit" size="md" variant="primaryDark" className="w-full rounded-full text-xs font-bold">
-                    Submit Explanation for AI Evaluation &rarr;
+                  <Button type="submit" size="md" variant="primaryDark" className="w-full rounded-lg text-xs font-medium bg-[#2563EB] hover:bg-[#1D4ED8] text-white">
+                    Submit explanation for evaluation &rarr;
                   </Button>
                 </form>
               ) : (
                 /* Step 4: AI Verdict & Correction */
-                <div className="space-y-4 pt-2">
-                  <div className={`p-4 rounded-2xl border ${
+                <div className="space-y-4 pt-1">
+                  <div className={`p-4 rounded-xl border ${
                     socraticFeedback.isCorrect 
-                      ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-900' 
-                      : 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900'
+                      ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/60' 
+                      : 'bg-rose-50/50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-900/60'
                   }`}>
-                    <div className="flex items-center gap-2 mb-1.5">
+                    <div className="flex items-center gap-2 mb-1">
                       {socraticFeedback.isCorrect ? (
                         <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                       ) : (
                         <AlertTriangle className="w-4 h-4 text-rose-600" />
                       )}
-                      <h4 className="text-xs font-bold uppercase tracking-wider">
-                        {socraticFeedback.isCorrect ? 'Status: Correct Understanding Verified!' : 'Status: Correction Needed'}
+                      <h4 className="text-xs font-medium">
+                        {socraticFeedback.isCorrect ? 'Correct understanding verified' : 'Correction recommended'}
                       </h4>
                     </div>
-                    <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
                       {socraticFeedback.analysis}
                     </p>
-                    <p className="text-xs font-semibold text-[#0A1629] dark:text-white mt-2">
-                      Key Takeaway: {socraticFeedback.correction}
+                    <p className="text-xs font-medium text-slate-900 dark:text-slate-100 mt-2">
+                      Key takeaway: {socraticFeedback.correction}
                     </p>
                   </div>
 
@@ -563,9 +563,9 @@ export default function LearningDashboardPage() {
                     }}
                     size="md"
                     variant="outline"
-                    className="w-full rounded-full text-xs font-bold"
+                    className="w-full rounded-lg text-xs font-medium bg-white dark:bg-[#111620] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
                   >
-                    Done & Close &rarr;
+                    Done & close
                   </Button>
                 </div>
               )}
@@ -577,23 +577,23 @@ export default function LearningDashboardPage() {
       {/* ─── MODAL 2: QUIZ HISTORY MODAL ─── */}
       {quizHistoryOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-center items-center p-4">
-          <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[85vh] flex flex-col overflow-hidden animate-slideUp">
-            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/60 dark:bg-slate-900/60">
+          <div className="w-full max-w-2xl bg-white dark:bg-[#111620] rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 max-h-[85vh] flex flex-col overflow-hidden animate-slideUp">
+            <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/60 dark:bg-slate-900/40">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold">
-                  <History className="w-5 h-5" />
+                <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold">
+                  <History className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-[#0A1629] dark:text-white">Past Quiz Scores & Attempt History</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Track your score trajectory across previous assessments</p>
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">Past Quiz Scores & Attempt History</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Track score trajectory across previous assessment checkpoints</p>
                 </div>
               </div>
 
               <button
                 onClick={() => setQuizHistoryOpen(false)}
-                className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
@@ -601,17 +601,17 @@ export default function LearningDashboardPage() {
               {quizHistory.map((q) => (
                 <div
                   key={q.id}
-                  className="p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/40"
+                  className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/30"
                 >
                   <div>
-                    <h4 className="text-sm font-bold text-[#0A1629] dark:text-white">{q.topic}</h4>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    <h4 className="text-xs sm:text-sm font-medium text-slate-900 dark:text-slate-100">{q.topic}</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 tabular-nums">
                       {q.date} • {q.correctQ} of {q.totalQ} correct
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-lg font-bold text-blue-600 dark:text-blue-400 block">{q.score}</span>
-                    <span className="text-[10px] font-semibold text-slate-500">{q.status}</span>
+                    <span className="text-base font-semibold text-slate-900 dark:text-slate-100 block tabular-nums">{q.score}</span>
+                    <span className="text-[11px] font-medium text-slate-500">{q.status}</span>
                   </div>
                 </div>
               ))}
@@ -623,37 +623,37 @@ export default function LearningDashboardPage() {
       {/* ─── MODAL 3: PREP PLAN MODAL ─── */}
       {prepPlanOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-center items-center p-4">
-          <div className="w-full max-w-2xl bg-white dark:bg-[#0B0F19] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] flex flex-col overflow-hidden animate-slideUp">
-            <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/60 dark:bg-slate-900/60">
+          <div className="w-full max-w-2xl bg-white dark:bg-[#111620] rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 max-h-[90vh] flex flex-col overflow-hidden animate-slideUp">
+            <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/60 dark:bg-slate-900/40">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
-                  <Calendar className="w-5 h-5" />
+                <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold">
+                  <Calendar className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-[#0A1629] dark:text-white">Custom Study Prep Planner</h3>
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">Study Prep Planner</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Generate a feasible course roadmap based on your daily availability</p>
                 </div>
               </div>
 
               <button
                 onClick={() => setPrepPlanOpen(false)}
-                className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto space-y-6">
+            <div className="p-6 overflow-y-auto space-y-5">
               {!generatedPlan ? (
                 <form onSubmit={handleGeneratePlan} className="space-y-4 text-xs">
                   <div>
-                    <label className="font-bold text-[#0A1629] dark:text-white block mb-1.5">
+                    <label className="font-medium text-slate-900 dark:text-slate-100 block mb-1.5">
                       When are you usually free to study?
                     </label>
                     <select
                       value={prepAvailability}
                       onChange={(e) => setPrepAvailability(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-[#0A1629] dark:text-white"
+                      className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     >
                       <option>Mornings (7 AM - 9 AM)</option>
                       <option>Afternoons (1 PM - 3 PM)</option>
@@ -663,13 +663,13 @@ export default function LearningDashboardPage() {
                   </div>
 
                   <div>
-                    <label className="font-bold text-[#0A1629] dark:text-white block mb-1.5">
+                    <label className="font-medium text-slate-900 dark:text-slate-100 block mb-1.5">
                       Time period you want to sit per session:
                     </label>
                     <select
                       value={prepDuration}
                       onChange={(e) => setPrepDuration(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-[#0A1629] dark:text-white"
+                      className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     >
                       <option>20 mins/day (Micro-learning)</option>
                       <option>45 mins/day (Balanced)</option>
@@ -679,13 +679,13 @@ export default function LearningDashboardPage() {
                   </div>
 
                   <div>
-                    <label className="font-bold text-[#0A1629] dark:text-white block mb-1.5">
+                    <label className="font-medium text-slate-900 dark:text-slate-100 block mb-1.5">
                       How many days can you learn in a week?
                     </label>
                     <select
                       value={prepDays}
                       onChange={(e) => setPrepDays(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-[#0A1629] dark:text-white"
+                      className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     >
                       <option>3 days/week</option>
                       <option>5 days/week</option>
@@ -693,35 +693,35 @@ export default function LearningDashboardPage() {
                     </select>
                   </div>
 
-                  <Button type="submit" size="md" variant="primaryDark" className="w-full rounded-full text-xs font-bold mt-2">
-                    Generate Feasible Study Roadmap &rarr;
+                  <Button type="submit" size="md" variant="primaryDark" className="w-full rounded-lg text-xs font-medium bg-[#2563EB] hover:bg-[#1D4ED8] text-white mt-2">
+                    Generate study roadmap &rarr;
                   </Button>
                 </form>
               ) : (
                 <div className="space-y-4">
-                  <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                      Calculated Timeline
+                  <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80">
+                    <span className="text-[11px] font-medium text-[#2563EB] dark:text-blue-400 block">
+                      Calculated timeline
                     </span>
-                    <h4 className="text-sm font-bold text-[#0A1629] dark:text-white mt-1">
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mt-1">
                       {generatedPlan.estimatedWeeks}
                     </h4>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                       Configured for {prepDuration} across {prepDays} during {prepAvailability}.
                     </p>
                   </div>
 
-                  <div className="space-y-2.5">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                      Weekly Execution Routine
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                      Weekly execution routine
                     </h4>
                     {generatedPlan.weeklySchedule.map((sched: any, idx: number) => (
                       <div
                         key={idx}
-                        className="p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 text-xs"
+                        className="p-3 rounded-lg border border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 text-xs"
                       >
-                        <span className="font-bold text-blue-600 dark:text-blue-400">{sched.day}: </span>
-                        <span className="text-slate-700 dark:text-slate-300">{sched.task}</span>
+                        <span className="font-medium text-[#2563EB] dark:text-blue-400">{sched.day}: </span>
+                        <span className="text-slate-700 dark:text-slate-300 font-normal">{sched.task}</span>
                       </div>
                     ))}
                   </div>
@@ -731,7 +731,7 @@ export default function LearningDashboardPage() {
                       onClick={() => setGeneratedPlan(null)}
                       size="sm"
                       variant="outline"
-                      className="rounded-full text-xs font-bold flex-1"
+                      className="rounded-lg text-xs font-medium bg-white dark:bg-[#111620] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 flex-1"
                     >
                       Recalibrate
                     </Button>
@@ -739,9 +739,9 @@ export default function LearningDashboardPage() {
                       onClick={() => setPrepPlanOpen(false)}
                       size="sm"
                       variant="primaryDark"
-                      className="rounded-full text-xs font-bold flex-1"
+                      className="rounded-lg text-xs font-medium bg-[#2563EB] hover:bg-[#1D4ED8] text-white flex-1"
                     >
-                      Save to My Schedule
+                      Save to schedule
                     </Button>
                   </div>
                 </div>
